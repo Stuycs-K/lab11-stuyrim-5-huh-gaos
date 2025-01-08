@@ -20,3 +20,6 @@ Make a clear list of features that work/dont work
 
 replace this with your documentation for your two Adventurer subclasses. If you modify or replace the provided CodeWarrior class, please provide documentation for that as well.
 
+| Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP | 
+| ---        | ---     | ---            | ---    | --- |
+| Warrior | Shield (9, 9) | Attack deals 10% damage on opponent's remaining HP, costing 1 shield | Attack deals 2HP damage | Heals 3HP, restores 2 shield | 10HP |
