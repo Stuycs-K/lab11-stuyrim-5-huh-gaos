@@ -13,7 +13,7 @@ Make a clear list of features that work/dont work
 
 :x: This required feature does not work.
 
-:beetle: This is a bug that affects the game.
+:beetle: This is a bug that affects the game. hiuhihiihihihi
 
 
 ## Adventurer Subclasses
