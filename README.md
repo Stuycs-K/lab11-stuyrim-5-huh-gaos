@@ -39,6 +39,14 @@ Make a clear list of features that work/dont work
 
 > :ballot_box: win/lose/quit screens
 
+
+
+:ballot_box: extras
+
+> :ballot_box: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
+
+> :ballot_box: validate attack/support / etc numerical input
+
 ## Adventurer Subclasses
 
 Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP
