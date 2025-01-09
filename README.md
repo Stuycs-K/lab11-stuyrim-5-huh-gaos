@@ -47,6 +47,10 @@ Make a clear list of features that work/dont work
 
 > :ballot_box: validate attack/support / etc numerical input
 
+> :ballot_box: add in a list of names + function to randomly select a name
+
+> :ballot_box: add in a list of skulls
+
 ## Adventurer Subclasses
 
 Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP
