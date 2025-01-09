@@ -13,8 +13,20 @@ Make a clear list of features that work/dont work
 
 :x: This required feature does not work.
 
-:beetle: This is a bug that affects the game. hiuhihiihihihi
+:beetle: This is a bug that affects the game.
 
+:ballot_box: generating enemies
+> :ballot_box: random classes and numbers
+> :ballot_box: boss class for one member enemy teams
+:ballot_box: generating player teams
+> :ballot_box: default teams/custom teams
+> :ballot_box: player usernames
+:ballot_box: generating descriptions
+> :ballot_box: keeping track of turn messages
+> :ballot_box: terminal scrolling/division
+:ballot_box: screen layout + design
+> :ballot_box: colors, border
+> :ballot_box: win/lose/quit screens
 
 ## Adventurer Subclasses
 
