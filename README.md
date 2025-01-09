@@ -18,7 +18,7 @@ Make a clear list of features that work/dont work
 
 ## Adventurer Subclasses
 
-
-| Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP | 
-| ---        | ---     | ---            | ---    | --- |
-| Warrior | Shield (9, 9) | Attack deals 10% damage on opponent's remaining HP, costing 1 shield | Attack deals 2HP damage | Heals 3HP, restores 2 shield | 10HP |
+Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP
+--- | --- | --- | --- | --- | ---
+Warrior | Shield (9, 9) | 10% damage on remaining HP, costs 1 shield | 2HP damage | heals 3HP, restores 2 shield | 10HP
+Pathfinder | Healing (5, 10) | 4 HP damage, costs 2 healing | 1HP damage | heals 5HP, restores 1 healing | 15HP
