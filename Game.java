@@ -118,9 +118,17 @@ public class Game {
    * ***THIS ROW INTENTIONALLY LEFT BLANK***
    */
   public static void drawParty(ArrayList<Adventurer> party, int startRow) {
-    // assume 3 
+    // assume 3
+    // int rowCurr = startRow;
+    int leftCol = 2;
+    int colSize = WIDTH / party.size(); 
     if (party.size() == 3) {
-      
+    	for (Adventurer c : party) {
+		  Text.go(startRow, leftCol);
+		  System.out.print(c);
+		  Test.go(startRow + 1, leftCol);
+		  System.out.print("HP: " + c.getHP())
+		}
     }
     
   }
