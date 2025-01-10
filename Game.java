@@ -38,18 +38,13 @@ public class Game{
   */
   public static void TextBox(int row, int col, int width, int height, String text){
     Text.go(row,col);
-    if (text.length() < width) {
-    	System.out.print(text);
-    } else {
-		while (text.length() >= width) {
-			System.out.print(text.substring(0,width));
-			text = text.substring(width);
-			row++;
-			Text.go(row,col);
-		}
-		if (text.length() > 0) {
-			System.out.print(text);
-		}
+	for (int i = 0; i + width <= text.length(); i += width) {
+		System.out.print(text.substring(i, i + width));
+		row++;
+		Text.go(row,col);
+	}
+	if (text.length() % width != 0) {
+		System.out.print(text.substring(text.length() / width * width));
 	}
   }
 
