@@ -48,10 +48,10 @@ public class Text{
     System.out.print("\u001b[2J");
   }
   public static void clear(int row, int col, int width, int height) {
-	  go(row,col);
 	  String eraser = " ".repeat(width);
 	  System.out.print("\033[0m");
 	  for(int i = 0; i < height; i++) {
+		  go(row + i,col);
 		  System.out.print(eraser);
 	  }
   }
