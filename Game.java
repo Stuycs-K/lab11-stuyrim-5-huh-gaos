@@ -44,9 +44,10 @@ public class Game{
 		row++;
 		if (row == startRow + height) {
 			row = startRow;
-			i = 0;
+			i = width * -1;
+			text = text.substring(width);
 			
-			Text.wait(500);
+			Text.wait(250);
 			Text.clear(row, col, width, height);
 		}
 		Text.go(row,col);
