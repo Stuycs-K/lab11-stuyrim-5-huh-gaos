@@ -36,6 +36,12 @@ public class Text{
   public static void go(int row,int col){
     System.out.print("\u001b[" + row + ";" + col + "f");
   }
+  
+  public static void wait(int millis) {
+	  try {
+		  Thread.sleep(millis);
+	  } catch (InterruptedException e) {}
+  }
 
   /*Erases all text on the terminal.*/
   public static void clear(){

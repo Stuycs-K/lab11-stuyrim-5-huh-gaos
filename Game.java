@@ -42,7 +42,12 @@ public class Game{
 	for (int i = 0; i + width <= text.length(); i += width) {
 		System.out.print(text.substring(i, i + width));
 		row++;
-		if (row == startRow + height) row = startRow;
+		if (row == startRow + height) {
+			row = startRow;
+			i = 0;
+			
+			Text.clear(row, col, width, height);
+		}
 		Text.go(row,col);
 	}
 	if (text.length() % width != 0) {
