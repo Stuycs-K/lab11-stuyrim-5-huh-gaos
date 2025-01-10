@@ -6,12 +6,16 @@ public class Game {
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
+  private static final int MIDBAR = 50;
+
   // private static final String[] NAME_LIST = { "John", "Linda", "Fred", "Kelly", "Carter", "Kat", "Jun", "Emile",
   //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
 
   public static void main(String[] args) {
-    //drawBackground();
-    TextBox(10, 0, 10, 2, args[0]);
+    drawBackground();
+    TextBox(10, 5, 10, 2, args[0]);
+
+    
     // run();
   }
 
@@ -19,18 +23,32 @@ public class Game {
   // Do not write over the blank areas where text will appear or parties will
   // appear.
   public static void drawBackground() {
-    String bigText = "";
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-      bigText += " ";
+    String border = " ";
+    border = Text.colorize(border, BORDER_COLOR + Text.BACKGROUND);
+
+    Text.go(0, 1);
+    System.out.println(border.repeat(WIDTH));
+
+    Text.go(6, 1);
+    System.out.println(border.repeat(WIDTH));
+
+    Text.go(HEIGHT-5, 1);
+    System.out.println(border.repeat(WIDTH));
+
+    for (int i = 1; i < HEIGHT; i++) {
+      Text.go(i, 1);
+      System.out.println(border);
+      Text.go(i, 80);
+      System.out.println(border);
+
+      if (6 < i && i < HEIGHT-5) {
+        Text.go(i, MIDBAR);
+        System.out.println(border);
+      }
     }
 
-    String bigBox = Text.colorize(bigText, BORDER_COLOR + Text.BACKGROUND);
-
-    TextBox(1, 1, WIDTH, HEIGHT, bigBox);
-    //TextBox(2, 2, 10, 1, "Hello");
-
-    // String smallBox = Text.colorize(" ", BORDER_BACKGROUND);
-    // TextBox(2, 2, WIDTH-2, HEIGHT-2, smallBox);
+    Text.go(HEIGHT, 1);
+    System.out.println(border.repeat(WIDTH));
   }
 
   // Display a line of text starting at
@@ -62,20 +80,22 @@ public class Game {
     for (int i = 0; i + width <= text.length(); i += width) {
       System.out.print(text.substring(i, i + width));
       row++;
-      if (row == startRow + height) {
-        row = startRow;
-        i = width * -1;
-        text = text.substring(width);
+      // if (row == startRow + height) {
+      //   row = startRow;
+      //   i = width * -1;
+      //   text = text.substring(width);
 
-        Text.wait(250);
-        Text.clear(row, col, width, height);
-      }
+      //   Text.wait(250);
+      //   Text.clear(row, col, width, height);
+      // }
       Text.go(row, col);
     }
     if (text.length() % width != 0) {
       System.out.print(text.substring(text.length() / width * width));
     }
     Text.go(row + 1, col);
+
+    drawBackground();
   }
 
   // return a random adventurer (choose between all available subclasses)
