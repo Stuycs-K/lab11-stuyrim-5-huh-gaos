@@ -11,7 +11,7 @@ public class Game {
 
   public static void main(String[] args) {
     drawBackground();
-    //TextBox(10, 0, 10, 2, args[0]);
+    TextBox(10, 5, 10, 2, args[0]);
     // run();
   }
 
@@ -79,6 +79,8 @@ public class Game {
       System.out.print(text.substring(text.length() / width * width));
     }
     Text.go(row + 1, col);
+
+    drawBackground();
   }
 
   // return a random adventurer (choose between all available subclasses)
