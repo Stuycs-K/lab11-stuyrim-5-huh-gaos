@@ -10,6 +10,7 @@ public class Game {
   //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
 
   public static void main(String[] args) {
+    //drawBackground();
     TextBox(10, 0, 10, 2, args[0]);
     // run();
   }
@@ -18,9 +19,18 @@ public class Game {
   // Do not write over the blank areas where text will appear or parties will
   // appear.
   public static void drawBackground() {
-    /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
-    // YOUR CODE HERE
-    /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+    String bigText = "";
+    for (int i = 0; i < WIDTH * HEIGHT; i++) {
+      bigText += " ";
+    }
+
+    String bigBox = Text.colorize(bigText, BORDER_COLOR + Text.BACKGROUND);
+
+    TextBox(1, 1, WIDTH, HEIGHT, bigBox);
+    //TextBox(2, 2, 10, 1, "Hello");
+
+    // String smallBox = Text.colorize(" ", BORDER_BACKGROUND);
+    // TextBox(2, 2, WIDTH-2, HEIGHT-2, smallBox);
   }
 
   // Display a line of text starting at
