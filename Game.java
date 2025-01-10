@@ -6,12 +6,16 @@ public class Game {
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
+  private static final int MIDBAR = 50;
+
   // private static final String[] NAME_LIST = { "John", "Linda", "Fred", "Kelly", "Carter", "Kat", "Jun", "Emile",
   //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
 
   public static void main(String[] args) {
     drawBackground();
     TextBox(10, 5, 10, 2, args[0]);
+
+    
     // run();
   }
 
@@ -36,6 +40,11 @@ public class Game {
       System.out.println(border);
       Text.go(i, 80);
       System.out.println(border);
+
+      if (6 < i && i < HEIGHT-5) {
+        Text.go(i, MIDBAR);
+        System.out.println(border);
+      }
     }
 
     Text.go(HEIGHT, 1);
