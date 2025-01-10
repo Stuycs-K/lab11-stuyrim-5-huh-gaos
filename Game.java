@@ -6,7 +6,8 @@ public class Game{
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
   public static void main(String[] args) {
-    run();
+    TextBox(10,0, 10, 10, args[0]);
+	// run();
   }
 
   //Display the borders of your screen that will not change.
@@ -39,13 +40,17 @@ public class Game{
     Text.go(row,col);
     if (text.length() < width) {
     	System.out.print(text);
-    } else if (text.length() % width == 0) {
-    	while (text.length() > 0) {
-    		if (text.length >= width) {
-    			
-    		}
-    	}
-    }
+    } else {
+		while (text.length() >= width) {
+			System.out.print(text.substring(0,width));
+			text = text.substring(width);
+			row++;
+			Text.go(row,col);
+		}
+		if (text.length() > 0) {
+			System.out.print(text);
+		}
+	}
   }
 
 
