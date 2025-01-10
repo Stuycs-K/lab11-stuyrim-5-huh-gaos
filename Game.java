@@ -25,6 +25,12 @@ public class Game {
     Text.go(0, 1);
     System.out.println(border.repeat(WIDTH));
 
+    Text.go(6, 1);
+    System.out.println(border.repeat(WIDTH));
+
+    Text.go(HEIGHT-5, 1);
+    System.out.println(border.repeat(WIDTH));
+
     for (int i = 1; i < HEIGHT; i++) {
       Text.go(i, 1);
       System.out.println(border);
