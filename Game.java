@@ -19,18 +19,21 @@ public class Game {
   // Do not write over the blank areas where text will appear or parties will
   // appear.
   public static void drawBackground() {
-    String bigText = "";
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-      bigText += " ";
+    String border = " ";
+    border = Text.colorize(border, BORDER_COLOR + Text.BACKGROUND);
+
+    Text.go(0, 1);
+    System.out.println(border.repeat(WIDTH));
+
+    for (int i = 1; i < HEIGHT; i++) {
+      Text.go(i, 1);
+      System.out.println(border);
+      Text.go(i, 80);
+      System.out.println(border);
     }
 
-    String bigBox = Text.colorize(bigText, BORDER_COLOR + Text.BACKGROUND);
-
-    TextBox(1, 1, WIDTH, HEIGHT, bigBox);
-    //TextBox(2, 2, 10, 1, "Hello");
-
-    // String smallBox = Text.colorize(" ", BORDER_BACKGROUND);
-    // TextBox(2, 2, WIDTH-2, HEIGHT-2, smallBox);
+    Text.go(HEIGHT, 1);
+    System.out.println(border.repeat(WIDTH));
   }
 
   // Display a line of text starting at
