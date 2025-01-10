@@ -46,6 +46,7 @@ public class Game{
 			row = startRow;
 			i = 0;
 			
+			Text.wait(500);
 			Text.clear(row, col, width, height);
 		}
 		Text.go(row,col);
