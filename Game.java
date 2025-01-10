@@ -6,7 +6,7 @@ public class Game{
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
   public static void main(String[] args) {
-    TextBox(10,0, 10, 10, args[0]);
+    TextBox(10,0, 10, 2, args[0]);
 	// run();
   }
 
@@ -37,15 +37,18 @@ public class Game{
   *@param height the number of rows
   */
   public static void TextBox(int row, int col, int width, int height, String text){
+	int startRow = row;
     Text.go(row,col);
 	for (int i = 0; i + width <= text.length(); i += width) {
 		System.out.print(text.substring(i, i + width));
 		row++;
+		if (row == startRow + height) row = startRow;
 		Text.go(row,col);
 	}
 	if (text.length() % width != 0) {
 		System.out.print(text.substring(text.length() / width * width));
 	}
+	Text.go(row + 1, col);
   }
 
 
