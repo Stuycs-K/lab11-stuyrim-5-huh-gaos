@@ -10,16 +10,20 @@ public class Game {
 
   // private static final String[] NAME_LIST = { "John", "Linda", "Fred", "Kelly", "Carter", "Kat", "Jun", "Emile",
   //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
+  
+  private static final ArrayList<Adventurer> player = new ArrayList<Adventurer>();
+  private static final ArrayList<Adventurer> enemy = new ArrayList<Adventurer>();
 
   public static void main(String[] args) {
 	Text.clear();
-    drawBackground();
-	ArrayList<Adventurer> party = new ArrayList<Adventurer>();
-	party.add(new CodeWarrior("bob"));
-	party.add(new Warrior("max"));
-	party.add(new Pathfinder("von"));
+    player.add(new CodeWarrior("bob"));
+	player.add(new Warrior("max"));
+	player.add(new Pathfinder("von"));
+	enemy.add(new CodeWarrior("bad bob"));
+	enemy.add(new Warrior("mad max"));
+	enemy.add(new Pathfinder("villain von"));
     
-	drawParty(party, 26);
+	drawScreen();
     TextBox(8, 3, 46, 16, args[0]);
 	Text.go(30,1);
     // run();
@@ -32,29 +36,22 @@ public class Game {
     String border = " ";
     border = Text.colorize(border, BORDER_BACKGROUND);
 
-    Text.go(0, 1);
-    System.out.println(border.repeat(WIDTH));
+    drawText(border.repeat(WIDTH), 0, 1);
 
-    Text.go(6, 1);
-    System.out.println(border.repeat(WIDTH));
+    drawText(border.repeat(WIDTH), 6, 1);
 
-    Text.go(HEIGHT-5, 1);
-    System.out.println(border.repeat(WIDTH));
+    drawText(border.repeat(WIDTH), HEIGHT - 5, 1);
 
     for (int i = 1; i < HEIGHT; i++) {
-      Text.go(i, 1);
-      System.out.println(border);
-      Text.go(i, 80);
-      System.out.println(border);
+      drawText(border, i, 1);
+      drawText(border, i, 80);
 
       if (6 < i && i < HEIGHT-5) {
-        Text.go(i, MIDBAR);
-        System.out.println(border);
+        drawText(border, i, MIDBAR);
       }
     }
 
-    Text.go(HEIGHT, 1);
-    System.out.println(border.repeat(WIDTH));
+    drawText(border.repeat(WIDTH), HEIGHT, 1);
   }
 
   // Display a line of text starting at
@@ -157,8 +154,7 @@ public class Game {
 		  Text.go(startRow, leftCol);
 		  System.out.print(c);
 		  Text.go(startRow + 1, leftCol);
-		  System.out.print("HP: ");
-		  System.out.print(colorByPercent(c.getHP(), c.getmaxHP()));
+		  System.out.print("HP: " + colorByPercent(c.getHP(), c.getmaxHP()));
 		  Text.go(startRow + 2, leftCol);
 		  System.out.print(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax());
 		  leftCol += (WIDTH - 2) / 3;
@@ -199,10 +195,11 @@ public class Game {
 
     drawBackground();
 
-    // draw player party
+    drawParty(player, 26);
 
-    // draw enemy party
-
+    drawParty(enemy, 2);
+	
+	Text.go(29,2);
   }
 
   public static String userInput(Scanner in) {
