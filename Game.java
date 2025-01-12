@@ -20,7 +20,7 @@ public class Game {
 	party.add(new Pathfinder("von"));
     
 	drawParty(party, 26);
-    TextBox(7, 2, 48, 40, args[0]);
+    TextBox(7, 2, 48, 10, args[0]);
 	Text.go(30,1);
     // run();
   }
@@ -81,27 +81,29 @@ public class Game {
    * @param height the number of rows
    */
   public static void TextBox(int row, int col, int width, int height, String text) {
-    int startRow = row;
+    int i = 0;
+	int startRow = row;
     Text.go(row, col);
-    for (int i = 0; i + width <= text.length(); i += width) {
-      drawText(text.substring(i, i + width), row, col);
-      row++;
+    for (i = 0; i + width <= text.length(); i += width) {
       if (row == startRow + height) {
         // row = startRow;
         // i = width * -1;
         // text = text.substring(width);
 
-        Text.wait(250);
-        Text.clear(row, col, width, height);
-		TextBox(row, col, width, height, text.substring(width));
-      }
+        Text.wait(450); // 300
+        Text.clear(startRow, col, width, height);
+		TextBox(startRow, col, width, height, text.substring(width));
+      } else {
+		  drawText(text.substring(i, i + width), row, col);
+		row++;
+	  }
     }
     if (text.length() % width != 0) {
-      System.out.print(text.substring(text.length() / width * width));
+      drawText(text.substring(i), row, col);
     }
     Text.go(row + 1, col);
 
-    drawBackground();
+    // drawBackground();
   }
 
   // return a random adventurer (choose between all available subclasses)
