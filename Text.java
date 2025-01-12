@@ -49,7 +49,7 @@ public class Text{
   }
   public static void clear(int row, int col, int width, int height) {
 	  String eraser = " ".repeat(width);
-	  System.out.print("\033[0m");
+	  // System.out.print("\033[0m");
 	  for(int i = 0; i < height; i++) {
 		  go(row + i,col);
 		  System.out.print(eraser);

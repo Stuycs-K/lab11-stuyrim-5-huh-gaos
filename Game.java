@@ -86,14 +86,14 @@ public class Game {
     for (int i = 0; i + width <= text.length(); i += width) {
       System.out.print(text.substring(i, i + width));
       row++;
-      // if (row == startRow + height) {
-      //   row = startRow;
-      //   i = width * -1;
-      //   text = text.substring(width);
+      if (row == startRow + height) {
+        row = startRow;
+        i = width * -1;
+        text = text.substring(width);
 
-      //   Text.wait(250);
-      //   Text.clear(row, col, width, height);
-      // }
+        Text.wait(250);
+        Text.clear(row, col, width, height);
+      }
       Text.go(row, col);
     }
     if (text.length() % width != 0) {
