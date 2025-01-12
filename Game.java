@@ -14,13 +14,13 @@ public class Game {
   public static void main(String[] args) {
 	Text.clear();
     drawBackground();
-    // TextBox(10, 5, 10, 2, args[0]);
 	ArrayList<Adventurer> party = new ArrayList<Adventurer>();
 	party.add(new CodeWarrior("bob"));
 	party.add(new Warrior("max"));
 	party.add(new Pathfinder("von"));
     
 	drawParty(party, 26);
+    TextBox(7, 2, 48, 40, args[0]);
 	Text.go(30,1);
     // run();
   }
@@ -84,17 +84,17 @@ public class Game {
     int startRow = row;
     Text.go(row, col);
     for (int i = 0; i + width <= text.length(); i += width) {
-      System.out.print(text.substring(i, i + width));
+      drawText(text.substring(i, i + width), row, col);
       row++;
       if (row == startRow + height) {
-        row = startRow;
-        i = width * -1;
-        text = text.substring(width);
+        // row = startRow;
+        // i = width * -1;
+        // text = text.substring(width);
 
         Text.wait(250);
         Text.clear(row, col, width, height);
+		TextBox(row, col, width, height, text.substring(width));
       }
-      Text.go(row, col);
     }
     if (text.length() % width != 0) {
       System.out.print(text.substring(text.length() / width * width));
