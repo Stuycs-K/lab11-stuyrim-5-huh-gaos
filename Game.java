@@ -12,10 +12,16 @@ public class Game {
   //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
 
   public static void main(String[] args) {
+	Text.clear();
     drawBackground();
-    TextBox(10, 5, 10, 2, args[0]);
-
+    // TextBox(10, 5, 10, 2, args[0]);
+	ArrayList<Adventurer> party = new ArrayList<Adventurer>();
+	party.add(new CodeWarrior("bob"));
+	party.add(new Warrior("max"));
+	party.add(new Pathfinder("von"));
     
+	drawParty(party, 26);
+	Text.go(30,1);
     // run();
   }
 
@@ -146,8 +152,11 @@ public class Game {
     	for (Adventurer c : party) {
 		  Text.go(startRow, leftCol);
 		  System.out.print(c);
-		  Test.go(startRow + 1, leftCol);
-		  System.out.print("HP: " + c.getHP())
+		  Text.go(startRow + 1, leftCol);
+		  System.out.print("HP: " + c.getHP() + " / " + c.getmaxHP());
+		  Text.go(startRow + 2, leftCol);
+		  System.out.print(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax());
+		  leftCol += (WIDTH - 2) / 3;
 		}
     }
     
