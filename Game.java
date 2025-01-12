@@ -30,7 +30,7 @@ public class Game {
   // appear.
   public static void drawBackground() {
     String border = " ";
-    border = Text.colorize(border, BORDER_COLOR + Text.BACKGROUND);
+    border = Text.colorize(border, BORDER_BACKGROUND);
 
     Text.go(0, 1);
     System.out.println(border.repeat(WIDTH));
@@ -153,7 +153,8 @@ public class Game {
 		  Text.go(startRow, leftCol);
 		  System.out.print(c);
 		  Text.go(startRow + 1, leftCol);
-		  System.out.print("HP: " + c.getHP() + " / " + c.getmaxHP());
+		  System.out.print("HP: ");
+		  System.out.print(colorByPercent(c.getHP(), c.getmaxHP()));
 		  Text.go(startRow + 2, leftCol);
 		  System.out.print(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax());
 		  leftCol += (WIDTH - 2) / 3;
@@ -168,7 +169,7 @@ public class Game {
     double dHP = (double) hp / (double) maxHP;
     int textColor;
 
-    String output = String.format("%2s", hp + "") + "/" + String.format("%2s", maxHP + "");
+    String output = String.format("%2s", hp + "") + " / " + String.format("%2s", maxHP + "");
 
     if (dHP <= .25) {
       textColor = Text.RED;
