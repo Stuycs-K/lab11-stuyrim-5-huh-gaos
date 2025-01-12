@@ -86,10 +86,6 @@ public class Game {
     Text.go(row, col);
     for (i = 0; i + width <= text.length(); i += width) {
       if (row == startRow + height) {
-        // row = startRow;
-        // i = width * -1;
-        // text = text.substring(width);
-
         Text.wait(450); // 300
         Text.clear(startRow, col, width, height);
 		TextBox(startRow, col, width, height, text.substring(width));
@@ -100,10 +96,15 @@ public class Game {
 	  }
     }
     if (text.length() % width != 0) {
-      drawText(text.substring(i), row, col);
+		if (row == startRow + height) {
+        Text.wait(450); // 300
+        Text.clear(startRow, col, width, height);
+		TextBox(startRow, col, width, height, text.substring(width));
+		return;
+     } else {
+		drawText(text.substring(i), row, col);
+	 }
     }
-    Text.go(row + 1, col);
-
     // drawBackground();
   }
 
