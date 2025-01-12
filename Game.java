@@ -25,7 +25,8 @@ public class Game {
     
 	drawScreen();
     TextBox(8, 3, 46, 16, args[0]);
-	userInput(new Scanner(System.in));
+	// userInput(new Scanner(System.in));
+	quit();
 	Text.go(30,1);
     // run();
   }
@@ -213,6 +214,12 @@ public class Game {
   }
 
   public static void quit() {
+	// draw quit screen
+	Text.clear();
+	drawText(Text.colorize("Game  Over", Text.RED), 7, 36);
+	
+	Text.wait(450);
+	
     Text.reset();
     Text.showCursor();
     Text.go(32, 1);
