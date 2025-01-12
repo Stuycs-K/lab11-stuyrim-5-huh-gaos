@@ -16,15 +16,16 @@ public class Game {
 
   public static void main(String[] args) {
 	Text.clear();
-    player.add(new CodeWarrior("bob"));
-	player.add(new Warrior("max"));
-	player.add(new Pathfinder("von"));
-	enemy.add(new CodeWarrior("bad bob"));
-	enemy.add(new Warrior("mad max"));
-	enemy.add(new Pathfinder("villain von"));
+    player.add(createRandomAdventurer(false));
+	player.add(createRandomAdventurer(false));
+	player.add(createRandomAdventurer(false));
+	enemy.add(createRandomAdventurer(false));
+	enemy.add(createRandomAdventurer(false));
+	enemy.add(createRandomAdventurer(false));
     
 	drawScreen();
     TextBox(8, 3, 46, 16, args[0]);
+	userInput(new Scanner(System.in));
 	Text.go(30,1);
     // run();
   }
@@ -151,12 +152,9 @@ public class Game {
     int colSize = WIDTH / party.size(); 
     if (party.size() == 3) {
     	for (Adventurer c : party) {
-		  Text.go(startRow, leftCol);
-		  System.out.print(c);
-		  Text.go(startRow + 1, leftCol);
-		  System.out.print("HP: " + colorByPercent(c.getHP(), c.getmaxHP()));
-		  Text.go(startRow + 2, leftCol);
-		  System.out.print(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax());
+		  drawText(c.toString(), startRow, leftCol);
+		  drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
+		  drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
 		  leftCol += (WIDTH - 2) / 3;
 		}
     }
@@ -203,13 +201,13 @@ public class Game {
   }
 
   public static String userInput(Scanner in) {
-    // Move cursor to prompt location
+    Text.go(29, 2);
 
-    // show cursor
+    Text.showCursor();
 
     String input = in.nextLine();
 
-    // clear the text that was written
+    Text.clear(29, 2, input.length(), 1);
 
     return input;
   }
