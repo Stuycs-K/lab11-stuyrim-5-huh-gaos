@@ -20,7 +20,7 @@ public class Game {
 	party.add(new Pathfinder("von"));
     
 	drawParty(party, 26);
-    TextBox(7, 2, 48, 10, args[0]);
+    TextBox(8, 3, 46, 16, args[0]);
 	Text.go(30,1);
     // run();
   }
@@ -93,8 +93,9 @@ public class Game {
         Text.wait(450); // 300
         Text.clear(startRow, col, width, height);
 		TextBox(startRow, col, width, height, text.substring(width));
+		return;
       } else {
-		  drawText(text.substring(i, i + width), row, col);
+		drawText(text.substring(i, i + width), row, col);
 		row++;
 	  }
     }
