@@ -4,15 +4,15 @@ public class Boss extends Adventurer{
     private int healMax = 10;
 
     public Boss (String name) {
-        super("Boss " + name, 15);
+        super(name, 15);
     }
 
     public Boss (String name, int hp) {
-        super("Boss " + name, hp);
+        super(name, hp);
     }
 
     public Boss (String name, int hp, int heal, int healMax) {
-        super("Boss " + name, hp);
+        super(name, hp);
         this.heal = heal;
         this.healMax = healMax;
     }

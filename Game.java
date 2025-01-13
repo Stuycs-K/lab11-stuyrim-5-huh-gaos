@@ -20,19 +20,19 @@ public class Game {
 
   private static int nameIndex = 0;
 
-  private static final ArrayList<Adventurer> player = new ArrayList<Adventurer>();
-  private static final ArrayList<Adventurer> enemy = new ArrayList<Adventurer>();
+  private static final ArrayList<Adventurer> party = new ArrayList<Adventurer>();
+  private static final ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
 
   public static void main(String[] args) {
     Text.clear();
-    player.add(createRandomAdventurer(false));
-    player.add(createRandomAdventurer(false));
-    player.add(createRandomAdventurer(false));
-    enemy.add(createRandomAdventurer(false));
-    enemy.add(createRandomAdventurer(false));
-    enemy.add(createRandomAdventurer(false));
+    // player.add(createRandomAdventurer(false));
+    // player.add(createRandomAdventurer(false));
+    // player.add(createRandomAdventurer(false));
+    // enemy.add(createRandomAdventurer(false));
+    // enemy.add(createRandomAdventurer(false));
+    // enemy.add(createRandomAdventurer(false));
 
-    drawScreen();
+    // drawScreen();
     // TextBox(8, 3, 46, 16, args[0]);
     // userInput(new Scanner(System.in));
     // quit();
@@ -116,11 +116,9 @@ public class Game {
     // drawBackground();
   }
 
-
-
   private static String returnRandomName() {
     String out = NAME_LIST.get(nameIndex);
-    nameIndex ++;
+    nameIndex++;
     return out;
   }
 
@@ -174,6 +172,14 @@ public class Game {
    * ***THIS ROW INTENTIONALLY LEFT BLANK***
    */
   public static void drawParty(ArrayList<Adventurer> party, int startRow) {
+    if (party.size() == 1) {
+      int startCol = 40 - party.get(0).toString().length() / 2;
+      Adventurer c = party.get(0);
+      drawText(c.toString(), startRow, startCol);
+      drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
+      drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
+    }
+
     // assume 3
     // int rowCurr = startRow;
     int leftCol = 2;
@@ -221,9 +227,9 @@ public class Game {
 
     drawBackground();
 
-    drawParty(player, 26);
+    drawParty(party, 26);
 
-    drawParty(enemy, 2);
+    drawParty(enemies, 2);
 
     Text.go(29, 2);
   }
@@ -262,14 +268,15 @@ public class Game {
     // Make an ArrayList of Adventurers and add 1-3 enemies to it.
     // If only 1 enemy is added it should be the boss class.
     // start with 1 boss and modify the code to allow 2-3 adventurers later.
-    ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
 
     // incomplete
     enemies.add(createRandomAdventurer(true));
+    // for (int i = 0; i < 3; i++) {
+    //   enemies.add(createRandomAdventurer(false));
+    // }
 
     // Adventurers you control:
     // Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
-    ArrayList<Adventurer> party = new ArrayList<>();
     for (int i = 0; i < 3; i++) {
       party.add(createRandomAdventurer(false));
     }
