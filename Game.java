@@ -34,19 +34,10 @@ public class Game {
 
   public static void main(String[] args) {
     Text.clear();
-    // player.add(createRandomAdventurer(false));
-    // player.add(createRandomAdventurer(false));
-    // player.add(createRandomAdventurer(false));
-    // enemy.add(createRandomAdventurer(false));
-    // enemy.add(createRandomAdventurer(false));
-    // enemy.add(createRandomAdventurer(false));
-
-    // drawScreen();
-    // TextBox(8, 3, 46, 16, args[0]);
-    // userInput(new Scanner(System.in));
-    // quit();
-    // Text.go(30, 1);
-    run();
+    drawBackground();
+    TextBox(1, 1, 20, 4, "hello hi fish fish fish red blue green grey gray tan peach silver unicode boxes corners drawing characters white blue green hi ginger gold teal turquoise mauve flounder powerder blue yellow dandelion beige charcoal ebony ash eggshell bone emerald moss dolphin grass dirt wood tree leaves shears beehive");
+    Text.go(31,1);
+    // run();
   }
 
   // Display the borders of your screen that will not change.
@@ -98,21 +89,29 @@ public class Game {
    * @param height the number of rows
    */
   public static void TextBox(int row, int col, int width, int height, String text) {
+    String[] words = text.split(" ");
     int i = 0;
     int startRow = row;
+    int currCol = col;
+    int mark = 0;
     Text.go(row, col);
-    for (i = 0; i + width <= text.length(); i += width) {
+    for (i = 0; i < words.length; i ++) {
       if (row == startRow + height) {
-        Text.wait(450); // 300
+        Text.wait(600); // 300
         Text.clear(startRow, col, width, height);
-        TextBox(startRow, col, width, height, text.substring(width));
+        TextBox(startRow, col, width, height, combine(words, " ", mark));
         return;
-      } else {
-        drawText(text.substring(i, i + width), row, col);
+      } else if (currCol + words[i].length() >= col + width){
         row++;
+        currCol = col + words[i].length() + 1;
+        drawText(words[i] + " ", row, col);
+        mark = i;
+      } else {
+      	drawText(words[i] + " ", row, currCol);
+      	currCol += words[i].length() + 1;
       }
     }
-    if (text.length() % width != 0) {
+    /*if (text.length() % width != 0) {
       if (row == startRow + height) {
         Text.wait(450); // 300
         Text.clear(startRow, col, width, height);
@@ -121,8 +120,19 @@ public class Game {
       } else {
         drawText(text.substring(i), row, col);
       }
-    }
+    }*/
     // drawBackground();
+  }
+  
+  private static String combine(String[] parts, String pattern, int start) {
+  	String total = "";
+  	
+  	for (int i = start; i < parts.length; i++) {
+  		total += parts[i];
+  		if (i != parts.length - 1) total += pattern;
+  	}
+  	
+  	return total;
   }
 
   private static String returnRandomName() {
