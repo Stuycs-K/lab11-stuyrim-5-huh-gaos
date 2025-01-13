@@ -238,7 +238,13 @@ public class Game {
     //   int index = COMMANDLIST.indexOf("\n");
     //   COMMANDLIST = COMMANDLIST.substring(index + 1);
     // }
-    TextBox(7, 2, 47, 18, COMMANDLIST);
+
+    String[] listCMD = COMMANDLIST.split("\n");
+
+    for (int i = 7; i < 7 + listCMD.length; i++) {
+      TextBox(i, 2, 47, 1, listCMD[i - 7]);
+    }
+
 
     Text.go(29, 2);
   }
@@ -304,7 +310,7 @@ public class Game {
     // Main loop
 
     // display this prompt at the start of the game.
-    String preprompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+    String preprompt = "(a)ttack #; (sp)ecial #; (su)pport #; (q)uit";
     drawText(preprompt, 31, 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
@@ -370,6 +376,8 @@ public class Game {
             }
           }
 
+        } else {
+          continue;
         }
 
         // You should decide when you want to re-ask for user input
