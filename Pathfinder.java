@@ -4,15 +4,15 @@ public class Pathfinder extends Adventurer{
     private int healMax = 10;
 
     public Pathfinder (String name) {
-        super("Pathfinder " + name, 15);
+        super(name, 15);
     }
 
     public Pathfinder (String name, int hp) {
-        super("Pathfinder " + name, hp);
+        super(name, hp);
     }
 
     public Pathfinder (String name, int hp, int heal, int healMax) {
-        super("Pathfinder " + name, hp);
+        super(name, hp);
         this.heal = heal;
         this.healMax = healMax;
     }

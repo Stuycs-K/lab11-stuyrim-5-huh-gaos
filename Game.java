@@ -8,27 +8,36 @@ public class Game {
 
   private static final int MIDBAR = 50;
 
-  // private static final String[] NAME_LIST = { "John", "Linda", "Fred", "Kelly", "Carter", "Kat", "Jun", "Emile",
-  //     "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice" };
-  
+  private static List<String> NAME_LIST = new ArrayList<String>(
+      Arrays.asList("John", "Linda", "Fred", "Kelly",
+          "Carter", "Kat", "Jun", "Emile",
+          "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice"));
+
+  static {
+    // randomize name list
+    Collections.shuffle(NAME_LIST);
+  }
+
+  private static int nameIndex = 0;
+
   private static final ArrayList<Adventurer> player = new ArrayList<Adventurer>();
   private static final ArrayList<Adventurer> enemy = new ArrayList<Adventurer>();
 
   public static void main(String[] args) {
-	Text.clear();
+    Text.clear();
     player.add(createRandomAdventurer(false));
-	player.add(createRandomAdventurer(false));
-	player.add(createRandomAdventurer(false));
-	enemy.add(createRandomAdventurer(false));
-	enemy.add(createRandomAdventurer(false));
-	enemy.add(createRandomAdventurer(false));
-    
-	drawScreen();
-    TextBox(8, 3, 46, 16, args[0]);
-	// userInput(new Scanner(System.in));
-	quit();
-	Text.go(30,1);
-    // run();
+    player.add(createRandomAdventurer(false));
+    player.add(createRandomAdventurer(false));
+    enemy.add(createRandomAdventurer(false));
+    enemy.add(createRandomAdventurer(false));
+    enemy.add(createRandomAdventurer(false));
+
+    drawScreen();
+    // TextBox(8, 3, 46, 16, args[0]);
+    // userInput(new Scanner(System.in));
+    // quit();
+    // Text.go(30, 1);
+    run();
   }
 
   // Display the borders of your screen that will not change.
@@ -48,7 +57,7 @@ public class Game {
       drawText(border, i, 1);
       drawText(border, i, 80);
 
-      if (6 < i && i < HEIGHT-5) {
+      if (6 < i && i < HEIGHT - 5) {
         drawText(border, i, MIDBAR);
       }
     }
@@ -81,58 +90,76 @@ public class Game {
    */
   public static void TextBox(int row, int col, int width, int height, String text) {
     int i = 0;
-	int startRow = row;
+    int startRow = row;
     Text.go(row, col);
     for (i = 0; i + width <= text.length(); i += width) {
       if (row == startRow + height) {
         Text.wait(450); // 300
         Text.clear(startRow, col, width, height);
-		TextBox(startRow, col, width, height, text.substring(width));
-		return;
+        TextBox(startRow, col, width, height, text.substring(width));
+        return;
       } else {
-		drawText(text.substring(i, i + width), row, col);
-		row++;
-	  }
+        drawText(text.substring(i, i + width), row, col);
+        row++;
+      }
     }
     if (text.length() % width != 0) {
-		if (row == startRow + height) {
+      if (row == startRow + height) {
         Text.wait(450); // 300
         Text.clear(startRow, col, width, height);
-		TextBox(startRow, col, width, height, text.substring(width));
-		return;
-     } else {
-		drawText(text.substring(i), row, col);
-	 }
+        TextBox(startRow, col, width, height, text.substring(width));
+        return;
+      } else {
+        drawText(text.substring(i), row, col);
+      }
     }
     // drawBackground();
+  }
+
+
+
+  private static String returnRandomName() {
+    String out = NAME_LIST.get(nameIndex);
+    nameIndex ++;
+    return out;
   }
 
   // return a random adventurer (choose between all available subclasses)
   // feel free to overload this method to allow specific names/stats.
   public static Adventurer createRandomAdventurer() {
     double rN = Math.random();
+    String name = returnRandomName();
     if (rN < .1) {
-      return new Boss("BOSS");
+      name += " (Boss)";
+      return new Boss(name);
     } else if (rN < .4) {
-      return new Pathfinder("PATHFINDER");
+      name += " (Pathfinder)";
+      return new Pathfinder(name);
     } else if (rN < .7) {
-      return new CodeWarrior("CODEWARRIOR");
+      name += " (CodeWarrior)";
+      return new CodeWarrior(name);
     } else {
-      return new Warrior("WARRIOR");
+      name += " (Warrior)";
+      return new Warrior(name);
     }
   }
 
   public static Adventurer createRandomAdventurer(boolean boss) {
+    String name = returnRandomName();
     if (boss) {
-      return new Boss("BOSS");
+      name += " (Boss)";
+      return new Boss(name);
     }
     double rN = Math.random();
     if (rN < .33) {
-      return new Pathfinder("PATHFINDER");
+      name += " (Pathfinder)";
+      return new Pathfinder(name);
     } else if (rN < .67) {
-      return new CodeWarrior("CODEWARRIOR");
+      name += " (CodeWarrior)";
+      return new CodeWarrior(name);
     } else {
-      return new Warrior("WARRIOR");
+      name += " (Warrior)";
+      return new Warrior(name);
     }
   }
 
@@ -150,16 +177,16 @@ public class Game {
     // assume 3
     // int rowCurr = startRow;
     int leftCol = 2;
-    int colSize = WIDTH / party.size(); 
+    int colSize = WIDTH / party.size();
     if (party.size() == 3) {
-    	for (Adventurer c : party) {
-		  drawText(c.toString(), startRow, leftCol);
-		  drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
-		  drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
-		  leftCol += (WIDTH - 2) / 3;
-		}
+      for (Adventurer c : party) {
+        drawText(c.toString(), startRow, leftCol);
+        drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
+        drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
+        leftCol += (WIDTH - 2) / 3;
+      }
     }
-    
+
   }
 
   // Use this to create a colorized number string based on the % compared to the
@@ -197,8 +224,8 @@ public class Game {
     drawParty(player, 26);
 
     drawParty(enemy, 2);
-	
-	Text.go(29,2);
+
+    Text.go(29, 2);
   }
 
   public static String userInput(Scanner in) {
@@ -214,18 +241,19 @@ public class Game {
   }
 
   public static void quit() {
-	// draw quit screen
-	Text.clear();
-	drawText(Text.colorize("Game  Over", Text.RED), 7, 36);
-	
-	Text.wait(450);
-	
+    // draw quit screen
+    Text.clear();
+    drawText(Text.colorize("Game  Over", Text.RED), 7, 36);
+
+    Text.wait(450);
+
     Text.reset();
     Text.showCursor();
     Text.go(32, 1);
   }
 
   public static void run() {
+
     // Clear and initialize
     Text.hideCursor();
     Text.clear();
@@ -235,7 +263,7 @@ public class Game {
     // If only 1 enemy is added it should be the boss class.
     // start with 1 boss and modify the code to allow 2-3 adventurers later.
     ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
-    
+
     // incomplete
     enemies.add(createRandomAdventurer(true));
 
@@ -261,13 +289,16 @@ public class Game {
 
     // display this prompt at the start of the game.
     String preprompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+    drawText(preprompt, 31, 1);
+
+    Text.go(7, MIDBAR + 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
       // Read user input
       input = userInput(in);
 
       // example debug statment
-      TextBox(24, 2, 1, 78,
+      TextBox(24, 2, 80, 78,
           "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer + " whichOpp=" + whichOpponent);
 
       // display event based on last turn's input
