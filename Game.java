@@ -234,17 +234,17 @@ public class Game {
 
     drawParty(enemies, 2);
 
-    // if (countLines() > 18) {
-    //   int index = COMMANDLIST.indexOf("\n");
-    //   COMMANDLIST = COMMANDLIST.substring(index + 1);
-    // }
-
     String[] listCMD = COMMANDLIST.split("\n");
+
+    if (listCMD.length > 18) {
+      int index = COMMANDLIST.indexOf("\n");
+      COMMANDLIST = COMMANDLIST.substring(index + 1);
+      listCMD = Arrays.copyOfRange(listCMD, 1, listCMD.length);
+    }
 
     for (int i = 7; i < 7 + listCMD.length; i++) {
       TextBox(i, 2, 47, 1, listCMD[i - 7]);
     }
-
 
     Text.go(29, 2);
   }
@@ -322,6 +322,9 @@ public class Game {
       // TextBox(24, 2, 80, 78,
       // "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
       // + " whichOpp=" + whichOpponent);
+
+      TextBox(24, 51, 20, 1,
+          "whichPlayer=" + whichPlayer);
 
       // display event based on last turn's input
       if (partyTurn) {
@@ -419,10 +422,12 @@ public class Game {
 
           rN = Math.random();
 
-          if (rN < .25) {
+          if (rN < .6) {
             enemy.specialAttack(ally);
+            COMMANDLIST += Text.colorize(enemy + " special attacks " + ally + "\n", Text.RED);
           } else {
             enemy.attack(ally);
+            COMMANDLIST += Text.colorize(enemy + " attacks " + ally + "\n", Text.RED);
           }
 
         }
