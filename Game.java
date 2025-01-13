@@ -25,13 +25,6 @@ public class Game {
   private static final ArrayList<Adventurer> party = new ArrayList<Adventurer>();
   private static final ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
 
-  private static int countLines() {
-    if (COMMANDLIST == null || COMMANDLIST.isEmpty()) {
-      return 0;
-    }
-    return COMMANDLIST.split("\r\n|\r|\n").length;
-  }
-
   public static void main(String[] args) {
     Text.clear();
     // player.add(createRandomAdventurer(false));
@@ -60,18 +53,18 @@ public class Game {
 
     drawText(border.repeat(WIDTH), 6, 1);
 
-    drawText(border.repeat(WIDTH), HEIGHT - 5, 1);
+    drawText(border.repeat(WIDTH), HEIGHT - 6, 1);
 
     for (int i = 1; i < HEIGHT; i++) {
       drawText(border, i, 1);
       drawText(border, i, 80);
 
-      if (6 < i && i < HEIGHT - 5) {
+      if (6 < i && i < HEIGHT - 6) {
         drawText(border, i, MIDBAR);
       }
     }
 
-    drawText(border.repeat(WIDTH), HEIGHT, 1);
+    drawText(border.repeat(WIDTH), HEIGHT - 1, 1);
   }
 
   // Display a line of text starting at
@@ -230,33 +223,35 @@ public class Game {
 
     drawBackground();
 
-    drawParty(party, 26);
+    drawParty(party, 25);
 
     drawParty(enemies, 2);
 
     String[] listCMD = COMMANDLIST.split("\n");
 
-    if (listCMD.length > 18) {
+    if (listCMD.length > 17) {
       int index = COMMANDLIST.indexOf("\n");
       COMMANDLIST = COMMANDLIST.substring(index + 1);
       listCMD = Arrays.copyOfRange(listCMD, 1, listCMD.length);
     }
 
     for (int i = 7; i < 7 + listCMD.length; i++) {
-      TextBox(i, 2, 47, 1, listCMD[i - 7]);
+      //String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
+      String out = listCMD[i - 7];
+      TextBox(i, 2, 47, 1, out);
     }
 
-    Text.go(29, 2);
+    Text.go(28, 2);
   }
 
   public static String userInput(Scanner in) {
-    Text.go(29, 2);
+    Text.go(28, 2);
 
     Text.showCursor();
 
     String input = in.nextLine();
 
-    Text.clear(29, 2, input.length(), 1);
+    Text.clear(28, 2, input.length(), 1);
 
     return input;
   }
@@ -311,7 +306,7 @@ public class Game {
 
     // display this prompt at the start of the game.
     String preprompt = "(a)ttack #; (sp)ecial #; (su)pport #; (q)uit";
-    drawText(preprompt, 31, 1);
+    drawText(preprompt, 30, 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
 
@@ -341,9 +336,8 @@ public class Game {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target));
-
-            ally.attack(enemy);
-            COMMANDLIST += ally + " attacks " + enemy + "\n";
+            
+            COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
             continue;
           }
@@ -358,8 +352,8 @@ public class Game {
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-            ally.specialAttack(enemy);
-            COMMANDLIST += ally + " special attacks " + enemy + "\n";
+            
+            COMMANDLIST += ally.specialAttack(enemy) + "\n";
           } else {
             continue;
           }
@@ -373,7 +367,11 @@ public class Game {
             String target = splitInput[1];
             if (Integer.valueOf(target) < party.size()) {
               // must be smaller or equal to the size of enemy list
-              party.get(whichPlayer).support(party.get(Integer.valueOf(target)));
+              Adventurer current = party.get(whichPlayer);
+              Adventurer suTarget = party.get(Integer.valueOf(target));
+              
+
+              COMMANDLIST += current.support(suTarget) + "\n";
             } else {
               continue;
             }
@@ -423,11 +421,11 @@ public class Game {
           rN = Math.random();
 
           if (rN < .6) {
-            enemy.specialAttack(ally);
-            COMMANDLIST += Text.colorize(enemy + " special attacks " + ally + "\n", Text.RED);
+            
+            COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
           } else {
-            enemy.attack(ally);
-            COMMANDLIST += Text.colorize(enemy + " attacks " + ally + "\n", Text.RED);
+            
+            COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
           }
 
         }
