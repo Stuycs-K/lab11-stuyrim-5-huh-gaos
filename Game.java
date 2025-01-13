@@ -95,10 +95,10 @@ public class Game {
         TextBox(startRow, col, width, height, combine(words, " ", mark));
         return;
       } else if (currCol + words[i].length() >= col + width){
+        if (row == startRow) mark = i;
         row++;
         currCol = col + words[i].length() + 1;
         drawText(words[i] + " ", row, col);
-        mark = i;
       } else {
       	drawText(words[i] + " ", row, currCol);
       	currCol += words[i].length() + 1;
