@@ -128,16 +128,12 @@ public class Game {
     double rN = Math.random();
     String name = returnRandomName();
     if (rN < .1) {
-      name += " (Boss)";
       return new Boss(name);
     } else if (rN < .4) {
-      name += " (Pathfinder)";
       return new Pathfinder(name);
     } else if (rN < .7) {
-      name += " (CodeWarrior)";
       return new CodeWarrior(name);
     } else {
-      name += " (Warrior)";
       return new Warrior(name);
     }
   }
@@ -145,18 +141,14 @@ public class Game {
   public static Adventurer createRandomAdventurer(boolean boss) {
     String name = returnRandomName();
     if (boss) {
-      name += " (Boss)";
       return new Boss(name);
     }
     double rN = Math.random();
     if (rN < .33) {
-      name += " (Pathfinder)";
       return new Pathfinder(name);
     } else if (rN < .67) {
-      name += " (CodeWarrior)";
       return new CodeWarrior(name);
     } else {
-      name += " (Warrior)";
       return new Warrior(name);
     }
   }
@@ -175,7 +167,8 @@ public class Game {
     if (party.size() == 1) {
       int startCol = 40 - party.get(0).toString().length() / 2;
       Adventurer c = party.get(0);
-      drawText(c.toString(), startRow, startCol);
+      String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      drawText(name, startRow, startCol);
       drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
       drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
     }
@@ -186,7 +179,8 @@ public class Game {
     int colSize = WIDTH / party.size();
     if (party.size() == 3) {
       for (Adventurer c : party) {
-        drawText(c.toString(), startRow, leftCol);
+        String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+        drawText(name, startRow, leftCol);
         drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
         drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
         leftCol += (WIDTH - 2) / 3;
@@ -272,7 +266,7 @@ public class Game {
     // incomplete
     enemies.add(createRandomAdventurer(true));
     // for (int i = 0; i < 3; i++) {
-    //   enemies.add(createRandomAdventurer(false));
+    // enemies.add(createRandomAdventurer(false));
     // }
 
     // Adventurers you control:
@@ -305,17 +299,39 @@ public class Game {
       input = userInput(in);
 
       // example debug statment
-      TextBox(24, 2, 80, 78,
-          "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer + " whichOpp=" + whichOpponent);
+      // TextBox(24, 2, 80, 78,
+      //     "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer + " whichOpp=" + whichOpponent);
 
       // display event based on last turn's input
       if (partyTurn) {
+        String[] splitInput = input.split(" ");
+        if (splitInput.length < 2) {
+          // this means no input after command
+          TextBox(24, 2, 80, 78,
+              "BREAKING");
+        }
 
         // Process user input for the last Adventurer:
         if (input.startsWith("attack ") || input.startsWith("a ")) {
-          /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
-          // YOUR CODE HERE
-          /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+          String target = splitInput[1];
+          if (Integer.valueOf(target) < enemies.size()) {
+            // must be smaller or equal to the size of enemy list
+            party.get(whichPlayer).attack(enemies.get(Integer.valueOf(target)));
+          }
+          // for (int i = 0; i < enemies.size(); i++) {
+          //   if (enemies.get(i).toString().toLowerCase().equals(target.toLowerCase())) {
+          //     // supports named attack
+          //     party.get(whichPlayer).attack(enemies.get(i));
+          //     TextBox(24, 2, 80, 78,
+          //         party.get(whichPlayer).toString());
+            
+            
+          //       } else {
+          //     TextBox(24, 2, 80, 78,
+          //         "?? NOBODY");
+          //   }
+          // }
+
         } else if (input.startsWith("special ") || input.startsWith("sp ")) {
           /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
           // YOUR CODE HERE
