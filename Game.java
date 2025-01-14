@@ -239,6 +239,8 @@ public class Game {
 
     drawParty(enemies, 2);
 
+    //TextBox(7, 2, 48, 18, COMMANDLIST);
+
     String[] listCMD = COMMANDLIST.split("\n");
 
     if (listCMD.length > 17) {
@@ -247,10 +249,17 @@ public class Game {
       listCMD = Arrays.copyOfRange(listCMD, 1, listCMD.length);
     }
 
+    int row = 7;
     for (int i = 7; i < 7 + listCMD.length; i++) {
       //String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
-      String out = listCMD[i - 7];
-      TextBox(i, 2, 47, 1, out);
+      String out = ">" + listCMD[i - 7];
+      if (out.length() > 48) {
+        TextBox(row, 2, 48, 2, out);
+        row++;
+      } else {
+        TextBox(row, 2, 48, 1, out);
+      }
+      row++;
     }
 
     Text.go(28, 2);
@@ -433,8 +442,8 @@ public class Game {
           rN = Math.random();
 
           if (rN < .6) {
-            
-            COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
+            COMMANDLIST += enemy.specialAttack(ally) + "\n";
+            //COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
           } else {
             
             COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);

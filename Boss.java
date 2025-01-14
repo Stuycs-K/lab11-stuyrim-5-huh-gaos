@@ -40,7 +40,7 @@ public class Boss extends Adventurer{
     @Override
     public String attack(Adventurer other) {
         other.applyDamage(1);
-        return this.getName() + " attacks " + other.getName() + " and inflicts 1hp damage.";
+        return this.getName() + " regular attacks " + other.getName() + " and inflicts 1hp damage.";
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Boss extends Adventurer{
         if (this.getSpecial() >= 2) {
             other.applyDamage(4);
             this.setSpecial(this.getSpecial() - 2);
-            return this.getName() + " attacks " + other.getName() + " and inflicts 4hp damage.";
+            return this.getName() + " special attacks " + other.getName() + " and inflicts 4hp damage.";
         }
 
         return "Insufficient " +  this.getSpecialName() + " resources available. 2 needed, " + this.getSpecial() + " available.";
