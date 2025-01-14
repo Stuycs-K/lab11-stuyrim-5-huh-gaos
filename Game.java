@@ -317,12 +317,12 @@ public class Game {
     // }
 
 	int partySize = 0;
-	drawText("Enter a number 2-4 for the size of your party.", 30, 0);
-	while (partySize < 2 || partySize > 4) {
+	drawText("Enter a number 2-3 for the size of your party.", 30, 0);
+	while (partySize < 2 || partySize > 3) {
    		Text.go(28, 2);
 		partySize = Integer.parseInt(userInput(new Scanner(System.in)));
 		Text.clear(30, 0, 80, 1);
-		if (partySize < 2 || partySize > 4) drawText("Invalid entry. Enter a number 2-4 for the size of your party.", 30, 0);
+		if (partySize < 2 || partySize > 3) drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
 		Text.clear(27, 2, 78, 1);
 	}
     for (int i = 0; i < partySize; i++) {
@@ -370,10 +370,10 @@ public class Game {
           }
 
           String target = splitInput[1];
-          if (Integer.valueOf(target) < enemies.size()) {
+          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
-            Adventurer enemy = enemies.get(Integer.valueOf(target));
+            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
             
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
@@ -385,10 +385,10 @@ public class Game {
             continue;
           }
           String target = splitInput[1];
-          if (Integer.valueOf(target) < enemies.size()) {
+          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
-            Adventurer enemy = enemies.get(Integer.valueOf(target));
+            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
 
             
             COMMANDLIST += ally.specialAttack(enemy) + "\n";
@@ -403,10 +403,10 @@ public class Game {
             party.get(whichPlayer).support();
           } else {
             String target = splitInput[1];
-            if (Integer.valueOf(target) < party.size()) {
+            if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
               // must be smaller or equal to the size of enemy list
               Adventurer current = party.get(whichPlayer);
-              Adventurer suTarget = party.get(Integer.valueOf(target));
+              Adventurer suTarget = party.get(Integer.valueOf(target) - 1);
               
 
               COMMANDLIST += current.support(suTarget) + "\n";
