@@ -13,7 +13,8 @@ public class Game {
   private static List<String> NAME_LIST = new ArrayList<String>(
       Arrays.asList("John", "Linda", "Fred", "Kelly",
           "Carter", "Kat", "Jun", "Emile",
-          "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice"));
+          "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice",
+          "Buck", "Locke", "Tanaka", "Vale"));
 
   static {
     // randomize name list
@@ -85,49 +86,53 @@ public class Game {
     int currCol = col;
     int mark = 0;
     Text.go(row, col);
-    for (i = 0; i < words.length; i ++) {
+    for (i = 0; i < words.length; i++) {
       if (currCol + words[i].length() + 1 < col + width) {
-		  drawText(words[i] + " ", row, currCol);
-		  currCol += words[i].length() + 1;
-	  } else if (currCol + words[i].length() < col + width) {
-		  drawText(words[i], row, currCol);
-		  currCol += words[i].length();
-	  } else {
-		  if (row == startRow) mark = i;
-		  if (row == startRow + height - 1) {
-			  Text.wait(450);
-			  Text.clear(startRow, col, width, height);
-			  TextBox(startRow, col, width, height, combine(words, " ", mark));
-			  return;
-		  }
-		  row++;
-		  currCol = col;
-		  drawText(words[i] + " ", row, currCol);
-		  currCol += words[i].length() + 1;
-	  }
-    }
-    /*if (text.length() % width != 0) {
-      if (row == startRow + height) {
-        Text.wait(450); // 300
-        Text.clear(startRow, col, width, height);
-        TextBox(startRow, col, width, height, text.substring(width));
-        return;
+        drawText(words[i] + " ", row, currCol);
+        currCol += words[i].length() + 1;
+      } else if (currCol + words[i].length() < col + width) {
+        drawText(words[i], row, currCol);
+        currCol += words[i].length();
       } else {
-        drawText(text.substring(i), row, col);
+        if (row == startRow)
+          mark = i;
+        if (row == startRow + height - 1) {
+          Text.wait(450);
+          Text.clear(startRow, col, width, height);
+          TextBox(startRow, col, width, height, combine(words, " ", mark));
+          return;
+        }
+        row++;
+        currCol = col;
+        drawText(words[i] + " ", row, currCol);
+        currCol += words[i].length() + 1;
       }
-    }*/
+    }
+    /*
+     * if (text.length() % width != 0) {
+     * if (row == startRow + height) {
+     * Text.wait(450); // 300
+     * Text.clear(startRow, col, width, height);
+     * TextBox(startRow, col, width, height, text.substring(width));
+     * return;
+     * } else {
+     * drawText(text.substring(i), row, col);
+     * }
+     * }
+     */
     // drawBackground();
   }
-  
+
   private static String combine(String[] parts, String pattern, int start) {
-  	String total = "";
-  	
-  	for (int i = start; i < parts.length; i++) {
-  		total += parts[i];
-  		if (i != parts.length - 1) total += pattern;
-  	}
-  	
-  	return total;
+    String total = "";
+
+    for (int i = start; i < parts.length; i++) {
+      total += parts[i];
+      if (i != parts.length - 1)
+        total += pattern;
+    }
+
+    return total;
   }
 
   private static String returnRandomName() {
@@ -167,6 +172,15 @@ public class Game {
     }
   }
 
+  public static void drawParty(Adventurer A, int startRow, int centerCol) {
+    int startCol = centerCol - A.toString().length() / 2;
+    Adventurer c = A;
+    String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+    drawText(name, startRow, startCol);
+    drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
+    drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
+  }
+
   /*
    * Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
    * Should include Name HP and Special on 3 separate lines.
@@ -179,27 +193,33 @@ public class Game {
    */
   public static void drawParty(ArrayList<Adventurer> party, int startRow) {
     if (party.size() == 1) {
-      int startCol = 36 - party.get(0).toString().length() / 2;
-      Adventurer c = party.get(0);
-      String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
-      drawText(name, startRow, startCol);
-      drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
-      drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
+      drawParty(party.get(0), startRow, 40);
+    } else if (party.size() == 2) {
+      drawParty(party.get(0), startRow, 20);
+      drawParty(party.get(1), startRow, 50);
+    } else if (party.size() == 3) {
+      // // int rowCurr = startRow;
+      // int leftCol = 2;
+      // int colSize = WIDTH / party.size();
+      // if (party.size() == 3) {
+      //   for (Adventurer c : party) {
+      //     String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      //     drawText(name, startRow, leftCol);
+      //     drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
+      //     drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
+      //     leftCol += (WIDTH - 2) / 3;
+      //   }
+      // }
+      drawParty(party.get(0), startRow, 6);
+      drawParty(party.get(1), startRow, 33);
+      drawParty(party.get(2), startRow, 60);
     }
-
-    // assume 3
-    // int rowCurr = startRow;
-    int leftCol = 2;
-    int colSize = WIDTH / party.size();
-    if (party.size() == 3) {
-      for (Adventurer c : party) {
-        String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
-        drawText(name, startRow, leftCol);
-        drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
-        drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
-        leftCol += (WIDTH - 2) / 3;
-      }
-    }
+    // } else if (party.size() == 4) {
+    //   drawParty(party.get(0), startRow, 5);
+    //   drawParty(party.get(1), startRow, 2);
+    //   drawParty(party.get(2), startRow, 44);
+    //   drawParty(party.get(3), startRow, 64);
+    // }
 
   }
 
@@ -239,18 +259,17 @@ public class Game {
 
     drawParty(enemies, 2);
 
-    //TextBox(7, 2, 48, 18, COMMANDLIST);
+    // TextBox(7, 2, 48, 18, COMMANDLIST);
 
     String[] listCMD = COMMANDLIST.split("\n");
     int numLines = 0;
     for (int i = 0; i < listCMD.length; i++) {
       String current = ">" + listCMD[i];
-      if (current.length() > MIDBAR-2) {
-        numLines ++;
+      if (current.length() > MIDBAR - 2) {
+        numLines++;
       }
-      numLines ++;
+      numLines++;
     }
-
 
     if (numLines > 16) {
       int index = COMMANDLIST.indexOf("\n");
@@ -260,13 +279,13 @@ public class Game {
 
     int row = 7;
     for (int i = 7; i < 7 + listCMD.length; i++) {
-      //String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
+      // String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
       String out = ">" + listCMD[i - 7];
-      if (out.length() > MIDBAR-2) {
-        TextBox(row, 2, MIDBAR-2, 2, out);
+      if (out.length() > MIDBAR - 2) {
+        TextBox(row, 2, MIDBAR - 2, 2, out);
         row++;
       } else {
-        TextBox(row, 2, MIDBAR-2, 1, out);
+        TextBox(row, 2, MIDBAR - 2, 1, out);
       }
       row++;
     }
@@ -311,11 +330,12 @@ public class Game {
     // start with 1 boss and modify the code to allow 2-3 adventurers later.
 
     // incomplete
-    enemies.add(createRandomAdventurer(true));
-    // for (int i = 0; i < 3; i++) {
-    // enemies.add(createRandomAdventurer(false));
-    // }
+    // enemies.add(createRandomAdventurer(true));
+    for (int i = 0; i < 3; i++) {
+      enemies.add(createRandomAdventurer(false));
+    }
 
+<<<<<<< HEAD
 	int partySize = 0;
 	drawText("Enter a number 2-3 for the size of your party.", 30, 0);
 	while (partySize < 2 || partySize > 3) {
@@ -325,6 +345,18 @@ public class Game {
 		if (partySize < 2 || partySize > 3) drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
 		Text.clear(27, 2, 78, 1);
 	}
+=======
+    int partySize = 0;
+    drawText("Enter a number 2-4 for the size of your party.", 30, 0);
+    while (partySize < 2 || partySize > 4) {
+      Text.go(28, 2);
+      partySize = Integer.parseInt(userInput(new Scanner(System.in)));
+      Text.clear(30, 0, 80, 1);
+      if (partySize < 2 || partySize > 4)
+        drawText("Invalid entry. Enter a number 2-4 for the size of your party.", 30, 0);
+      Text.clear(27, 2, 78, 1);
+    }
+>>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
     for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
     }
@@ -373,8 +405,13 @@ public class Game {
           if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
+<<<<<<< HEAD
             Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
             
+=======
+            Adventurer enemy = enemies.get(Integer.valueOf(target));
+
+>>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
             continue;
@@ -390,7 +427,6 @@ public class Game {
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
 
-            
             COMMANDLIST += ally.specialAttack(enemy) + "\n";
           } else {
             continue;
@@ -406,8 +442,12 @@ public class Game {
             if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
               // must be smaller or equal to the size of enemy list
               Adventurer current = party.get(whichPlayer);
+<<<<<<< HEAD
               Adventurer suTarget = party.get(Integer.valueOf(target) - 1);
               
+=======
+              Adventurer suTarget = party.get(Integer.valueOf(target));
+>>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
 
               COMMANDLIST += current.support(suTarget) + "\n";
             } else {
@@ -460,9 +500,9 @@ public class Game {
 
           if (rN < .3) {
             COMMANDLIST += enemy.specialAttack(ally) + "\n";
-            //COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
+            // COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
           } else {
-            
+
             COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
           }
 
