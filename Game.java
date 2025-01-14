@@ -306,9 +306,14 @@ public class Game {
     // enemies.add(createRandomAdventurer(false));
     // }
 
-    // Adventurers you control:
-    // Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
-    for (int i = 0; i < 3; i++) {
+	int partySize = 0;
+	
+	while (partySize < 2 || partySize > 4) {
+		drawText("Enter a number 2-4 for the size of your party.", 30, 0);
+		Text.go(28, 2);
+		partySize = Integer.parseInt(userInput(new Scanner(System.in));)
+	}
+    for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
     }
 
