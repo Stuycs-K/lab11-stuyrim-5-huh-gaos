@@ -80,6 +80,7 @@ public class Game {
    * @param height the number of rows
    */
   public static void TextBox(int row, int col, int width, int height, String text) {
+    Text.clear(row, col, width, height);
     String[] words = text.split(" ");
     int i = 0;
     int startRow = row;
@@ -202,23 +203,25 @@ public class Game {
       // int leftCol = 2;
       // int colSize = WIDTH / party.size();
       // if (party.size() == 3) {
-      //   for (Adventurer c : party) {
-      //     String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
-      //     drawText(name, startRow, leftCol);
-      //     drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, leftCol);
-      //     drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, leftCol);
-      //     leftCol += (WIDTH - 2) / 3;
-      //   }
+      // for (Adventurer c : party) {
+      // String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      // drawText(name, startRow, leftCol);
+      // drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1,
+      // leftCol);
+      // drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " +
+      // c.getSpecialMax(), startRow + 2, leftCol);
+      // leftCol += (WIDTH - 2) / 3;
+      // }
       // }
       drawParty(party.get(0), startRow, 6);
       drawParty(party.get(1), startRow, 33);
       drawParty(party.get(2), startRow, 60);
     }
     // } else if (party.size() == 4) {
-    //   drawParty(party.get(0), startRow, 5);
-    //   drawParty(party.get(1), startRow, 2);
-    //   drawParty(party.get(2), startRow, 44);
-    //   drawParty(party.get(3), startRow, 64);
+    // drawParty(party.get(0), startRow, 5);
+    // drawParty(party.get(1), startRow, 2);
+    // drawParty(party.get(2), startRow, 44);
+    // drawParty(party.get(3), startRow, 64);
     // }
 
   }
@@ -331,7 +334,7 @@ public class Game {
 
     // incomplete
     // enemies.add(createRandomAdventurer(true));
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 1; i++) {
       enemies.add(createRandomAdventurer(false));
     }
 
@@ -466,10 +469,18 @@ public class Game {
           Adventurer enemy = enemies.get(0);
           Adventurer ally;
           int picked = 0;
-          if (rN <= .33) {
-            picked = 1;
-          } else if (rN <= .67) {
-            picked = 2;
+
+          if (party.size() == 2) {
+            if (rN <= .5) {
+              picked = 1;
+            }
+          } else {
+            if (rN <= .33) {
+              picked = 1;
+            } else if (rN <= .67) {
+              picked = 2;
+            }
+
           }
 
           ally = party.get(picked);
