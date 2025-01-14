@@ -378,7 +378,7 @@ public class Game {
       // "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
       // + " whichOpp=" + whichOpponent);
 
-      TextBox(24, 51, 20, 1,
+      TextBox(7, 51, 20, 1,
           "whichPlayer=" + whichPlayer);
 
       // display event based on last turn's input
@@ -498,7 +498,8 @@ public class Game {
 
         // Decide where to draw the following prompt:
         String prompt = "press enter to see next turn";
-
+        drawText(prompt, 30, 1);
+        
         whichOpponent++;
 
       } // end of one enemy.
