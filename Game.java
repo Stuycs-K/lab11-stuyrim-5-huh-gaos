@@ -335,7 +335,6 @@ public class Game {
       enemies.add(createRandomAdventurer(false));
     }
 
-<<<<<<< HEAD
 	int partySize = 0;
 	drawText("Enter a number 2-3 for the size of your party.", 30, 0);
 	while (partySize < 2 || partySize > 3) {
@@ -345,18 +344,6 @@ public class Game {
 		if (partySize < 2 || partySize > 3) drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
 		Text.clear(27, 2, 78, 1);
 	}
-=======
-    int partySize = 0;
-    drawText("Enter a number 2-4 for the size of your party.", 30, 0);
-    while (partySize < 2 || partySize > 4) {
-      Text.go(28, 2);
-      partySize = Integer.parseInt(userInput(new Scanner(System.in)));
-      Text.clear(30, 0, 80, 1);
-      if (partySize < 2 || partySize > 4)
-        drawText("Invalid entry. Enter a number 2-4 for the size of your party.", 30, 0);
-      Text.clear(27, 2, 78, 1);
-    }
->>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
     for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
     }
@@ -405,13 +392,8 @@ public class Game {
           if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
-<<<<<<< HEAD
-            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
             
-=======
-            Adventurer enemy = enemies.get(Integer.valueOf(target));
-
->>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
+            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
             continue;
@@ -442,12 +424,7 @@ public class Game {
             if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
               // must be smaller or equal to the size of enemy list
               Adventurer current = party.get(whichPlayer);
-<<<<<<< HEAD
               Adventurer suTarget = party.get(Integer.valueOf(target) - 1);
-              
-=======
-              Adventurer suTarget = party.get(Integer.valueOf(target));
->>>>>>> 25fb46a10e30a6acfad182b2cca319de201aecdb
 
               COMMANDLIST += current.support(suTarget) + "\n";
             } else {
