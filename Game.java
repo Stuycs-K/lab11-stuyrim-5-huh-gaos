@@ -303,6 +303,7 @@ public class Game {
     // Clear and initialize
     Text.hideCursor();
     Text.clear();
+    drawBackground();
 
     // Things to attack:
     // Make an ArrayList of Adventurers and add 1-3 enemies to it.
@@ -316,11 +317,13 @@ public class Game {
     // }
 
 	int partySize = 0;
-	
+	drawText("Enter a number 2-4 for the size of your party.", 30, 0);
 	while (partySize < 2 || partySize > 4) {
-		drawText("Enter a number 2-4 for the size of your party.", 30, 0);
-		Text.go(28, 2);
-		partySize = Integer.parseInt(userInput(new Scanner(System.in));)
+   		Text.go(28, 2);
+		partySize = Integer.parseInt(userInput(new Scanner(System.in)));
+		Text.clear(30, 0, 80, 1);
+		if (partySize < 2 || partySize > 4) drawText("Invalid entry. Enter a number 2-4 for the size of your party.", 30, 0);
+		Text.clear(27, 2, 78, 1);
 	}
     for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
