@@ -13,7 +13,8 @@ public class Game {
   private static List<String> NAME_LIST = new ArrayList<String>(
       Arrays.asList("John", "Linda", "Fred", "Kelly",
           "Carter", "Kat", "Jun", "Emile",
-          "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice"));
+          "Jorge", "Miranda", "Johnson", "Douglas", "Jerome", "Alice",
+          "Buck", "Locke", "Tanaka", "Vale"));
 
   static {
     // randomize name list
