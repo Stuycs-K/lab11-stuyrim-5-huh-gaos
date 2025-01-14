@@ -27,10 +27,7 @@ public class Game {
 
   public static void main(String[] args) {
     Text.clear();
-    drawBackground();
-    TextBox(1, 1, 20, 4, "hello hi fish fish fish red blue green grey gray tan peach silver unicode boxes corners drawing characters white blue green hi ginger gold teal turquoise mauve flounder powerder blue yellow dandelion beige charcoal ebony ash eggshell bone emerald moss dolphin grass dirt wood tree leaves shears beehive");
-    Text.go(31,1);
-    // run();
+    run();
   }
 
   // Display the borders of your screen that will not change.
@@ -89,20 +86,25 @@ public class Game {
     int mark = 0;
     Text.go(row, col);
     for (i = 0; i < words.length; i ++) {
-      if (row == startRow + height) {
-        Text.wait(600); // 300
-        Text.clear(startRow, col, width, height);
-        TextBox(startRow, col, width, height, combine(words, " ", mark));
-        return;
-      } else if (currCol + words[i].length() >= col + width){
-        if (row == startRow) mark = i;
-        row++;
-        currCol = col + words[i].length() + 1;
-        drawText(words[i] + " ", row, col);
-      } else {
-      	drawText(words[i] + " ", row, currCol);
-      	currCol += words[i].length() + 1;
-      }
+      if (currCol + words[i].length() + 1 < col + width) {
+		  drawText(words[i] + " ", row, currCol);
+		  currCol += words[i].length() + 1;
+	  } else if (currCol + words[i].length() < col + width) {
+		  drawText(words[i], row, currCol);
+		  currCol += words[i].length();
+	  } else {
+		  if (row == startRow) mark = i;
+		  if (row == startRow + height - 1) {
+			  Text.wait(450);
+			  Text.clear(startRow, col, width, height);
+			  TextBox(startRow, col, width, height, combine(words, " ", mark));
+			  return;
+		  }
+		  row++;
+		  currCol = col;
+		  drawText(words[i] + " ", row, currCol);
+		  currCol += words[i].length() + 1;
+	  }
     }
     /*if (text.length() % width != 0) {
       if (row == startRow + height) {
