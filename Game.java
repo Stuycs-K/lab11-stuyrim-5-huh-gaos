@@ -41,18 +41,18 @@ public class Game {
 
     drawText(border.repeat(WIDTH), 6, 1);
 
-    drawText(border.repeat(WIDTH), HEIGHT - 6, 1);
+    drawText(border.repeat(WIDTH), HEIGHT - 7, 1);
 
-    for (int i = 1; i < HEIGHT; i++) {
+    for (int i = 1; i < HEIGHT - 1; i++) {
       drawText(border, i, 1);
       drawText(border, i, 80);
 
-      if (6 < i && i < HEIGHT - 6) {
+      if (6 < i && i < HEIGHT - 7) {
         drawText(border, i, MIDBAR);
       }
     }
 
-    drawText(border.repeat(WIDTH), HEIGHT - 1, 1);
+    drawText(border.repeat(WIDTH), HEIGHT - 2, 1);
   }
 
   // Display a line of text starting at
@@ -235,15 +235,24 @@ public class Game {
 
     drawBackground();
 
-    drawParty(party, 25);
+    drawParty(party, 24);
 
     drawParty(enemies, 2);
 
     //TextBox(7, 2, 48, 18, COMMANDLIST);
 
     String[] listCMD = COMMANDLIST.split("\n");
+    int numLines = 0;
+    for (int i = 0; i < listCMD.length; i++) {
+      String current = ">" + listCMD[i];
+      if (current.length() > MIDBAR-2) {
+        numLines ++;
+      }
+      numLines ++;
+    }
 
-    if (listCMD.length > 17) {
+
+    if (numLines > 16) {
       int index = COMMANDLIST.indexOf("\n");
       COMMANDLIST = COMMANDLIST.substring(index + 1);
       listCMD = Arrays.copyOfRange(listCMD, 1, listCMD.length);
@@ -253,20 +262,20 @@ public class Game {
     for (int i = 7; i < 7 + listCMD.length; i++) {
       //String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
       String out = ">" + listCMD[i - 7];
-      if (out.length() > 48) {
-        TextBox(row, 2, 48, 2, out);
+      if (out.length() > MIDBAR-2) {
+        TextBox(row, 2, MIDBAR-2, 2, out);
         row++;
       } else {
-        TextBox(row, 2, 48, 1, out);
+        TextBox(row, 2, MIDBAR-2, 1, out);
       }
       row++;
     }
 
-    Text.go(28, 2);
+    Text.go(27, 2);
   }
 
   public static String userInput(Scanner in) {
-    Text.go(28, 2);
+    Text.go(27, 2);
 
     Text.showCursor();
 
@@ -332,7 +341,7 @@ public class Game {
 
     // display this prompt at the start of the game.
     String preprompt = "(a)ttack #; (sp)ecial #; (su)pport #; (q)uit";
-    drawText(preprompt, 30, 1);
+    drawText(preprompt, 29, 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
 
@@ -446,7 +455,7 @@ public class Game {
 
           rN = Math.random();
 
-          if (rN < .6) {
+          if (rN < .3) {
             COMMANDLIST += enemy.specialAttack(ally) + "\n";
             //COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
           } else {
