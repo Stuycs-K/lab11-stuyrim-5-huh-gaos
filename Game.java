@@ -54,6 +54,9 @@ public class Game {
     }
 
     drawText(border.repeat(WIDTH), HEIGHT - 2, 1);
+    
+    String preprompt = "(a)ttack #; (sp)ecial #; (su)pport #; (q)uit";
+    drawText(preprompt, 29, 1);
   }
 
   // Display a line of text starting at
@@ -292,7 +295,7 @@ public class Game {
       }
       row++;
     }
-
+    
     Text.go(27, 2);
   }
 
@@ -367,13 +370,12 @@ public class Game {
     // Main loop
 
     // display this prompt at the start of the game.
-    String preprompt = "(a)ttack #; (sp)ecial #; (su)pport #; (q)uit";
-    drawText(preprompt, 29, 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
 
       // Read user input
       input = userInput(in);
+      Text.clear(28, 2, 78, 1);
 
       // example debug statment
       // TextBox(24, 2, 80, 78,
@@ -455,11 +457,12 @@ public class Game {
           // This is a player turn.
           // Decide where to draw the following prompt:
           String prompt = "Enter command for " + party.get(whichPlayer) + ": (a)ttack/(sp)ecial/(q)uit";
-
+          drawText(prompt, 30, 1);
         } else {
           // This is after the player's turn, and allows the user to see the enemy turn
           // Decide where to draw the following prompt:
           String prompt = "press enter to see monster's turn";
+          drawText(prompt, 30, 1);
 
           partyTurn = false;
           whichOpponent = 0;
@@ -470,8 +473,32 @@ public class Game {
 
         // enemy attacks a randomly chosen person with a randomly chosen attack.z`
         // Enemy action choices go here!
-
-        if (enemies.size() == 1) {
+        
+    	Adventurer enemy = enemies.get(whichOpponent);
+    	
+    	double rN = Math.random();
+    	int picked = (int)(Math.random() * party.size());
+    	Adventurer ally = party.get(picked);
+    	
+    	if (rN < .1) {
+    		int other = (int)(Math.random() * party.size());
+    		if (other == 0) {
+    			COMMANDLIST += enemy.support();
+    		} else {
+    			COMMANDLIST += enemy.support(enemies.get(other));
+    		}
+    	} else if (rN < .75) {
+    		COMMANDLIST += enemy.attack(ally);
+    	} else {
+    		COMMANDLIST += enemy.specialAttack(ally);
+    	}
+    	// Decide where to draw the following prompt:
+	    String prompt = "press enter to see next turn";
+	    drawText(prompt, 30, 1);
+        
+        whichOpponent++;
+        } // end of one enemy.
+        /* if (enemies.size() == 1) {
           double rN = Math.random();
           Adventurer enemy = enemies.get(0);
           Adventurer ally;
@@ -500,17 +527,7 @@ public class Game {
           } else {
 
             COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
-          }
-
-        }
-
-        // Decide where to draw the following prompt:
-        String prompt = "press enter to see next turn";
-        drawText(prompt, 30, 1);
-
-        whichOpponent++;
-
-      } // end of one enemy.
+          } */
 
       // modify this if statement.
       if (!partyTurn && whichOpponent >= enemies.size()) {
@@ -521,6 +538,7 @@ public class Game {
         partyTurn = true;
         // display this prompt before player's turn
         String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+        drawText(prompt, 30, 1);
       }
 
       // display the updated screen after input has been processed.
