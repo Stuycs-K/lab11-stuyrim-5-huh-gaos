@@ -26,6 +26,8 @@ public class Game {
   private static final ArrayList<Adventurer> party = new ArrayList<Adventurer>();
   private static final ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
 
+  
+
   public static void main(String[] args) {
     Text.clear();
     run();
@@ -269,7 +271,7 @@ public class Game {
     for (int i = 0; i < listCMD.length; i++) {
       String current = ">" + listCMD[i];
       if (current.length() > MIDBAR - 2) {
-        numLines++;
+        numLines += 2;
       }
       numLines++;
     }
@@ -285,7 +287,7 @@ public class Game {
       // String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
       String out = ">" + listCMD[i - 7];
       if (out.length() > MIDBAR - 2) {
-        TextBox(row, 2, 78, 2, out);
+        TextBox(row, 2, MIDBAR - 2, 3, out);
         row++;
       } else {
         TextBox(row, 2, MIDBAR - 2, 1, out);
@@ -343,10 +345,10 @@ public class Game {
     while (partySize < 2 || partySize > 3) {
       Text.go(27, 2);
       partySize = Integer.parseInt(userInput(new Scanner(System.in)));
-      Text.clear(30, 0, 80, 1);
+      Text.clear(30, 0, MIDBAR - 2, 1);
       if (partySize < 2 || partySize > 3)
         drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
-      Text.clear(27, 2, 78, 1);
+      Text.clear(27, 2, MIDBAR - 2, 1);
     }
 
     for (int i = 0; i < partySize; i++) {
@@ -371,6 +373,34 @@ public class Game {
     drawText(preprompt, 29, 1);
 
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
+      String whoIsUp = "";
+      if (whichPlayer < party.size()) {
+        // currently ally
+        whoIsUp = party.get(whichPlayer).getName() + " is up";
+      } else if (whichPlayer == party.size() + enemies.size()) {
+        whoIsUp = party.get(0).getName() + " is up";
+      } else if (whichPlayer > party.size() - 1) {
+        // last turn was the last ally. it's now enemy
+        whoIsUp = enemies.get(whichPlayer - party.size()).getName() + " is up. Press enter to see enemy attack.";
+      }
+
+      int totalPlayers = party.size() + enemies.size();
+      int nextPlayer = (whichPlayer + 1) % totalPlayers;
+      if (nextPlayer <= party.size() - 1) {
+        Adventurer nextAdv = party.get(nextPlayer);
+        if (nextAdv.getHP() <= 0) {
+          TextBox(10, 51, 20, 1, "Player Dead, skipping");
+          continue;
+        }
+      } else {
+        Adventurer nextAdv = party.get(nextPlayer - enemies.size());
+        if (nextAdv.getHP() <= 0) {
+          TextBox(10, 51, 20, 1, "Player Dead, skipping");
+          continue;
+        }
+      }
+
+      TextBox(8, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
 
       // Read user input
       input = userInput(in);
@@ -385,17 +415,15 @@ public class Game {
 
       // display event based on last turn's input
       if (partyTurn) {
+
         String[] splitInput = input.split(" ");
 
         // Process user input for the last Adventurer:
         if (input.startsWith("attack ") || input.startsWith("a ")) {
 
-          TextBox(8, 51, 20, 1, "attack");
           if (splitInput.length < 2) {
             continue;
           }
-
-          TextBox(9, 51, 20, 1, "passed");
 
           String target = splitInput[1];
           TextBox(10, 51, 20, 1, target);
@@ -406,7 +434,6 @@ public class Game {
             Adventurer enemy = enemies.get(Integer.valueOf(target));
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
-            TextBox(11, 51, 20, 1, "continued");
             continue;
           }
 
