@@ -338,15 +338,17 @@ public class Game {
       enemies.add(createRandomAdventurer(false));
     }
 
-	int partySize = 0;
-	drawText("Enter a number 2-3 for the size of your party.", 30, 0);
-	while (partySize < 2 || partySize > 3) {
-   		Text.go(28, 2);
-		partySize = Integer.parseInt(userInput(new Scanner(System.in)));
-		Text.clear(30, 0, 80, 1);
-		if (partySize < 2 || partySize > 3) drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
-		Text.clear(27, 2, 78, 1);
-	}
+    int partySize = 0;
+    drawText("Enter a number 2-3 for the size of your party.", 30, 0);
+    while (partySize < 2 || partySize > 3) {
+      Text.go(28, 2);
+      partySize = Integer.parseInt(userInput(new Scanner(System.in)));
+      Text.clear(30, 0, 80, 1);
+      if (partySize < 2 || partySize > 3)
+        drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
+      Text.clear(27, 2, 78, 1);
+    }
+
     for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
     }
@@ -387,18 +389,24 @@ public class Game {
 
         // Process user input for the last Adventurer:
         if (input.startsWith("attack ") || input.startsWith("a ")) {
+
+          TextBox(8, 51, 20, 1, "attack");
           if (splitInput.length < 2) {
             continue;
           }
 
+          TextBox(9, 51, 20, 1, "passed");
+
           String target = splitInput[1];
-          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
+          TextBox(10, 51, 20, 1, target);
+          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
-            
-            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
+
+            Adventurer enemy = enemies.get(Integer.valueOf(target));
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
+            TextBox(11, 51, 20, 1, "continued");
             continue;
           }
 
@@ -407,10 +415,10 @@ public class Game {
             continue;
           }
           String target = splitInput[1];
-          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
+          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
-            Adventurer enemy = enemies.get(Integer.valueOf(target) - 1);
+            Adventurer enemy = enemies.get(Integer.valueOf(target));
 
             COMMANDLIST += ally.specialAttack(enemy) + "\n";
           } else {
@@ -424,10 +432,10 @@ public class Game {
             party.get(whichPlayer).support();
           } else {
             String target = splitInput[1];
-            if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) > 0) {
+            if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
               // must be smaller or equal to the size of enemy list
               Adventurer current = party.get(whichPlayer);
-              Adventurer suTarget = party.get(Integer.valueOf(target) - 1);
+              Adventurer suTarget = party.get(Integer.valueOf(target));
 
               COMMANDLIST += current.support(suTarget) + "\n";
             } else {
@@ -499,7 +507,7 @@ public class Game {
         // Decide where to draw the following prompt:
         String prompt = "press enter to see next turn";
         drawText(prompt, 30, 1);
-        
+
         whichOpponent++;
 
       } // end of one enemy.
