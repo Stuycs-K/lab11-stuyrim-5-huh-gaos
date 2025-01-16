@@ -403,7 +403,7 @@ public class Game {
 
       // Read user input
       input = userInput(in);
-      Text.clear(28, 2, 78, 1);
+      Text.clear(27, 2, 78, 1);
 
       // example debug statment
       // TextBox(24, 2, 80, 78,
