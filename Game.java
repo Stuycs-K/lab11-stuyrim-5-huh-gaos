@@ -202,30 +202,10 @@ public class Game {
       drawParty(party.get(0), startRow, 20);
       drawParty(party.get(1), startRow, 50);
     } else if (party.size() == 3) {
-      // // int rowCurr = startRow;
-      // int leftCol = 2;
-      // int colSize = WIDTH / party.size();
-      // if (party.size() == 3) {
-      // for (Adventurer c : party) {
-      // String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
-      // drawText(name, startRow, leftCol);
-      // drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1,
-      // leftCol);
-      // drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " +
-      // c.getSpecialMax(), startRow + 2, leftCol);
-      // leftCol += (WIDTH - 2) / 3;
-      // }
-      // }
       drawParty(party.get(0), startRow, 6);
       drawParty(party.get(1), startRow, 33);
       drawParty(party.get(2), startRow, 60);
     }
-    // } else if (party.size() == 4) {
-    // drawParty(party.get(0), startRow, 5);
-    // drawParty(party.get(1), startRow, 2);
-    // drawParty(party.get(2), startRow, 44);
-    // drawParty(party.get(3), startRow, 64);
-    // }
 
   }
 
@@ -369,8 +349,6 @@ public class Game {
 
     // Main loop
 
-    // display this prompt at the start of the game.
-
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
       String whoIsUp = "";
       if (whichPlayer < party.size()) {
@@ -497,7 +475,7 @@ public class Game {
       } else {
         // not the party turn!
 
-        // enemy attacks a randomly chosen person with a randomly chosen attack.z`
+        // enemy attacks a randomly chosen person with a randomly chosen attack
         // Enemy action choices go here!
 
         Adventurer enemy = enemies.get(whichOpponent);
@@ -524,38 +502,7 @@ public class Game {
 
         //whichOpponent++;
       } // end of one enemy.
-      /*
-       * if (enemies.size() == 1) {
-       * double rN = Math.random();
-       * Adventurer enemy = enemies.get(0);
-       * Adventurer ally;
-       * int picked = 0;
-       * 
-       * if (party.size() == 2) {
-       * if (rN <= .5) {
-       * picked = 1;
-       * }
-       * } else {
-       * if (rN <= .33) {
-       * picked = 1;
-       * } else if (rN <= .67) {
-       * picked = 2;
-       * }
-       * 
-       * }
-       * 
-       * ally = party.get(picked);
-       * 
-       * rN = Math.random();
-       * 
-       * if (rN < .3) {
-       * COMMANDLIST += enemy.specialAttack(ally) + "\n";
-       * // COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
-       * } else {
-       * COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
-       */
-      // COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
-
+      
       // Decide where to draw the following prompt:
       String prompt = "press enter to see next turn";
 
@@ -566,9 +513,7 @@ public class Game {
     } // end of one enemy.
 
     // modify this if statement.
-    if (!partyTurn && whichOpponent >= enemies.size())
-
-    {
+    if (!partyTurn && whichOpponent >= enemies.size()) {
       // THIS BLOCK IS TO END THE ENEMY TURN
       // It only triggers after the last enemy goes.
       whichPlayer = 0;
