@@ -500,17 +500,18 @@ public class Game {
         String prompt = "press enter to see next turn";
         drawText(prompt, 30, 1);
 
-        //whichOpponent++;
-      } // end of one enemy.
-      
-      // Decide where to draw the following prompt:
-      String prompt = "press enter to see next turn";
+        whichOpponent++;
+        // end of one enemy.
+
+        // Decide where to draw the following prompt:
+        prompt = "press enter to see next turn";
 
         drawText(prompt, 30, 1);
 
         whichOpponent++;
+      }
 
-      } // end of one enemy.
+      // end of one enemy.
 
       // modify this if statement.
       if (!partyTurn && whichOpponent >= enemies.size())
@@ -528,7 +529,6 @@ public class Game {
 
       // display the updated screen after input has been processed.
       drawScreen();
-
     }
     // end of main game loop
 
