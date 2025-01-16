@@ -522,69 +522,71 @@ public class Game {
         String prompt = "press enter to see next turn";
         drawText(prompt, 30, 1);
 
-        //whichOpponent++;
+        // whichOpponent++;
+        // end of one enemy.
+        /*
+         * if (enemies.size() == 1) {
+         * double rN = Math.random();
+         * Adventurer enemy = enemies.get(0);
+         * Adventurer ally;
+         * int picked = 0;
+         * 
+         * if (party.size() == 2) {
+         * if (rN <= .5) {
+         * picked = 1;
+         * }
+         * } else {
+         * if (rN <= .33) {
+         * picked = 1;
+         * } else if (rN <= .67) {
+         * picked = 2;
+         * }
+         * 
+         * }
+         * 
+         * ally = party.get(picked);
+         * 
+         * rN = Math.random();
+         * 
+         * if (rN < .3) {
+         * COMMANDLIST += enemy.specialAttack(ally) + "\n";
+         * // COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
+         * } else {
+         * COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
+         */
+        // COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
+
+        // Decide where to draw the following prompt:
+        prompt = "press enter to see next turn";
+
+        drawText(prompt, 30, 1);
+
+        whichOpponent++;
+
       } // end of one enemy.
-      /*
-       * if (enemies.size() == 1) {
-       * double rN = Math.random();
-       * Adventurer enemy = enemies.get(0);
-       * Adventurer ally;
-       * int picked = 0;
-       * 
-       * if (party.size() == 2) {
-       * if (rN <= .5) {
-       * picked = 1;
-       * }
-       * } else {
-       * if (rN <= .33) {
-       * picked = 1;
-       * } else if (rN <= .67) {
-       * picked = 2;
-       * }
-       * 
-       * }
-       * 
-       * ally = party.get(picked);
-       * 
-       * rN = Math.random();
-       * 
-       * if (rN < .3) {
-       * COMMANDLIST += enemy.specialAttack(ally) + "\n";
-       * // COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
-       * } else {
-       * COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
-       */
-      // COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
 
-      // Decide where to draw the following prompt:
-      String prompt = "press enter to see next turn";
+      // modify this if statement.
+      if (!partyTurn && whichOpponent >= enemies.size())
 
-      drawText(prompt, 30, 1);
+      {
+        // THIS BLOCK IS TO END THE ENEMY TURN
+        // It only triggers after the last enemy goes.
+        whichPlayer = 0;
+        turn++;
+        partyTurn = true;
+        // display this prompt before player's turn
+        String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+        drawText(prompt, 30, 1);
+      }
 
-      //whichOpponent++;
+      // display the updated screen after input has been processed.
+      drawScreen();
 
-    } // end of one enemy.
-
-    // modify this if statement.
-    if (!partyTurn && whichOpponent >= enemies.size())
-
-    {
-      // THIS BLOCK IS TO END THE ENEMY TURN
-      // It only triggers after the last enemy goes.
-      whichPlayer = 0;
-      turn++;
-      partyTurn = true;
-      // display this prompt before player's turn
-      String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
-      drawText(prompt, 30, 1);
     }
-
-    // display the updated screen after input has been processed.
-    drawScreen();
-
     // end of main game loop
 
     // After quit reset things:
     quit();
   }
+
 }
