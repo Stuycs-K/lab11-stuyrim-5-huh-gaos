@@ -288,7 +288,7 @@ public class Game {
       // String out = listCMD[i - 7] + " ".repeat(47 - listCMD[i-7].length());
       String out = ">" + listCMD[i - 7];
       if (out.length() > MIDBAR - 2) {
-        TextBox(row, 2, MIDBAR - 2, 2, out);
+        TextBox(row, 2, 78, 2, out);
         row++;
       } else {
         TextBox(row, 2, MIDBAR - 2, 1, out);
@@ -306,7 +306,7 @@ public class Game {
 
     String input = in.nextLine();
 
-    Text.clear(28, 2, input.length(), 1);
+    Text.clear(27, 2, input.length(), 1);
 
     return input;
   }
@@ -344,7 +344,7 @@ public class Game {
     int partySize = 0;
     drawText("Enter a number 2-3 for the size of your party.", 30, 0);
     while (partySize < 2 || partySize > 3) {
-      Text.go(28, 2);
+      Text.go(27, 2);
       partySize = Integer.parseInt(userInput(new Scanner(System.in)));
       Text.clear(30, 0, 80, 1);
       if (partySize < 2 || partySize > 3)
@@ -525,9 +525,20 @@ public class Game {
             COMMANDLIST += enemy.specialAttack(ally) + "\n";
             // COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
           } else {
-
             COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
-          } */
+	*/
+            COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
+          }
+
+        }
+
+        // Decide where to draw the following prompt:
+        String prompt = "press enter to see next turn";
+        drawText(prompt, 30, 1);
+
+        whichOpponent++;
+
+      } // end of one enemy.
 
       // modify this if statement.
       if (!partyTurn && whichOpponent >= enemies.size()) {
