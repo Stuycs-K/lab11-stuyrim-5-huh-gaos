@@ -510,8 +510,6 @@ public class Game {
 
         whichOpponent++;
 
-      } // end of one enemy.
-
       // modify this if statement.
       if (!partyTurn && whichOpponent >= enemies.size())
 
@@ -522,8 +520,8 @@ public class Game {
         turn++;
         partyTurn = true;
         // display this prompt before player's turn
-        String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
-        drawText(prompt, 30, 1);
+        String instr = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+        drawText(instr, 30, 1);
       }
 
       // display the updated screen after input has been processed.
