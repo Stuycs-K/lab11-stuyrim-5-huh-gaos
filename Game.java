@@ -26,7 +26,7 @@ public class Game {
   private static final ArrayList<Adventurer> party = new ArrayList<Adventurer>();
   private static final ArrayList<Adventurer> enemies = new ArrayList<Adventurer>();
 
-  
+
 
   public static void main(String[] args) {
     Text.clear();
@@ -512,7 +512,7 @@ public class Game {
         } else if (rN < .75) {
           COMMANDLIST += enemy.attack(ally) + "\n";
         } else {
-          COMMANDLIST += enemy.specialAttack(ally);
+          COMMANDLIST += enemy.specialAttack(ally) + "\n";
         }
         // Decide where to draw the following prompt:
         String prompt = "press enter to see next turn";
