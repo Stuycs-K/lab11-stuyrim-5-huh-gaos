@@ -501,17 +501,8 @@ public class Game {
         drawText(prompt, 30, 1);
 
         whichOpponent++;
-        // end of one enemy.
 
-        // Decide where to draw the following prompt:
-        prompt = "press enter to see next turn";
-
-        drawText(prompt, 30, 1);
-
-        whichOpponent++;
-      }
-
-      // end of one enemy.
+      } // end of one enemy.
 
       // modify this if statement.
       if (!partyTurn && whichOpponent >= enemies.size())
