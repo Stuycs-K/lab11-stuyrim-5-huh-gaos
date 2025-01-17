@@ -407,6 +407,7 @@ public class Game {
       if (partyTurn) {
 
         String[] splitInput = input.split(" ");
+        
 
         // Process user input for the last Adventurer:
         if (input.startsWith("attack ") || input.startsWith("a ")) {
@@ -419,9 +420,16 @@ public class Game {
           TextBox(10, 51, 20, 1, target);
           if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
             // must be smaller or equal to the size of enemy list
+
             Adventurer ally = party.get(whichPlayer);
 
             Adventurer enemy = enemies.get(Integer.valueOf(target));
+
+            if (enemy.getHP() <= 0) {
+              COMMANDLIST += "Attack Failed, Enemy Dead";
+              continue;
+            }
+
             COMMANDLIST += ally.attack(enemy) + "\n";
           } else {
             continue;
@@ -436,6 +444,11 @@ public class Game {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target));
+
+            if (enemy.getHP() <= 0) {
+              COMMANDLIST += "Special Attack Failed, Enemy Dead";
+              continue;
+            }
 
             COMMANDLIST += ally.specialAttack(enemy) + "\n";
           } else {
@@ -454,6 +467,10 @@ public class Game {
               Adventurer current = party.get(whichPlayer);
               Adventurer suTarget = party.get(Integer.valueOf(target));
 
+              if (suTarget.getHP() <= 0) {
+                COMMANDLIST += "Support Failed, Ally Dead";
+                continue;
+              }
               COMMANDLIST += current.support(suTarget) + "\n";
             } else {
               continue;
