@@ -42,7 +42,7 @@ public class Warrior extends Adventurer {
 		return this + " dealt " + attack + " points of damage to " + other;
 	}
 	public String support(Adventurer other) {
-		other.applyDamage(-1 * support);
+		other.setHP(other.getHP() + support);
 		other.restoreSpecial(2);
 		return this.getName() + " has increased " + other.getName() + "'s health by " + support;
 	}
