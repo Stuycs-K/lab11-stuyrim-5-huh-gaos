@@ -46,7 +46,7 @@ public class Pathfinder extends Adventurer{
     @Override
     public String support(Adventurer other) {
         if (this.getSpecial() > 0) {
-            other.setHP(other.getHP() + 5);
+            other.setHP(Math.min(other.getHP() + 5, other.getmaxHP()));
             this.setSpecial(this.getSpecial() + 1);
             return this.getName() + " heals " + other.getName() + " by 5hp and restores 1 healing.";
         }
@@ -57,7 +57,7 @@ public class Pathfinder extends Adventurer{
     @Override
     public String support() {
         if (this.getSpecial() > 0) {
-            this.setHP(this.getHP() + 5);
+            this.setHP(Math.min(this.getHP() + 5, this.getmaxHP()));
             this.setSpecial(this.getSpecial() + 1);
             return this.getName() + " heals themselves by 5hp and restores 1 healing.";
         }
