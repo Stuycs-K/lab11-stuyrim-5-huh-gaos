@@ -317,7 +317,7 @@ public class Game {
 
     // incomplete
     // enemies.add(createRandomAdventurer(true));
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
       enemies.add(createRandomAdventurer(false));
     }
 
@@ -480,19 +480,26 @@ public class Game {
 
         Adventurer enemy = enemies.get(whichOpponent);
 
+        if (enemy.getHP() <= 0) {
+          whichOpponent++;
+          continue;
+        }
+
+
+
         double rN = Math.random();
         int picked = (int) (Math.random() * party.size());
         Adventurer ally = party.get(picked);
 
         if (rN < .1) {
-          int other = (int) (Math.random() * party.size());
-          if (other == 0) {
-            COMMANDLIST += enemy.support();
+          int other = (int) (Math.random() * enemies.size());
+          if (other == whichOpponent) {
+            COMMANDLIST += enemy.support() + "\n";
           } else {
-            COMMANDLIST += enemy.support(enemies.get(other));
+            COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
           }
         } else if (rN < .75) {
-          COMMANDLIST += enemy.attack(ally);
+          COMMANDLIST += enemy.attack(ally) + "\n";
         } else {
           COMMANDLIST += enemy.specialAttack(ally);
         }
@@ -501,6 +508,7 @@ public class Game {
         drawText(prompt, 30, 1);
 
         whichOpponent++;
+        whichPlayer++;
 
       } // end of one enemy.
 
