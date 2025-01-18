@@ -318,23 +318,27 @@ public class Game {
     // start with 1 boss and modify the code to allow 2-3 adventurers later.
 
     // incomplete
-    // enemies.add(createRandomAdventurer(true));
-    for (int i = 0; i < 3; i++) {
-      enemies.add(createRandomAdventurer(false));
+	int enemyPartySize = (int)(Math.random() * 3) + 1;
+    for (int i = 0; i < enemyPartySize; i++) {
+      if (enemyPartySize == 1) { // boss class
+		  enemies.add(createRandomAdventurer(true));
+      } else {
+		  enemies.add(createRandomAdventurer(false));
+	  }
     }
 
-    int partySize = 0;
     drawText("Enter a number 2-3 for the size of your party.", 30, 0);
-    while (partySize < 2 || partySize > 3) {
-      Text.go(27, 2);
-      partySize = Integer.parseInt(userInput(new Scanner(System.in)));
-      Text.clear(30, 0, MIDBAR - 2, 1);
-      if (partySize < 2 || partySize > 3)
-        drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
+	Text.go(27,2);
+	String partySize = userInput(new Scanner(System.in));
+    while (partySize.compareTo("2") < 0 || partySize.compareTo("3") > 0) {
+      Text.clear(30, 1, 80, 1);
+	  drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 1);
       Text.clear(27, 2, 78, 1);
+	  partySize = userInput(new Scanner(System.in));
     }
 	Text.clear(30, 1, 80, 1);
-    for (int i = 0; i < partySize; i++) {
+    
+	for (int i = 0; i < Integer.valueOf(partySize); i++) {
       party.add(createRandomAdventurer(false));
     }
 
@@ -342,17 +346,18 @@ public class Game {
     int whichPlayer = 0;
     int whichOpponent = 0;
     int turn = 0;
-    String input = "";// blank to get into the main loop.
+    String input = ""; // blank to get into the main loop.
     Scanner in = new Scanner(System.in);
     // Draw the window border
 
     // You can add parameters to draw screen!
     drawScreen();// initial state.
-
+	
     // Main loop
-
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
-      String whoIsUp = "";
+	  Text.clear(27, 2, 78, 1);
+	  
+	  String whoIsUp = "";
       if (whichPlayer < party.size()) {
         // currently ally
         whoIsUp = party.get(whichPlayer).getName() + " is up";
@@ -392,7 +397,6 @@ public class Game {
 
       // Read user input
       input = userInput(in);
-      Text.clear(27, 2, 78, 1);
 
       // example debug statment
       // TextBox(24, 2, 80, 78,
@@ -405,14 +409,15 @@ public class Game {
           "whichOpponent=" + whichOpponent);
       // display event based on last turn's input
       if (partyTurn) {
-
-        String[] splitInput = input.split(" ");
+		Text.clear(30, 1, 80, 1);
+		TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
+        
+		String[] splitInput = input.split(" ");
         
 
         // Process user input for the last Adventurer:
         if (input.startsWith("attack ") || input.startsWith("a ")) {
-
-          if (splitInput.length < 2) {
+          if (splitInput.length < 2) { // no target
             continue;
           }
 
@@ -420,32 +425,31 @@ public class Game {
           TextBox(10, 51, 20, 1, target);
           if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
             // must be smaller or equal to the size of enemy list
-
             Adventurer ally = party.get(whichPlayer);
-
             Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-            if (!enemy.status()) {
+            if (!enemy.status()) { // checks if not alive
               COMMANDLIST += "Attack Failed, Enemy Dead \n";
               continue;
             }
 
             COMMANDLIST += ally.attack(enemy) + "\n";
-          } else {
+          } else { // invalid target
             continue;
           }
 
         } else if (input.startsWith("special ") || input.startsWith("sp ")) {
-          if (splitInput.length < 2) {
+          if (splitInput.length < 2) { // no target
             continue;
           }
-          String target = splitInput[1];
+          
+		  String target = splitInput[1];
           if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
             // must be smaller or equal to the size of enemy list
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-            if (!enemy.status()) {
+            if (!enemy.status()) { // checks if not alive
               COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
               continue;
             }
@@ -458,8 +462,8 @@ public class Game {
           // "support 0" or "su 0" or "su 2" etc.
           // assume the value that follows su is an integer.
 
-          if (splitInput.length < 2) {
-            party.get(whichPlayer).support();
+          if (splitInput.length < 2) { // self support
+			COMMANDLIST += party.get(whichPlayer).support() + "\n";
           } else {
             String target = splitInput[1];
             if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
@@ -471,6 +475,7 @@ public class Game {
                 COMMANDLIST += "Support Failed, Ally Dead \n";
                 continue;
               }
+			  
               COMMANDLIST += current.support(suTarget) + "\n";
             } else {
               continue;
