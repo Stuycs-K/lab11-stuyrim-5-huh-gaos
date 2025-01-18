@@ -69,7 +69,6 @@ public abstract class Adventurer{
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
-	this.alive = true;
   }
 
   //toString method

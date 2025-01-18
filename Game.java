@@ -331,9 +331,9 @@ public class Game {
       Text.clear(30, 0, MIDBAR - 2, 1);
       if (partySize < 2 || partySize > 3)
         drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 0);
-      Text.clear(27, 2, MIDBAR - 2, 1);
+      Text.clear(27, 2, 78, 1);
     }
-
+	Text.clear(30, 1, 80, 1);
     for (int i = 0; i < partySize; i++) {
       party.add(createRandomAdventurer(false));
     }
