@@ -1,4 +1,3 @@
-import java.util.Random;
 public abstract class Adventurer{
   private String name;
   private int HP,maxHP;
@@ -104,5 +103,9 @@ public abstract class Adventurer{
 
   public void setName(String s){
     this.name = s;
+  }
+
+  public boolean status () {
+    return getHP() > 0;
   }
 }
