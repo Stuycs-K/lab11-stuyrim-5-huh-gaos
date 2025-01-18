@@ -54,7 +54,12 @@ public abstract class Adventurer{
   */
 
   public void applyDamage(int amount){
-    this.HP -= amount;
+    if (amount > getHP()) {
+		setHP(0);
+		setStatus(false);
+	} else {
+		this.HP -= amount;
+	}
   }
 
   //You did it wrong if this happens.
@@ -70,6 +75,7 @@ public abstract class Adventurer{
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
+	this.alive = true;
   }
 
   //toString method
@@ -89,6 +95,10 @@ public abstract class Adventurer{
   public int getmaxHP(){
     return maxHP;
   }
+  
+  public boolean status() {
+	  return alive;
+  }
   public void setmaxHP(int newMax){
     maxHP = newMax;
   }
@@ -104,5 +114,9 @@ public abstract class Adventurer{
 
   public void setName(String s){
     this.name = s;
+  }
+  
+  public void setStatus(boolean ko) {
+	this.alive = ko;
   }
 }
