@@ -52,12 +52,8 @@ public abstract class Adventurer{
   */
 
   public void applyDamage(int amount){
-    if (amount > getHP()) {
-		setHP(0);
-		setStatus(false);
-	} else {
-		this.HP -= amount;
-	}
+    this.HP -= amount;
+	if (!status()) setHP(0);
   }
 
   //You did it wrong if this happens.
