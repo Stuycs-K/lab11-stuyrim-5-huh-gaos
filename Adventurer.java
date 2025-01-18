@@ -1,8 +1,6 @@
-import java.util.Random;
 public abstract class Adventurer{
   private String name;
   private int HP,maxHP;
-  private boolean alive;
 
   //Abstract methods are meant to be implemented in child classes.
   /*
@@ -95,10 +93,6 @@ public abstract class Adventurer{
   public int getmaxHP(){
     return maxHP;
   }
-  
-  public boolean status() {
-	  return alive;
-  }
   public void setmaxHP(int newMax){
     maxHP = newMax;
   }
@@ -116,7 +110,7 @@ public abstract class Adventurer{
     this.name = s;
   }
   
-  public void setStatus(boolean ko) {
-	this.alive = ko;
+  public boolean status() {
+    return getHP() > 0;
   }
 }

@@ -425,8 +425,8 @@ public class Game {
 
             Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-            if (enemy.getHP() <= 0) {
-              COMMANDLIST += "Attack Failed, Enemy Dead";
+            if (!enemy.status()) {
+              COMMANDLIST += "Attack Failed, Enemy Dead \n";
               continue;
             }
 
@@ -445,8 +445,8 @@ public class Game {
             Adventurer ally = party.get(whichPlayer);
             Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-            if (enemy.getHP() <= 0) {
-              COMMANDLIST += "Special Attack Failed, Enemy Dead";
+            if (!enemy.status()) {
+              COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
               continue;
             }
 
@@ -467,8 +467,8 @@ public class Game {
               Adventurer current = party.get(whichPlayer);
               Adventurer suTarget = party.get(Integer.valueOf(target));
 
-              if (suTarget.getHP() <= 0) {
-                COMMANDLIST += "Support Failed, Ally Dead";
+              if (!suTarget.status()) {
+                COMMANDLIST += "Support Failed, Ally Dead \n";
                 continue;
               }
               COMMANDLIST += current.support(suTarget) + "\n";
@@ -522,6 +522,11 @@ public class Game {
         double rN = Math.random();
         int picked = (int) (Math.random() * party.size());
         Adventurer ally = party.get(picked);
+
+        while (!ally.status()) {
+          picked = (int) (Math.random() * party.size());
+          ally = party.get(picked);
+        }
 
         if (rN < .1) {
           int other = (int) (Math.random() * enemies.size());
