@@ -176,13 +176,20 @@ public class Game {
     }
   }
 
-  public static void drawParty(Adventurer A, int startRow, int centerCol) {
-    int startCol = centerCol - A.toString().length() / 2;
-    Adventurer c = A;
-    String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
-    drawText(name, startRow, startCol);
-    drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
-    drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
+  public static void drawParty(Adventurer c, int startRow, int centerCol) {
+    int startCol = centerCol - c.toString().length() / 2;
+	
+	if (c.status()) {
+      String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      drawText(name, startRow, startCol);
+      drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
+      drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);      
+	} else {
+	  String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      drawText(Text.colorize(name, Text.RED), startRow, startCol);
+      drawText(Text.colorize("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), Text.RED), startRow + 1, startCol);
+      drawText(Text.colorize(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), Text.RED), startRow + 2, startCol);
+	}
   }
 
   /*
@@ -582,9 +589,6 @@ public class Game {
           } else {
             COMMANDLIST += enemy.specialAttack(ally) + "\n";
           }
-          /* // Decide where to draw the following prompt:
-          String prompt = "press enter to see next turn";
-          drawText(prompt, 30, 1); */
 		  
           whichPlayer++;
 		}
