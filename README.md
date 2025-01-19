@@ -15,29 +15,31 @@ Make a clear list of features that work/dont work
 
 :beetle: This is a bug that affects the game.
 
-:ballot_box: generating enemies
+:white_check_mark: generating enemies
 
-> :ballot_box: random classes and numbers
+> :white_check_mark: random classes and numbers
 
-> :ballot_box: boss class for one member enemy teams
+> :white_check_mark: boss class for one member enemy teams
 
-:ballot_box: generating player teams
+:white_check_mark: generating player teams
 
-> :ballot_box: default teams/custom teams
+> :ballot_box: custom teams
+
+> :white_check_mark: random teams
 
 > :ballot_box: player usernames
 
-:ballot_box: generating descriptions
+:white_check_mark: generating descriptions
 
-> :ballot_box: keeping track of turn messages
+> :white_check_mark: keeping track of turn messages
 
-> :ballot_box: terminal scrolling/division
+> :white_check_mark: terminal scrolling/division
 
-:ballot_box: screen layout + design
+:white_check_mark: screen layout + design
 
-> :ballot_box: colors, border
+> :white_check_mark: colors, border
 
-> :ballot_box: win/lose/quit screens
+> :white_check_mark: win/lose/quit screens
 
 
 
@@ -45,9 +47,9 @@ Make a clear list of features that work/dont work
 
 > :ballot_box: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
 
-> :ballot_box: validate attack/support / etc numerical input
+> :white_check_mark: validate attack/support / etc numerical input
 
-> :ballot_box: add in a list of names + function to randomly select a name
+> :white_check_mark: add in a list of names + function to randomly select a name
 
 > :ballot_box: add in a list of skulls
 
