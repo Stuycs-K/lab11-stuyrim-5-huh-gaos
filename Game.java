@@ -187,8 +187,7 @@ public class Game {
 	} else {
 	  String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
       drawText(Text.colorize(name, Text.RED), startRow, startCol);
-      drawText(Text.colorize("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), Text.RED), startRow + 1, startCol);
-      drawText(Text.colorize(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), Text.RED), startRow + 2, startCol);
+      drawText(Text.colorize("DEAD", Text.RED), startRow + 2, startCol);
 	}
   }
 
@@ -574,7 +573,7 @@ public class Game {
         Adventurer ally = party.get(picked);
 
         if (!ally.status()) {
-          COMMANDLIST += "Enemy attack failed; target dead." + "\n";
+          COMMANDLIST += enemy.getName() + " attack on " + ally.getName() + " failed; target dead." + "\n";
 		  continue;
         } else {
 		  if (rN < .1) {
@@ -582,7 +581,11 @@ public class Game {
             if (other == whichOpponent) {
               COMMANDLIST += enemy.support() + "\n";
             } else {
-              COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+				if (enemy.get(other).status()) {
+                  COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+				} else {
+                  COMMANDLIST += enemy.getName() + " support on " + other.getName() + " failed; adventurer dead." + "\n";
+				}
             }
           } else if (rN < .75) {
             COMMANDLIST += enemy.attack(ally) + "\n";
