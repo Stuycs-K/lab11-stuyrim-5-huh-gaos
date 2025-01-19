@@ -385,9 +385,9 @@ public class Game {
       }
 	} else {
 	  for (int i = 0; i < Integer.valueOf(partySize); i++) {
-	    drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by their name.", 30, 1);
+	    drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by member " + i + "'s name.", 30, 1);
 	    String advType = userInput(new Scanner(System.in)).toLowerCase().trim();
-	    while (!(partyType.startsWith("code warrior") || partyType.startsWith("warrior") || partyType.startsWith("pathfinder"))) { // user determine random party or custom party
+	    while (!(advType.startsWith("code warrior") || advType.startsWith("warrior") || advType.startsWith("pathfinder"))) { // user determine random party or custom party
 		  Text.clear(30, 1, 80, 1);
 		  drawText("Invalid entry. Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\".", 30, 1);
 		  Text.clear(27, 2, 78, 1);
@@ -400,11 +400,11 @@ public class Game {
 		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
 		  party.add(new CodeWarrior(name));
 	    } else if (advType.indexOf("warrior") != -1) {
-		  String name = advType.substring(12).trim();
+		  String name = advType.substring(7).trim();
 		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
 		  party.add(new Warrior(name));
 	    } else if (advType.indexOf("pathfinder") != -1) {
-		  String name = advType.substring(12).trim();
+		  String name = advType.substring(10).trim();
 		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
 		  party.add(new Pathfinder(name));
 	    }
