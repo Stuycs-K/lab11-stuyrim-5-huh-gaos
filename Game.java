@@ -423,7 +423,6 @@ public class Game {
         if (!nextAdv.status()) {
           TextBox(11, 51, 20, 1, "Enemy Dead " + nextAdv.getName());
           whichPlayer++;
-          whichOpponent++;
           continue;
         } else {	
 		  Text.clear(30, 1, 80, 1);
@@ -438,15 +437,13 @@ public class Game {
 
       // display event based on last turn's input
       if (partyTurn) {
-        // Text.clear(30, 1, 80, 1);
-        // TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
 
         String[] splitInput = input.split(" ");
 
-        if (party.get(whichPlayer).status()) {
+        /* if (party.get(whichPlayer).status()) {
           whichPlayer++;
           continue;
-        } 
+        }  */
 
         try {
           // Process user input for the last Adventurer:
