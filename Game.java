@@ -378,21 +378,25 @@ public class Game {
     // Main loop
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
       Text.clear(27, 2, 78, 1);
-
-      String whoIsUp = "";
-      if (whichPlayer < party.size()) {
-        // currently ally
-        whoIsUp = party.get(whichPlayer).getName() + " is up";
-      } else if (whichPlayer == party.size() + enemies.size()) {
-        whoIsUp = party.get(0).getName() + " is up";
-      } else if (whichPlayer > party.size() - 1) {
-        // last turn was the last ally. it's now enemy
-        whoIsUp = enemies.get(whichPlayer - party.size()).getName() + " is up. Press enter to see enemy attack.";
-      }
-
+	  
+	  /* 
+      // example debug statment
+      TextBox(18, 51, 48, 4,
+      "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
+      + " whichOpp=" + whichOpponent); */
+	  
+	  
       int totalPlayers = party.size() + enemies.size();
       int nextPlayer = (whichPlayer) % totalPlayers;
 	  
+      String whoIsUp = "";
+      if (nextPlayer < party.size()) {
+        // currently ally
+        whoIsUp = party.get(nextPlayer).getName() + " is up";
+      } else {
+        // last turn was the last ally. it's now enemy
+        whoIsUp = enemies.get(nextPlayer - party.size()).getName() + " is up. Press enter to see enemy attack.";
+      }
 	  
       TextBox(7, 51, 20, 1,
           "whichPlayer=" + whichPlayer);
@@ -425,11 +429,6 @@ public class Game {
 
       // Read user input
       input = userInput(in);
-
-      // example debug statment
-      // TextBox(24, 2, 80, 78,
-      // "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
-      // + " whichOpp=" + whichOpponent);
 
       // display event based on last turn's input
       if (partyTurn) {
