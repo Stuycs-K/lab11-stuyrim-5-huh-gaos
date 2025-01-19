@@ -365,10 +365,51 @@ public class Game {
       partySize = userInput(new Scanner(System.in));
     }
     Text.clear(30, 1, 80, 1);
-
-    for (int i = 0; i < Integer.valueOf(partySize); i++) { // player party
-      party.add(createRandomAdventurer(false));
+	
+	drawText("Enter \"custom\" for a custom team or enter \"random\" or press enter for a randomly generated team.", 30, 1);
+	String partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
+	if (partyType.startsWith("q") || partySize.startsType("quit")) {
+      return;
     }
+    while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user determine random party or custom party
+      Text.clear(30, 1, 80, 1);
+      drawText("Invalid entry. Enter \"custom\", \"random\", or press enter.", 30, 1);
+      Text.clear(27, 2, 78, 1);
+      partySize = userInput(new Scanner(System.in));
+    }
+    Text.clear(30, 1, 80, 1);
+	
+	if (partyType.startsWith("random") || partyType.length() == 0) {
+      for (int i = 0; i < Integer.valueOf(partySize); i++) { // player party
+        party.add(createRandomAdventurer(false));
+      }
+	} else {
+	  for (int i = 0; i < Integer.valueOf(partySize); i++) {
+	    drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by their name.");
+	    String advType = userInput(new Scanner(System.in)).toLowerCase().trim();
+	    while (!(partyType.startsWith("code warrior") || partyType.startsWith("warrior") || partyType.startsWith("pathfinder"))) { // user determine random party or custom party
+		  Text.clear(30, 1, 80, 1);
+		  drawText("Invalid entry. Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\".", 30, 1);
+		  Text.clear(27, 2, 78, 1);
+		  advType = userInput(new Scanner(System.in)).trim();
+	    }
+	    Text.clear(30, 1, 80, 1);
+	
+	    if (advType.indexOf("code warrior") != -1) {
+		  String name = adv.substring(12).trim();
+		  name = name.substring(0,1).toUpperCase() + adv.substring(1); // capitalize first letter
+		  party.add(CodeWarrior(name));
+	    } else if (advType.indexOf("warrior") != -1) {
+		  String name = adv.substring(12).trim();
+		  name = name.substring(0,1).toUpperCase() + adv.substring(1); // capitalize first letter
+		  party.add(Warrior(name));
+	    } else if (advType.indexOf("pathfinder") != -1) {
+		  String name = adv.substring(12).trim();
+		  name = name.substring(0,1).toUpperCase() + adv.substring(1); // capitalize first letter
+		  party.add(Pathfinder(name));
+	    }
+	  }
+	}
 
     boolean partyTurn = true;
     int whichPlayer = 0;
@@ -440,7 +481,7 @@ public class Game {
       TextBox(9, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
 
       // Read user input
-      input = userInput(in);
+      input = userInput(in).toLowerCase().trim();
 
       // display event based on last turn's input
       if (partyTurn) {
