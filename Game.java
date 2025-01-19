@@ -445,25 +445,24 @@ public class Game {
             Text.clear(30, 1, 80, 1);
 			drawText("Must specify a target. Try again.", 30, 1);
 			Text.wait(1000);
-			continue;
-          }
-          
-		  String target = splitInput[1];
-          if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-            // must be smaller or equal to the size of enemy list
-            Adventurer ally = party.get(whichPlayer);
-            Adventurer enemy = enemies.get(Integer.valueOf(target));
-
-            if (!enemy.status()) { // checks if not alive
-              COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
-              continue;
-            }
-
-            COMMANDLIST += ally.specialAttack(enemy) + "\n";
-			whichPlayer++;
           } else {
-            continue;
-          }
+			  String target = splitInput[1];
+			  if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
+				// must be smaller or equal to the size of enemy list
+				Adventurer ally = party.get(whichPlayer);
+				Adventurer enemy = enemies.get(Integer.valueOf(target));
+
+				if (!enemy.status()) { // checks if not alive
+				  COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
+				  continue;
+				}
+
+				COMMANDLIST += ally.specialAttack(enemy) + "\n";
+				whichPlayer++;
+			  } else {
+				continue;
+			  }
+		  }
         } else if (input.startsWith("su ") || input.startsWith("support ")) {
           // "support 0" or "su 0" or "su 2" etc.
           // assume the value that follows su is an integer.
