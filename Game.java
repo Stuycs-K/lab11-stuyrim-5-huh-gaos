@@ -305,6 +305,18 @@ public class Game {
     Text.go(32, 1);
   }
 
+  public static void win() {
+    // draw quit screen
+    Text.clear();
+    drawText(Text.colorize("You  Win!", Text.GREEN), 7, 36);
+
+    Text.wait(450);
+
+    Text.reset();
+    Text.showCursor();
+    Text.go(32, 1);
+  }
+
   public static void run() {
 
     // Clear and initialize
@@ -389,6 +401,7 @@ public class Game {
         if (nextAdv.getHP() <= 0) {
           TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
           whichPlayer++;
+          whichOpponent++;
           continue;
         }
       }
@@ -430,11 +443,12 @@ public class Game {
 					Adventurer enemy = enemies.get(Integer.valueOf(target));
 
 					if (!enemy.status()) { // checks if not alive
-					  COMMANDLIST += "Attack Failed, Enemy Dead \n";
+					  COMMANDLIST += Text.colorize("Attack Failed, Enemy Dead \n", Text.MAGENTA);
+            drawScreen();
 					  continue;
 					}
 
-					COMMANDLIST += ally.attack(enemy) + "\n";
+					COMMANDLIST += Text.colorize(ally.attack(enemy) + "\n", Text.BLUE);
 					whichPlayer++;
 				  } else { // invalid target
 					continue;
@@ -453,11 +467,12 @@ public class Game {
 					Adventurer enemy = enemies.get(Integer.valueOf(target));
 
 					if (!enemy.status()) { // checks if not alive
-					  COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
+					  COMMANDLIST += Text.colorize("Special Attack Failed, Enemy Dead \n", Text.MAGENTA);
+            drawScreen();
 					  continue;
 					}
 
-					COMMANDLIST += ally.specialAttack(enemy) + "\n";
+					COMMANDLIST += Text.colorize(ally.specialAttack(enemy) + "\n", Text.BLUE);
 					whichPlayer++;
 				  } else {
 					continue;
@@ -477,11 +492,12 @@ public class Game {
 						Adventurer suTarget = party.get(Integer.valueOf(target));
 
 						if (!suTarget.status()) {
-							COMMANDLIST += "Support Failed, Ally Dead \n";
+							Text.colorize(COMMANDLIST += "Support Failed, Ally Dead \n", Text.MAGENTA);
+              drawScreen();
 							continue;
 						}
 				  
-						COMMANDLIST += current.support(suTarget) + "\n";
+						COMMANDLIST += Text.colorize(current.support(suTarget) + "\n", Text.BLUE);
 						whichPlayer++;
 					} else {
 						continue;
@@ -545,14 +561,14 @@ public class Game {
         if (rN < .1) {
           int other = (int) (Math.random() * enemies.size());
           if (other == whichOpponent) {
-            COMMANDLIST += enemy.support() + "\n";
+            COMMANDLIST += Text.colorize(enemy.support() + "\n", Text.RED);
           } else {
-            COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+            COMMANDLIST += Text.colorize(enemy.support(enemies.get(other)) + "\n", Text.RED);
           }
         } else if (rN < .75) {
-          COMMANDLIST += enemy.attack(ally) + "\n";
+          COMMANDLIST += Text.colorize(enemy.attack(ally) + "\n", Text.RED);
         } else {
-          COMMANDLIST += enemy.specialAttack(ally) + "\n";
+          COMMANDLIST += Text.colorize(enemy.specialAttack(ally) + "\n", Text.RED);
         }
         // Decide where to draw the following prompt:
         String prompt = "press enter to see next turn";
@@ -588,6 +604,7 @@ public class Game {
       }
       if (alliesDead) {
         quit();
+        break;
       }
 
       boolean enemiesDead = true;
@@ -597,13 +614,14 @@ public class Game {
         }
       }
       if (enemiesDead) {
-        quit();
+        win();
+        break;
       }
     }
     // end of main game loop
 
-    // After quit reset things:
-    quit();
+    // // After quit reset things:
+    // quit();
   }
 
 }
