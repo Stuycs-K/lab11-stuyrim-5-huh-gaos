@@ -420,7 +420,7 @@ public class Game {
           if (splitInput.length < 2) { // no target
             Text.clear(30, 1, 80, 1);
 			drawText("Must specify a target. Try again.", 30, 1);
-			Text.wait(1000);
+			// Text.wait(1000);
           } else {
 			  String target = splitInput[1];
 			  TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
