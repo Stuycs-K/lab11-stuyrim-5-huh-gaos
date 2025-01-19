@@ -387,7 +387,7 @@ public class Game {
 	  
 	  
       int totalPlayers = party.size() + enemies.size();
-      int nextPlayer = (whichPlayer) % totalPlayers;
+      int nextPlayer = whichPlayer % totalPlayers;
 	  
       String whoIsUp = "";
       if (nextPlayer < party.size()) {
@@ -401,7 +401,7 @@ public class Game {
       TextBox(7, 51, 20, 1,
           "whichPlayer=" + whichPlayer);
       TextBox(8, 51, 20, 1,
-          "whichOpponent=" + whichOpponent);
+          "nextPlayer=" + nextPlayer);
       TextBox(15, 51, 20, 1, "nextPlayer: " + nextPlayer);
       TextBox(16, 51, 20, 1, "partySize: " + party.size());
       TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers);
@@ -413,7 +413,10 @@ public class Game {
           TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
           whichPlayer++;
           continue;
-        }
+        } else {
+          Text.clear(30, 1, 80, 1);
+          TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
+		}
       } else {
         // next one is enemy
         Adventurer nextAdv = enemies.get(nextPlayer - party.size());
@@ -422,7 +425,10 @@ public class Game {
           whichPlayer++;
           whichOpponent++;
           continue;
-        }
+        } else {	
+		  Text.clear(30, 1, 80, 1);
+          TextBox(30, 1, 80, 1, "Press enter to see enemy turn.");
+		}
       }
 
       TextBox(9, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
@@ -432,8 +438,8 @@ public class Game {
 
       // display event based on last turn's input
       if (partyTurn) {
-        Text.clear(30, 1, 80, 1);
-        TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
+        // Text.clear(30, 1, 80, 1);
+        // TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
 
         String[] splitInput = input.split(" ");
 
