@@ -581,10 +581,10 @@ public class Game {
             if (other == whichOpponent) {
               COMMANDLIST += enemy.support() + "\n";
             } else {
-				if (enemy.get(other).status()) {
+				if (enemies.get(other).status()) {
                   COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
 				} else {
-                  COMMANDLIST += enemy.getName() + " support on " + other.getName() + " failed; adventurer dead." + "\n";
+                  COMMANDLIST += enemy.getName() + " support on " + enemies.get(other).getName() + " failed; adventurer dead." + "\n";
 				}
             }
           } else if (rN < .75) {
