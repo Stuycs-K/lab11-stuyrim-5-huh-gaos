@@ -366,7 +366,6 @@ public class Game {
 
     boolean partyTurn = true;
     int whichPlayer = 0;
-    int whichOpponent = 0;
     int turn = 0;
     String input = ""; // blank to get into the main loop.
     Scanner in = new Scanner(System.in);
@@ -393,9 +392,11 @@ public class Game {
       if (nextPlayer < party.size()) {
         // currently ally
         whoIsUp = party.get(nextPlayer).getName() + " is up";
+		partyTurn = true;
       } else {
         // last turn was the last ally. it's now enemy
         whoIsUp = enemies.get(nextPlayer - party.size()).getName() + " is up. Press enter to see enemy attack.";
+		partyTurn = false;
       }
 	  
       TextBox(7, 51, 20, 1,
@@ -415,7 +416,7 @@ public class Game {
           continue;
         } else {
           Text.clear(30, 1, 80, 1);
-          TextBox(30, 1, 80, 1, "Enter command for " + party.get(whichPlayer) + ": attack/special/quit");
+          TextBox(30, 1, 80, 1, "Enter command for " + party.get(nextPlayer) + ": attack/special/quit");
 		}
       } else {
         // next one is enemy
@@ -455,7 +456,7 @@ public class Game {
             } else {
               String target = splitInput[1];
               TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
-              Adventurer ally = party.get(whichPlayer);
+              Adventurer ally = party.get(nextPlayer);
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
 			  if (!enemy.status()) { // checks if not alive
@@ -474,7 +475,7 @@ public class Game {
               Text.wait(1000);
             } else {
               String target = splitInput[1];
-              Adventurer ally = party.get(whichPlayer);
+              Adventurer ally = party.get(nextPlayer);
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
               if (!enemy.status()) { // checks if not alive
@@ -491,10 +492,11 @@ public class Game {
             // assume the value that follows su is an integer.
 
             if (splitInput.length < 2) { // self support
-              COMMANDLIST += party.get(whichPlayer).support() + "\n";
+              COMMANDLIST += party.get(nextPlayer).support() + "\n";
+			  whichPlayer++;
             } else {
               String target = splitInput[1];
-              Adventurer current = party.get(whichPlayer);
+              Adventurer current = party.get(nextPlayer);
               Adventurer suTarget = party.get(Integer.valueOf(target));
 
               if (!suTarget.status()) {
@@ -525,11 +527,12 @@ public class Game {
 		  Text.go(27, 2);
           Text.wait(1000);
 		}
-
-        if (whichPlayer < party.size()) {
+		
+		/* nextPlayer %= totalPlayers
+        if (nextPlayer < party.size()) {
           // This is a player turn.
           // Decide where to draw the following prompt:
-          if (party.get(whichPlayer).status()) {
+          if (party.get(nextPlayer).status()) {
             String prompt = "Enter command for " + party.get(whichPlayer) + ": (a)ttack/(sp)ecial/(q)uit";
             drawText(prompt, 30, 1);
           } else {
@@ -544,57 +547,51 @@ public class Game {
           partyTurn = false;
           whichOpponent = 0;
         }
-        // done with one party member
+        // done with one party member */
       } else {
         // not the party turn!
 
         // enemy attacks a randomly chosen person with a randomly chosen attack
         // Enemy action choices go here!
-
+		
+		int whichOpponent = nextPlayer - party.size();
         Adventurer enemy = enemies.get(whichOpponent);
-
+		/* 
         if (enemy.getHP() <= 0) {
           whichOpponent++;
           continue;
-        }
+        } */
 
         double rN = Math.random();
         int picked = (int) (Math.random() * party.size());
         Adventurer ally = party.get(picked);
 
-        while (!ally.status()) {
-          picked = (int) (Math.random() * party.size());
-          ally = party.get(picked);
-        }
-
-        if (rN < .1) {
-          int other = (int) (Math.random() * enemies.size());
-          if (other == whichOpponent) {
-            if (enemies.size() == 1) {
-              COMMANDLIST += enemy.support(enemies.get(0)) + "\n";
-            } else {
-              COMMANDLIST += enemy.support() + "\n";
-            }
-            
-          } else {
-            COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
-          }
-        } else if (rN < .75) {
-          COMMANDLIST += enemy.attack(ally) + "\n";
+        if (!ally.status()) {
+          COMMANDLIST += "Enemy attack failed; target dead." + "\n";
+		  continue;
         } else {
-          COMMANDLIST += enemy.specialAttack(ally) + "\n";
-        }
-        // Decide where to draw the following prompt:
-        String prompt = "press enter to see next turn";
-        drawText(prompt, 30, 1);
-
-        whichOpponent++;
-        whichPlayer++;
-
+		  if (rN < .1) {
+            int other = (int) (Math.random() * enemies.size());
+            if (other == whichOpponent) {
+              COMMANDLIST += enemy.support() + "\n";
+            } else {
+              COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+            }
+          } else if (rN < .75) {
+            COMMANDLIST += enemy.attack(ally) + "\n";
+          } else {
+            COMMANDLIST += enemy.specialAttack(ally) + "\n";
+          }
+          /* // Decide where to draw the following prompt:
+          String prompt = "press enter to see next turn";
+          drawText(prompt, 30, 1); */
+		  
+          whichPlayer++;
+		}
       } // end of one enemy.
 
-      // modify this if statement.
-      if (!partyTurn && whichOpponent >= enemies.size())
+      /* // modify this if statement.
+      if (!partyTurn && nextPlayer == enemies.size() - 1)
 
       {
         // THIS BLOCK IS TO END THE ENEMY TURN
@@ -605,7 +602,7 @@ public class Game {
         // display this prompt before player's turn
         String instr = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
         drawText(instr, 30, 1);
-      }
+      } */
 
       // display the updated screen after input has been processed.
       drawScreen();
