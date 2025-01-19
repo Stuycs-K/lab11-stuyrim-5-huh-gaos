@@ -424,21 +424,16 @@ public class Game {
 			  } else {
 				  String target = splitInput[1];
 				  TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
-				  if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-					// must be smaller or equal to the size of enemy list
-					Adventurer ally = party.get(whichPlayer);
-					Adventurer enemy = enemies.get(Integer.valueOf(target));
-
-					if (!enemy.status()) { // checks if not alive
-					  COMMANDLIST += "Attack Failed, Enemy Dead \n";
-					  continue;
-					}
-
-					COMMANDLIST += ally.attack(enemy) + "\n";
-					whichPlayer++;
-				  } else { // invalid target
+				  Adventurer ally = party.get(whichPlayer);
+				  Adventurer enemy = enemies.get(Integer.valueOf(target));
+				  
+				  if (!enemy.status()) { // checks if not alive
+					COMMANDLIST += "Attack Failed, Enemy Dead \n";
 					continue;
 				  }
+				  
+				  COMMANDLIST += ally.attack(enemy) + "\n";
+				  whichPlayer++;
 			  }
 			} else if (input.startsWith("special ") || input.startsWith("sp ")) {
 			  if (splitInput.length < 2) { // no target
@@ -447,45 +442,34 @@ public class Game {
 				Text.wait(1000);
 			  } else {
 				  String target = splitInput[1];
-				  if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-					// must be smaller or equal to the size of enemy list
-					Adventurer ally = party.get(whichPlayer);
-					Adventurer enemy = enemies.get(Integer.valueOf(target));
-
-					if (!enemy.status()) { // checks if not alive
-					  COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
-					  continue;
-					}
-
-					COMMANDLIST += ally.specialAttack(enemy) + "\n";
-					whichPlayer++;
-				  } else {
+				  Adventurer ally = party.get(whichPlayer);
+				  Adventurer enemy = enemies.get(Integer.valueOf(target));
+				  
+				  if (!enemy.status()) { // checks if not alive
+					COMMANDLIST += "Special Attack Failed, Enemy Dead \n";
 					continue;
 				  }
+
+				  COMMANDLIST += ally.specialAttack(enemy) + "\n";
+				  whichPlayer++;
 			  }
 			} else if (input.startsWith("su ") || input.startsWith("support ")) {
 			  // "support 0" or "su 0" or "su 2" etc.
 			  // assume the value that follows su is an integer.
-
 				if (splitInput.length < 2) { // self support
 					COMMANDLIST += party.get(whichPlayer).support() + "\n";
 				} else {
 					String target = splitInput[1];
-					if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-						// must be smaller or equal to the size of enemy list
-						Adventurer current = party.get(whichPlayer);
-						Adventurer suTarget = party.get(Integer.valueOf(target));
+					Adventurer current = party.get(whichPlayer);
+					Adventurer suTarget = party.get(Integer.valueOf(target));
 
-						if (!suTarget.status()) {
-							COMMANDLIST += "Support Failed, Ally Dead \n";
-							continue;
-						}
-				  
-						COMMANDLIST += current.support(suTarget) + "\n";
-						whichPlayer++;
-					} else {
+					if (!suTarget.status()) {
+						COMMANDLIST += "Support Failed, Ally Dead \n";
 						continue;
 					}
+			  
+					COMMANDLIST += current.support(suTarget) + "\n";
+					whichPlayer++;
 				}
 
 			} else {
@@ -495,7 +479,11 @@ public class Game {
 			}
 		} catch (NumberFormatException e) {
 			Text.clear(30, 1, 80, 1);
-			drawText("Enter an integer", 30, 1);
+			drawText("Enter an integer.", 30, 1);
+			Text.wait(1000);
+		} catch (IndexOutOfBoundsException e) {
+			Text.clear(30, 1, 80, 1);
+			drawText("Enter a number from 0 to " + enemies.size(), 30, 1);
 			Text.wait(1000);
 		}
 		
