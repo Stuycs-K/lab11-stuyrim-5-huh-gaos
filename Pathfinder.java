@@ -39,16 +39,16 @@ public class Pathfinder extends Adventurer{
 
     @Override
     public String attack(Adventurer other) {
-        other.applyDamage(1);
-        return this.getName() + " attacks " + other.getName() + " and inflicts 1hp damage.";
+        other.applyDamage(2);
+        return this.getName() + " attacks " + other.getName() + " and inflicts 2hp damage.";
     }
 
     @Override
     public String support(Adventurer other) {
         if (this.getSpecial() > 0) {
             other.setHP(other.getHP() + 5);
-            this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " heals " + other.getName() + " by 5hp and restores 1 healing.";
+            this.setSpecial(this.getSpecial() - 1);
+            return this.getName() + " heals " + other.getName() + " by 5hp and uses 1 healing.";
         }
 
         return "No healing resources available.";
@@ -58,8 +58,8 @@ public class Pathfinder extends Adventurer{
     public String support() {
         if (this.getSpecial() > 0) {
             this.setHP(this.getHP() + 5);
-            this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " heals themselves by 5hp and restores 1 healing.";
+            this.setSpecial(this.getSpecial() - 1);
+            return this.getName() + " heals themselves by 5hp and uses 1 healing.";
         }
 
         return "No healing resources available.";
@@ -67,12 +67,12 @@ public class Pathfinder extends Adventurer{
 
     public String specialAttack(Adventurer other) {
         if (this.getSpecial() >= 2) {
-            other.applyDamage(4);
+            other.applyDamage(8);
             this.setSpecial(this.getSpecial() - 2);
-            return this.getName() + " attacks " + other.getName() + " and inflicts 4hp damage.";
+            return this.getName() + " attacks " + other.getName() + " and inflicts 8hp damage.";
         }
 
-        return "Insufficient " +  this.getSpecialName() + " resources available. 2 needed, " + this.getSpecial() + " available.";
+        return this.attack(other);
     }
 
 

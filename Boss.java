@@ -1,78 +1,86 @@
 public class Boss extends Adventurer{
-    // Bosss can heal allies
-    private int heal = 5;
-    private int healMax = 10;
+    // Bosss can revive allies
+    private int revive = 2;
+    private int reviveMax = 2;
 
     public Boss (String name) {
-        super(name, 15);
+        super(name, 30);
     }
 
     public Boss (String name, int hp) {
         super(name, hp);
     }
 
-    public Boss (String name, int hp, int heal, int healMax) {
+    public Boss (String name, int hp, int revive, int reviveMax) {
         super(name, hp);
-        this.heal = heal;
-        this.healMax = healMax;
+        this.revive = revive;
+        this.reviveMax = reviveMax;
     }
 
     @Override
     public String getSpecialName() {
-        return "healing";
+        return "reviving";
     }
 
     @Override
     public int getSpecial() {
-        return this.heal;
+        return this.revive;
     }
 
     @Override
     public void setSpecial(int n) {
-        this.heal = n;
+        this.revive = n;
     }
 
     @Override
     public int getSpecialMax () {
-        return this.healMax;
+        return this.reviveMax;
     }
 
     @Override
     public String attack(Adventurer other) {
-        other.applyDamage(1);
-        return this.getName() + " regular attacks " + other.getName() + " and inflicts 1hp damage.";
+        // heal themselves , if possible
+        if (this.getHP() < this.getmaxHP() / 3 && this.getSpecial() > 0) {
+            return this.support(other);
+        } else {
+            other.applyDamage(5);
+            return this.getName() + " attacks " + other.getName() + " and inflicts 5hp damage.";
+        }
     }
 
     @Override
     public String support(Adventurer other) {
         if (this.getSpecial() > 0) {
-            other.setHP(other.getHP() + 5);
-            this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " heals " + other.getName() + " by 5hp and restores 1 healing.";
+            this.setHP(this.getmaxHP());
+            this.setSpecial(this.getSpecial() -1);
+            return this.getName() + " revives themselves to 30 HP and uses 1 reviving.";
         }
 
-        return "No healing resources available.";
+        return this.attack(other);
     }
 
+    //never used
     @Override
     public String support() {
         if (this.getSpecial() > 0) {
             this.setHP(this.getHP() + 5);
             this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " heals themselves by 5hp and restores 1 healing.";
+            return this.getName() + " revives themselves by 5hp and restores 1 reviveing.";
         }
 
-        return "No healing resources available.";
+        return "No reviving resources available.";
     }
 
     public String specialAttack(Adventurer other) {
-        if (this.getSpecial() >= 2) {
-            other.applyDamage(4);
-            this.setSpecial(this.getSpecial() - 2);
-            return this.getName() + " special attacks " + other.getName() + " and inflicts 4hp damage.";
-        }
+        // if (this.getSpecial() > 0) {
+        //     other.applyDamage(other.getmaxHP() / 2);
+        //     this.setSpecial(this.getSpecial() - 1);
+        //     return this.getName() + " special attacks " + other.getName() + " and inflicts " + other.getmaxHP() / 2 + "hp damage.";
+        // }
 
-        return "Insufficient " +  this.getSpecialName() + " resources available. 2 needed, " + this.getSpecial() + " available.";
+        // return this.attack(other);
+
+        return this.attack(other);
     }
 
 }
