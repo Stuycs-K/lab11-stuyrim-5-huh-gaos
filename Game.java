@@ -411,7 +411,7 @@ public class Game {
         // next one is ally
         Adventurer nextAdv = party.get(nextPlayer);
         if (!nextAdv.status()) { // skip 
-          TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
+          TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
           whichPlayer++;
           continue;
         } else {
@@ -422,7 +422,7 @@ public class Game {
         // next one is enemy
         Adventurer nextAdv = enemies.get(nextPlayer - party.size());
         if (!nextAdv.status()) {
-          TextBox(11, 51, 20, 1, "Enemy Dead " + nextAdv.getName());
+          TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
           whichPlayer++;
           continue;
         } else {	
@@ -460,7 +460,7 @@ public class Game {
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
 			  if (!enemy.status()) { // checks if not alive
-			    COMMANDLIST += "Attack Failed, Enemy Dead" + "\n";
+			    COMMANDLIST += ally.getName() + "  tried to attack " + enemy.getName() + " but enemy is dead. " + ally.getName() + " tries again." + "\n";
 			    drawScreen();
 			    continue;
 			  }
@@ -479,7 +479,7 @@ public class Game {
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
               if (!enemy.status()) { // checks if not alive
-                COMMANDLIST += "Special Attack Failed, Enemy Dead" + "\n";
+                COMMANDLIST += ally.getName() + "  tried to special attack " + enemy.getName() + " but enemy is dead. " + ally.getName() + " tries again." + "\n";
                 drawScreen();
                 continue;
               }
@@ -500,7 +500,7 @@ public class Game {
               Adventurer suTarget = party.get(Integer.valueOf(target));
 
               if (!suTarget.status()) {
-                COMMANDLIST += "Support Failed, Ally Dead" + "\n";
+                COMMANDLIST += current.getName() + "  tried to support " + suTarget.getName() + " but ally is dead. " + current.getName() + " tries again." + "\n";
                 drawScreen();
                 continue;
               }
