@@ -313,7 +313,7 @@ public class Game {
   }
 
   public static void win() {
-    // draw quit screen
+    // draw win screen
     Text.clear();
     drawText(Text.colorize("You  Win!", Text.GREEN), 7, 36);
 
@@ -400,7 +400,7 @@ public class Game {
       if (nextPlayer < party.size()) {
         // next one is ally
         Adventurer nextAdv = party.get(nextPlayer);
-        if (nextAdv.getHP() <= 0) {
+        if (!nextAdv.status()) {
           TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
           whichPlayer++;
           continue;
@@ -408,8 +408,8 @@ public class Game {
       } else {
         // next one is enemy
         Adventurer nextAdv = enemies.get(nextPlayer - party.size());
-        if (nextAdv.getHP() <= 0) {
-          TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
+        if (!nextAdv.status()) {
+          TextBox(11, 51, 20, 1, "Enemy Dead " + nextAdv.getName());
           whichPlayer++;
           whichOpponent++;
           continue;
@@ -437,10 +437,10 @@ public class Game {
 
         String[] splitInput = input.split(" ");
 
-        if (party.get(whichPlayer).getHP() <= 0) {
+        /* if (party.get(whichPlayer).status()) {
           whichPlayer++;
           continue;
-        } 
+        } */
 
         try {
           // Process user input for the last Adventurer:
@@ -452,22 +452,17 @@ public class Game {
             } else {
               String target = splitInput[1];
               TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
-              if (Integer.valueOf(target) < enemies.size() && Integer.valueOf(target) >= 0) {
-                // must be smaller or equal to the size of enemy list
-                Adventurer ally = party.get(whichPlayer);
-                Adventurer enemy = enemies.get(Integer.valueOf(target));
+              Adventurer ally = party.get(whichPlayer);
+              Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-                if (!enemy.status()) { // checks if not alive
-                  COMMANDLIST += "Attack Failed, Enemy Dead" + "\n";
-                  drawScreen();
-                  continue;
-                }
+			  if (!enemy.status()) { // checks if not alive
+			    COMMANDLIST += "Attack Failed, Enemy Dead" + "\n";
+			    drawScreen();
+			    continue;
+			  }
 
-                COMMANDLIST += ally.attack(enemy) + "\n";
-                whichPlayer++;
-              } else { // invalid target
-                continue;
-              }
+              COMMANDLIST += ally.attack(enemy) + "\n";
+              whichPlayer++;
             }
           } else if (input.startsWith("special ") || input.startsWith("sp ")) {
             if (splitInput.length < 2) { // no target
@@ -476,23 +471,18 @@ public class Game {
               Text.wait(1000);
             } else {
               String target = splitInput[1];
-              if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-                // must be smaller or equal to the size of enemy list
-                Adventurer ally = party.get(whichPlayer);
-                Adventurer enemy = enemies.get(Integer.valueOf(target));
+              Adventurer ally = party.get(whichPlayer);
+              Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-                if (!enemy.status()) { // checks if not alive
-                  COMMANDLIST += "Special Attack Failed, Enemy Dead" + "\n";
-                  drawScreen();
-                  continue;
-                }
-
-                COMMANDLIST += ally.specialAttack(enemy) + "\n";
-                whichPlayer++;
-              } else {
+              if (!enemy.status()) { // checks if not alive
+                COMMANDLIST += "Special Attack Failed, Enemy Dead" + "\n";
+                drawScreen();
                 continue;
               }
-            }
+
+              COMMANDLIST += ally.specialAttack(enemy) + "\n";
+              whichPlayer++;
+			}
           } else if (input.startsWith("su ") || input.startsWith("support ")) {
             // "support 0" or "su 0" or "su 2" etc.
             // assume the value that follows su is an integer.
@@ -501,25 +491,20 @@ public class Game {
               COMMANDLIST += party.get(whichPlayer).support() + "\n";
             } else {
               String target = splitInput[1];
-              if (Integer.valueOf(target) <= enemies.size() && Integer.valueOf(target) >= 0) {
-                // must be smaller or equal to the size of enemy list
-                Adventurer current = party.get(whichPlayer);
-                Adventurer suTarget = party.get(Integer.valueOf(target));
+              Adventurer current = party.get(whichPlayer);
+              Adventurer suTarget = party.get(Integer.valueOf(target));
 
-                if (!suTarget.status()) {
-                  COMMANDLIST += "Support Failed, Ally Dead" + "\n";
-                  drawScreen();
-                  continue;
-                }
-
-                COMMANDLIST += current.support(suTarget) + "\n";
-                whichPlayer++;
-              } else {
+              if (!suTarget.status()) {
+                COMMANDLIST += "Support Failed, Ally Dead" + "\n";
+                drawScreen();
                 continue;
               }
-            }
 
+              COMMANDLIST += current.support(suTarget) + "\n";
+              whichPlayer++;
+			}
           } else if (input.startsWith("quit") || input.startsWith("q")) {
+			quit();
             return;
           } else {
             Text.clear(30, 1, 80, 1);
@@ -528,9 +513,15 @@ public class Game {
           }
         } catch (NumberFormatException e) {
           Text.clear(30, 1, 80, 1);
-          drawText("Enter an integer", 30, 1);
+          drawText("Enter an number.", 30, 1);
+		  Text.go(27, 2);
           Text.wait(1000);
-        }
+        } catch (IndexOutOfBoundsException e) {
+		  Text.clear(30, 1, 80, 1);
+          drawText("Invalid entry: number entered out of enemy party size. Try again.", 30, 1);
+		  Text.go(27, 2);
+          Text.wait(1000);
+		}
 
         if (whichPlayer < party.size()) {
           // This is a player turn.
