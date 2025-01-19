@@ -23,11 +23,11 @@ Make a clear list of features that work/dont work
 
 :white_check_mark: generating player teams
 
-> :ballot_box: custom teams
+> :white_check_mark: custom teams
 
 > :white_check_mark: random teams
 
-> :ballot_box: player usernames
+> :white_check_mark: player usernames
 
 :white_check_mark: generating descriptions
 
@@ -45,7 +45,7 @@ Make a clear list of features that work/dont work
 
 :ballot_box: extras
 
-> :ballot_box: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
+> :white_check_mark: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
 
 > :white_check_mark: validate attack/support / etc numerical input
 
