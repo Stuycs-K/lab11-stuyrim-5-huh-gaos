@@ -46,7 +46,7 @@ public class CodeWarrior extends Adventurer{
 	other.applyDamage(damage);
     restoreSpecial(2);
     return this + " attacked "+ other + " and dealt "+ damage +
-    " points of damage. They then take a sip of their coffee.";
+    " points of damage.";
   }
 
   /*Deal 3-12 damage to opponent, only if caffeine is high enough.
