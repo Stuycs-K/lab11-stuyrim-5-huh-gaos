@@ -392,7 +392,12 @@ public class Game {
 
       int totalPlayers = party.size() + enemies.size();
       int nextPlayer = (whichPlayer) % totalPlayers;
-
+	  
+	  
+      TextBox(7, 51, 20, 1,
+          "whichPlayer=" + whichPlayer);
+      TextBox(8, 51, 20, 1,
+          "whichOpponent=" + whichOpponent);
       TextBox(15, 51, 20, 1, "nextPlayer: " + nextPlayer);
       TextBox(16, 51, 20, 1, "partySize: " + party.size());
       TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers);
@@ -400,7 +405,7 @@ public class Game {
       if (nextPlayer < party.size()) {
         // next one is ally
         Adventurer nextAdv = party.get(nextPlayer);
-        if (!nextAdv.status()) {
+        if (!nextAdv.status()) { // skip 
           TextBox(11, 51, 20, 1, "Player Dead " + nextAdv.getName());
           whichPlayer++;
           continue;
@@ -426,10 +431,6 @@ public class Game {
       // "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
       // + " whichOpp=" + whichOpponent);
 
-      TextBox(7, 51, 20, 1,
-          "whichPlayer=" + whichPlayer);
-      TextBox(8, 51, 20, 1,
-          "whichOpponent=" + whichOpponent);
       // display event based on last turn's input
       if (partyTurn) {
         Text.clear(30, 1, 80, 1);
@@ -437,10 +438,10 @@ public class Game {
 
         String[] splitInput = input.split(" ");
 
-        /* if (party.get(whichPlayer).status()) {
+        if (party.get(whichPlayer).status()) {
           whichPlayer++;
           continue;
-        } */
+        } 
 
         try {
           // Process user input for the last Adventurer:
