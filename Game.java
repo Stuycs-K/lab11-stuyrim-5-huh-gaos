@@ -565,6 +565,26 @@ public class Game {
 
       // display the updated screen after input has been processed.
       drawScreen();
+
+      boolean alliesDead = true;
+      for (int i = 0; i < party.size(); i++) {
+        if (party.get(i).status()) {
+          alliesDead = false;
+        }
+      }
+      if (alliesDead) {
+        quit();
+      }
+
+      boolean enemiesDead = true;
+      for (int i = 0; i < enemies.size(); i++) {
+        if (enemies.get(i).status()) {
+          enemiesDead = false;
+        }
+      }
+      if (enemiesDead) {
+        quit();
+      }
     }
     // end of main game loop
 
