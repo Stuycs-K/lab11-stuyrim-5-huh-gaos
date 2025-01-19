@@ -355,11 +355,12 @@ public class Game {
     drawText("Enter a number 2-3 for the size of your party.", 30, 0);
     Text.go(27, 2);
     String partySize = userInput(new Scanner(System.in));
-    if (partySize.startsWith("q") || partySize.startsWith("quit")) {
-      return;
-    }
     while (partySize.compareTo("2") < 0 || partySize.compareTo("3") > 0) { // user determined party size
-      Text.clear(30, 1, 80, 1);
+      if (partySize.startsWith("q") || partySize.startsWith("quit")) {
+	    return;
+      }
+	  
+	  Text.clear(30, 1, 80, 1);
       drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 1);
       Text.clear(27, 2, 78, 1);
       partySize = userInput(new Scanner(System.in));
@@ -368,11 +369,12 @@ public class Game {
 	
 	drawText("Enter \"custom\" for a custom team or \"random\" for a randomly generated team.", 30, 1);
 	String partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
-	if (partyType.startsWith("q") || partyType.startsWith("quit")) {
-      return;
-    }
     while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user determine random party or custom party
-      Text.clear(30, 1, 80, 1);
+      if (partyType.startsWith("q") || partyType.startsWith("quit")) {
+        return;
+	  }
+	  
+	  Text.clear(30, 1, 80, 1);
       drawText("Invalid entry. Enter \"custom\", \"random\", or press enter.", 30, 1);
       Text.clear(27, 2, 78, 1);
       partySize = userInput(new Scanner(System.in)).toLowerCase().trim();
@@ -388,6 +390,10 @@ public class Game {
 	    drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by member " + i + "'s name.", 30, 1);
 	    String advType = userInput(new Scanner(System.in)).toLowerCase().trim();
 	    while (!(advType.startsWith("code warrior") || advType.startsWith("warrior") || advType.startsWith("pathfinder"))) { // user determine random party or custom party
+		  if (advType.startsWith("q") || advType.startsWith("quit")) {
+			return;
+		  }
+		  
 		  Text.clear(30, 1, 80, 1);
 		  drawText("Invalid entry. Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\".", 30, 1);
 		  Text.clear(27, 2, 78, 1);
