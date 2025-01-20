@@ -265,7 +265,7 @@ public class Game {
 			summary += Text.colorize("O", Text.RED);
 		}
 	}
-	drawText("your party: " + summary, 21, MIDBAR + 1);
+	drawText("your party:  " + summary, 21, MIDBAR + 1);
 	
 	summary = "";
 	for (int i = 0; i < enemies.size(); i++) {
@@ -447,12 +447,7 @@ public class Game {
 
     drawText("Enter \"custom\" for a custom team or \"random\" for a randomly generated team.", 30, 1);
     String partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
-    while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user
-                                                                                                             // determine
-                                                                                                             // random
-                                                                                                             // party or
-                                                                                                             // custom
-                                                                                                             // party
+    while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user determine random party or custom party
       if (partyType.startsWith("q") || partyType.startsWith("quit")) {
         return;
       }
@@ -555,7 +550,7 @@ public class Game {
           continue;
         } else {
           Text.clear(30, 1, 80, 1);
-          drawText(Text.colorize("Enter command for " + party.get(nextPlayer) + ": attack/special/quit", Text.MAGENTA),
+          drawText(Text.colorize("Enter command for " + party.get(nextPlayer) + ": attack/special/support/quit", Text.MAGENTA),
               30, 1);
         }
       } else {
@@ -659,6 +654,7 @@ public class Game {
           } else {
             Text.clear(30, 1, 80, 1);
             drawText("Invalid input; try again.", 30, 1);
+			Text.go(27, 2);
             Text.wait(1000);
           }
         } catch (NumberFormatException e) {
