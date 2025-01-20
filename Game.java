@@ -668,6 +668,7 @@ public class Game {
         }
       }
       if (alliesDead) {
+		Text.wait(1000);
         quit();
         break;
       }
@@ -679,6 +680,7 @@ public class Game {
         }
       }
       if (enemiesDead) {
+		Text.wait(1000);
         win();
         break;
       }
