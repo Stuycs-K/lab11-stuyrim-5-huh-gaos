@@ -178,17 +178,17 @@ public class Game {
 
   public static void drawParty(Adventurer c, int startRow, int centerCol) {
     int startCol = centerCol - c.toString().length() / 2;
-	
-	if (c.status()) {
+
+    if (c.status()) {
       String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
       drawText(name, startRow, startCol);
       drawText("HP: " + colorByPercent(c.getHP(), c.getmaxHP()), startRow + 1, startCol);
-      drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);      
-	} else {
-	  String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
+      drawText(c.getSpecialName() + ": " + c.getSpecial() + " / " + c.getSpecialMax(), startRow + 2, startCol);
+    } else {
+      String name = c.toString() + " (" + c.getClass().getSimpleName() + ")";
       drawText(Text.colorize(name, Text.RED), startRow, startCol);
       drawText(Text.colorize("DEAD", Text.RED), startRow + 2, startCol);
-	}
+    }
   }
 
   /*
@@ -215,31 +215,65 @@ public class Game {
     }
 
   }
-  
-  public static void drawInfo(int adv, int startRow) {
-	drawText(party.get(adv).getName() + " (" + party.get(adv).getClass().getSimpleName() + ")", startRow, MIDBAR + 1);
-	
-	if (party.get(adv).getClass().isInstance(new CodeWarrior())) {
-		drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
-		TextBox(startRow + 3, MIDBAR + 3, 27, 4, "applies 2-7HP damage to opponent and restores self 2 special points.");
-		
-		drawText(Text.colorize("Special Attack: ", new int[] {245, 120, 0}) + party.get(adv).getSpecialName(), startRow + 7, MIDBAR + 1);
-		TextBox(startRow + 8, MIDBAR + 3, 27, 3, "applies 3-27HP damage to opponent and drains self 8 special points.");
-		
-		drawText(Text.colorize("Support: ", new int[] {244, 202, 0}), startRow + 11, MIDBAR + 1);
-		TextBox(startRow + 12, MIDBAR + 3, 27, 3, "restores ally 5 special points or restores self 1HP and 6 special points");
-	} else if (party.get(adv).getClass().isInstance(new Warrior())) {
-		drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
-		TextBox(startRow + 3, MIDBAR + 3, 27, 3, "applies 2HP damage to opponent and restores self 4 special points.");
-		
-		drawText(Text.colorize("Special Attack: ", new int[] {245, 120, 0}) + party.get(adv).getSpecialName(), startRow + 6, MIDBAR + 1);
-		TextBox(startRow + 7, MIDBAR + 3, 27, 4, "applies 90-10%HP damage to opponent dependent on self special points and drains self one special point.");
-		
-		drawText(Text.colorize("Support: ", new int[] {244, 202, 0}), startRow + 11, MIDBAR + 1);
-		TextBox(startRow + 12, MIDBAR + 3, 27, 2, "restores selected 2 special points and 3HP.");
-	}
+
+  public static void drawInfo(int adv, int startRow, boolean partyUp) {
+    Text.clear(7, 51, 29, 16);
+    ArrayList<Adventurer> playerList;
+    if (partyUp) {
+      //get from party
+      playerList = party;
+    } else {
+      playerList = enemies;
+    }
+    drawText(playerList.get(adv).getName() + " (" + playerList.get(adv).getClass().getSimpleName() + ")", startRow, MIDBAR + 1);
+
+    if (playerList.get(adv).getClass().isInstance(new CodeWarrior())) {
+      drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+      TextBox(startRow + 3, MIDBAR + 3, 27, 4, "applies 2-7HP damage to opponent and restores self 2 special points.");
+
+      drawText(Text.colorize("Special Attack: ", new int[] { 245, 120, 0 }) + playerList.get(adv).getSpecialName(),
+          startRow + 7, MIDBAR + 1);
+      TextBox(startRow + 8, MIDBAR + 3, 27, 3, "applies 3-27HP damage to opponent and drains self 8 special points.");
+
+      drawText(Text.colorize("Support: ", new int[] { 244, 202, 0 }), startRow + 11, MIDBAR + 1);
+      TextBox(startRow + 12, MIDBAR + 3, 27, 3,
+          "restores ally 5 special points or restores self 1HP and 6 special points");
+    } else if (playerList.get(adv).getClass().isInstance(new Warrior())) {
+      drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+      TextBox(startRow + 3, MIDBAR + 3, 27, 3, "applies 2HP damage to opponent and restores self 4 special points.");
+
+      drawText(Text.colorize("Special Attack: ", new int[] { 245, 120, 0 }) + playerList.get(adv).getSpecialName(),
+          startRow + 6, MIDBAR + 1);
+      TextBox(startRow + 7, MIDBAR + 3, 27, 4,
+          "applies 90-10%HP damage to opponent dependent on self special points and drains self one special point.");
+
+      drawText(Text.colorize("Support: ", new int[] { 244, 202, 0 }), startRow + 11, MIDBAR + 1);
+      TextBox(startRow + 12, MIDBAR + 3, 27, 2, "restores selected 2 special points and 3HP.");
+    } else if (playerList.get(adv).getClass().isInstance(new Pathfinder())) {
+      drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+      TextBox(startRow + 3, MIDBAR + 3, 27, 3, "applies 2HP damage to opponent.");
+
+      drawText(Text.colorize("Special Attack: ", new int[] { 245, 120, 0 }) + playerList.get(adv).getSpecialName(),
+          startRow + 6, MIDBAR + 1);
+      TextBox(startRow + 7, MIDBAR + 3, 27, 4,
+          "applies 8HP damage to opponent at the cost of 2 healing.");
+
+      drawText(Text.colorize("Support: ", new int[] { 244, 202, 0 }), startRow + 11, MIDBAR + 1);
+      TextBox(startRow + 12, MIDBAR + 3, 27, 2, "restores 5HP and uses 1 healing.");
+    } else if (playerList.get(adv).getClass().isInstance(new Boss())) {
+      drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+      TextBox(startRow + 3, MIDBAR + 3, 27, 3, "applies 5HP damage to opponent.");
+
+      drawText(Text.colorize("Special Attack: ", new int[] { 245, 120, 0 }) + playerList.get(adv).getSpecialName(),
+          startRow + 6, MIDBAR + 1);
+      TextBox(startRow + 7, MIDBAR + 3, 27, 4,
+          "no special attack.");
+
+      drawText(Text.colorize("Support: ", new int[] { 244, 202, 0 }), startRow + 11, MIDBAR + 1);
+      TextBox(startRow + 12, MIDBAR + 3, 27, 2, "restores 30HP and uses 1 revival.");
+    }
   }
-  
+
   // Use this to create a colorized number string based on the % compared to the
   // max value.
   public static String colorByPercent(int hp, int maxHP) {
@@ -284,18 +318,29 @@ public class Game {
     int numLines = 0;
     for (int i = 0; i < listCMD.length; i++) {
       String current = ">" + listCMD[i];
-      if (current.length() > 2*(MIDBAR - 2)) {
+      if (current.length() > 2 * (MIDBAR - 2)) {
         numLines += 2;
       } else if (current.length() > MIDBAR - 2) {
-        numLines ++;
+        numLines++;
       }
       numLines++;
     }
 
-    if (numLines > 15) {
+    while (numLines > 15) {
       int index = COMMANDLIST.indexOf("\n");
       COMMANDLIST = COMMANDLIST.substring(index + 1);
       listCMD = Arrays.copyOfRange(listCMD, 1, listCMD.length);
+
+      numLines = 0;
+      for (int i = 0; i < listCMD.length; i++) {
+        String current = ">" + listCMD[i];
+        if (current.length() > 2 * (MIDBAR - 2)) {
+          numLines += 2;
+        } else if (current.length() > MIDBAR - 2) {
+          numLines++;
+        }
+        numLines++;
+      }
     }
 
     int row = 7;
@@ -307,7 +352,7 @@ public class Game {
         row += 2;
       } else if (out.length() > (MIDBAR - 2)) {
         TextBox(row, 2, MIDBAR - 2, 2, out);
-        row ++;
+        row++;
       } else {
         drawText(out, row, 2);
       }
@@ -381,65 +426,71 @@ public class Game {
     String partySize = userInput(new Scanner(System.in));
     while (partySize.compareTo("2") < 0 || partySize.compareTo("3") > 0) { // user determined party size
       if (partySize.startsWith("q") || partySize.startsWith("quit")) {
-	    return;
+        return;
       }
-	  
-	  Text.clear(30, 1, 80, 1);
+
+      Text.clear(30, 1, 80, 1);
       drawText("Invalid entry. Enter a number 2-3 for the size of your party.", 30, 1);
       Text.clear(27, 2, 78, 1);
       partySize = userInput(new Scanner(System.in));
     }
     Text.clear(30, 1, 80, 1);
-	
-	drawText("Enter \"custom\" for a custom team or \"random\" for a randomly generated team.", 30, 1);
-	String partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
-    while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user determine random party or custom party
+
+    drawText("Enter \"custom\" for a custom team or \"random\" for a randomly generated team.", 30, 1);
+    String partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
+    while (!(partyType.startsWith("custom") || partyType.startsWith("random") || partyType.length() == 0)) { // user
+                                                                                                             // determine
+                                                                                                             // random
+                                                                                                             // party or
+                                                                                                             // custom
+                                                                                                             // party
       if (partyType.startsWith("q") || partyType.startsWith("quit")) {
         return;
-	  }
-	  
-	  Text.clear(30, 1, 80, 1);
+      }
+
+      Text.clear(30, 1, 80, 1);
       drawText("Invalid entry. Enter \"custom\", \"random\", or press enter.", 30, 1);
       Text.clear(27, 2, 78, 1);
       partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
     }
     Text.clear(30, 1, 80, 1);
-	
-	if (partyType.startsWith("random") || partyType.length() == 0) {
+
+    if (partyType.startsWith("random") || partyType.length() == 0) {
       for (int i = 0; i < Integer.valueOf(partySize); i++) { // player party
         party.add(createRandomAdventurer(false));
       }
-	} else {
-	  for (int i = 0; i < Integer.valueOf(partySize); i++) {
-	    drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by member " + i + "'s name.", 30, 1);
-	    String advType = userInput(new Scanner(System.in)).toLowerCase().trim();
-	    while (!(advType.startsWith("code warrior") || advType.startsWith("warrior") || advType.startsWith("pathfinder"))) { // user determine random party or custom party
-		  if (advType.startsWith("q") || advType.startsWith("quit")) {
-			return;
-		  }
-		  
-		  Text.clear(30, 1, 80, 1);
-		  drawText("Invalid entry. Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\".", 30, 1);
-		  Text.clear(27, 2, 78, 1);
-		  advType = userInput(new Scanner(System.in)).toLowerCase().trim();
-	    }
-	    Text.clear(30, 1, 80, 1);
-	
-	    if (advType.indexOf("code warrior") != -1) {
-		  String name = advType.substring(12).trim();
-		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
-		  party.add(new CodeWarrior(name));
-	    } else if (advType.indexOf("warrior") != -1) {
-		  String name = advType.substring(7).trim();
-		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
-		  party.add(new Warrior(name));
-	    } else if (advType.indexOf("pathfinder") != -1) {
-		  String name = advType.substring(10).trim();
-		  name = name.substring(0,1).toUpperCase() + name.substring(1); // capitalize first letter
-		  party.add(new Pathfinder(name));
-	    }
-	  }
-	}
+    } else {
+      for (int i = 0; i < Integer.valueOf(partySize); i++) {
+        drawText("Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\" followed by member " + i + "'s name.", 30, 1);
+        String advType = userInput(new Scanner(System.in)).toLowerCase().trim();
+        while (!(advType.startsWith("code warrior") || advType.startsWith("warrior")
+            || advType.startsWith("pathfinder"))) { // user determine random party or custom party
+          if (advType.startsWith("q") || advType.startsWith("quit")) {
+            return;
+          }
+
+          Text.clear(30, 1, 80, 1);
+          drawText("Invalid entry. Enter \"Code Warrior\", \"Warrior\", or \"Pathfinder\".", 30, 1);
+          Text.clear(27, 2, 78, 1);
+          advType = userInput(new Scanner(System.in)).toLowerCase().trim();
+        }
+        Text.clear(30, 1, 80, 1);
+
+        if (advType.indexOf("code warrior") != -1) {
+          String name = advType.substring(12).trim();
+          name = name.substring(0, 1).toUpperCase() + name.substring(1); // capitalize first letter
+          party.add(new CodeWarrior(name));
+        } else if (advType.indexOf("warrior") != -1) {
+          String name = advType.substring(7).trim();
+          name = name.substring(0, 1).toUpperCase() + name.substring(1); // capitalize first letter
+          party.add(new Warrior(name));
+        } else if (advType.indexOf("pathfinder") != -1) {
+          String name = advType.substring(10).trim();
+          name = name.substring(0, 1).toUpperCase() + name.substring(1); // capitalize first letter
+          party.add(new Pathfinder(name));
+        }
+      }
+    }
 
     boolean partyTurn = true;
     int whichPlayer = 0;
@@ -454,59 +505,63 @@ public class Game {
     // Main loop
     while (!(input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))) {
       Text.clear(27, 2, 78, 1);
-	  
-	  /* 
-      // example debug statment
-      TextBox(18, 51, 48, 4,
-      "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
-      + " whichOpp=" + whichOpponent); */
-	  
-	  
+
+      /*
+       * // example debug statment
+       * TextBox(18, 51, 48, 4,
+       * "input: " + input + " partyTurn:" + partyTurn + " whichPlayer=" + whichPlayer
+       * + " whichOpp=" + whichOpponent);
+       */
+
       int totalPlayers = party.size() + enemies.size();
       int nextPlayer = whichPlayer % totalPlayers;
-	  
+
       String whoIsUp = "";
       if (nextPlayer < party.size()) {
         // currently ally
         // whoIsUp = party.get(nextPlayer).getName() + " is up";
-		drawInfo(nextPlayer, 7);
-		partyTurn = true;
+        drawInfo(nextPlayer, 7, true);
+        partyTurn = true;
       } else {
         // last turn was the last ally. it's now enemy
         whoIsUp = enemies.get(nextPlayer - party.size()).getName() + " is up. Press enter to see enemy attack.";
-		partyTurn = false;
+        drawInfo(nextPlayer - party.size(), 7, false);
+        partyTurn = false;
       }
-	  
-      /* TextBox(7, 51, 20, 1,
-          "whichPlayer=" + whichPlayer);
-      TextBox(8, 51, 20, 1,
-          "nextPlayer=" + nextPlayer);
-      TextBox(15, 51, 20, 1, "nextPlayer: " + nextPlayer);
-      TextBox(16, 51, 20, 1, "partySize: " + party.size());
-      TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers); */
+
+      /*
+       * TextBox(7, 51, 20, 1,
+       * "whichPlayer=" + whichPlayer);
+       * TextBox(8, 51, 20, 1,
+       * "nextPlayer=" + nextPlayer);
+       * TextBox(15, 51, 20, 1, "nextPlayer: " + nextPlayer);
+       * TextBox(16, 51, 20, 1, "partySize: " + party.size());
+       * TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers);
+       */
 
       if (nextPlayer < party.size()) {
         // next one is ally
         Adventurer nextAdv = party.get(nextPlayer);
-        if (!nextAdv.status()) { // skip 
-          TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
+        if (!nextAdv.status()) { // skip
+          // TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
           whichPlayer++;
           continue;
         } else {
           Text.clear(30, 1, 80, 1);
-          TextBox(30, 1, 80, 1, "Enter command for " + party.get(nextPlayer) + ": attack/special/quit");
-		}
+          drawText(Text.colorize("Enter command for " + party.get(nextPlayer) + ": attack/special/quit", Text.MAGENTA),
+              30, 1);
+        }
       } else {
         // next one is enemy
         Adventurer nextAdv = enemies.get(nextPlayer - party.size());
         if (!nextAdv.status()) {
-          TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
+          // TextBox(11, 51, 20, 1, nextAdv.getName() + " is dead.");
           whichPlayer++;
           continue;
-        } else {	
-		  Text.clear(30, 1, 80, 1);
-          TextBox(30, 1, 80, 1, "Press enter to see enemy turn.");
-		}
+        } else {
+          Text.clear(30, 1, 80, 1);
+          drawText(Text.colorize("Press enter to see enemy turn.", Text.RED), 30, 1);
+        }
       }
 
       // TextBox(9, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
@@ -519,10 +574,12 @@ public class Game {
 
         String[] splitInput = input.split(" ");
 
-        /* if (party.get(whichPlayer).status()) {
-          whichPlayer++;
-          continue;
-        }  */
+        /*
+         * if (party.get(whichPlayer).status()) {
+         * whichPlayer++;
+         * continue;
+         * }
+         */
 
         try {
           // Process user input for the last Adventurer:
@@ -533,15 +590,16 @@ public class Game {
               Text.wait(1000);
             } else {
               String target = splitInput[1];
-              TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
+              // TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
               Adventurer ally = party.get(nextPlayer);
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
-			  if (!enemy.status()) { // checks if not alive
-			    COMMANDLIST += ally.getName() + "  tried to attack " + enemy.getName() + " but enemy is dead. " + ally.getName() + " tries again." + "\n";
-			    drawScreen();
-			    continue;
-			  }
+              if (!enemy.status()) { // checks if not alive
+                COMMANDLIST += ally.getName() + "  tried to attack " + enemy.getName() + " but enemy is dead. "
+                    + ally.getName() + " tries again." + "\n";
+                drawScreen();
+                continue;
+              }
 
               COMMANDLIST += ally.attack(enemy) + "\n";
               whichPlayer++;
@@ -557,37 +615,39 @@ public class Game {
               Adventurer enemy = enemies.get(Integer.valueOf(target));
 
               if (!enemy.status()) { // checks if not alive
-                COMMANDLIST += ally.getName() + "  tried to special attack " + enemy.getName() + " but enemy is dead. " + ally.getName() + " tries again." + "\n";
+                COMMANDLIST += ally.getName() + "  tried to special attack " + enemy.getName() + " but enemy is dead. "
+                    + ally.getName() + " tries again." + "\n";
                 drawScreen();
                 continue;
               }
 
               COMMANDLIST += ally.specialAttack(enemy) + "\n";
               whichPlayer++;
-			}
+            }
           } else if (input.startsWith("su ") || input.startsWith("support ")) {
             // "support 0" or "su 0" or "su 2" etc.
             // assume the value that follows su is an integer.
 
             if (splitInput.length < 2) { // self support
               COMMANDLIST += party.get(nextPlayer).support() + "\n";
-			  whichPlayer++;
+              whichPlayer++;
             } else {
               String target = splitInput[1];
               Adventurer current = party.get(nextPlayer);
               Adventurer suTarget = party.get(Integer.valueOf(target));
 
               if (!suTarget.status()) {
-                COMMANDLIST += current.getName() + "  tried to support " + suTarget.getName() + " but ally is dead. " + current.getName() + " tries again." + "\n";
+                COMMANDLIST += current.getName() + "  tried to support " + suTarget.getName() + " but ally is dead. "
+                    + current.getName() + " tries again." + "\n";
                 drawScreen();
                 continue;
               }
 
               COMMANDLIST += current.support(suTarget) + "\n";
               whichPlayer++;
-			}
+            }
           } else if (input.startsWith("quit") || input.startsWith("q")) {
-			quit();
+            quit();
             return;
           } else {
             Text.clear(30, 1, 80, 1);
@@ -597,48 +657,52 @@ public class Game {
         } catch (NumberFormatException e) {
           Text.clear(30, 1, 80, 1);
           drawText("Enter an number.", 30, 1);
-		  Text.go(27, 2);
+          Text.go(27, 2);
           Text.wait(1000);
         } catch (IndexOutOfBoundsException e) {
-		  Text.clear(30, 1, 80, 1);
+          Text.clear(30, 1, 80, 1);
           drawText("Invalid entry: number entered out of enemy party size. Try again.", 30, 1);
-		  Text.go(27, 2);
+          Text.go(27, 2);
           Text.wait(1000);
-		}
-		
-		/* nextPlayer %= totalPlayers
-        if (nextPlayer < party.size()) {
-          // This is a player turn.
-          // Decide where to draw the following prompt:
-          if (party.get(nextPlayer).status()) {
-            String prompt = "Enter command for " + party.get(whichPlayer) + ": (a)ttack/(sp)ecial/(q)uit";
-            drawText(prompt, 30, 1);
-          } else {
-            continue;
-          }
-        } else {
-          // This is after the player's turn, and allows the user to see the enemy turn
-          // Decide where to draw the following prompt:
-          String prompt = "press enter to see monster's turn";
-          drawText(prompt, 30, 1);
-
-          partyTurn = false;
-          whichOpponent = 0;
         }
-        // done with one party member */
+
+        /*
+         * nextPlayer %= totalPlayers
+         * if (nextPlayer < party.size()) {
+         * // This is a player turn.
+         * // Decide where to draw the following prompt:
+         * if (party.get(nextPlayer).status()) {
+         * String prompt = "Enter command for " + party.get(whichPlayer) +
+         * ": (a)ttack/(sp)ecial/(q)uit";
+         * drawText(prompt, 30, 1);
+         * } else {
+         * continue;
+         * }
+         * } else {
+         * // This is after the player's turn, and allows the user to see the enemy turn
+         * // Decide where to draw the following prompt:
+         * String prompt = "press enter to see monster's turn";
+         * drawText(prompt, 30, 1);
+         * 
+         * partyTurn = false;
+         * whichOpponent = 0;
+         * }
+         * // done with one party member
+         */
       } else {
         // not the party turn!
 
         // enemy attacks a randomly chosen person with a randomly chosen attack
         // Enemy action choices go here!
-		
-		int whichOpponent = nextPlayer - party.size();
+
+        int whichOpponent = nextPlayer - party.size();
         Adventurer enemy = enemies.get(whichOpponent);
-		/* 
-        if (enemy.getHP() <= 0) {
-          whichOpponent++;
-          continue;
-        } */
+        /*
+         * if (enemy.getHP() <= 0) {
+         * whichOpponent++;
+         * continue;
+         * }
+         */
 
         double rN = Math.random();
         int picked = (int) (Math.random() * party.size());
@@ -646,42 +710,47 @@ public class Game {
 
         if (!ally.status()) {
           COMMANDLIST += enemy.getName() + " attack on " + ally.getName() + " failed; target dead." + "\n";
-		  continue;
+          drawScreen();
+          continue;
         } else {
-		  if (rN < .1) {
+          if (rN < .1) {
             int other = (int) (Math.random() * enemies.size());
             if (other == whichOpponent) {
-              COMMANDLIST += enemy.support() + "\n";
+              COMMANDLIST += enemy.support(enemy) + "\n";
             } else {
-				if (enemies.get(other).status()) {
-                  COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
-				} else {
-                  COMMANDLIST += enemy.getName() + " support on " + enemies.get(other).getName() + " failed; adventurer dead." + "\n";
-				}
+              if (enemies.get(other).status()) {
+                COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+              } else {
+                COMMANDLIST += enemy.getName() + " support on " + enemies.get(other).getName()
+                    + " failed; adventurer dead." + "\n";
+              }
             }
           } else if (rN < .75) {
             COMMANDLIST += enemy.attack(ally) + "\n";
           } else {
             COMMANDLIST += enemy.specialAttack(ally) + "\n";
           }
-		  
+
           whichPlayer++;
-		}
+        }
       } // end of one enemy.
 
-      /* // modify this if statement.
-      if (!partyTurn && nextPlayer == enemies.size() - 1)
-
-      {
-        // THIS BLOCK IS TO END THE ENEMY TURN
-        // It only triggers after the last enemy goes.
-        whichPlayer = 0;
-        turn++;
-        partyTurn = true;
-        // display this prompt before player's turn
-        String instr = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
-        drawText(instr, 30, 1);
-      } */
+      /*
+       * // modify this if statement.
+       * if (!partyTurn && nextPlayer == enemies.size() - 1)
+       * 
+       * {
+       * // THIS BLOCK IS TO END THE ENEMY TURN
+       * // It only triggers after the last enemy goes.
+       * whichPlayer = 0;
+       * turn++;
+       * partyTurn = true;
+       * // display this prompt before player's turn
+       * String instr = "Enter command for " + party.get(whichPlayer) +
+       * ": attack/special/quit";
+       * drawText(instr, 30, 1);
+       * }
+       */
 
       // display the updated screen after input has been processed.
       drawScreen();
@@ -693,7 +762,7 @@ public class Game {
         }
       }
       if (alliesDead) {
-		Text.wait(1000);
+        Text.wait(1000);
         quit();
         break;
       }
@@ -705,7 +774,7 @@ public class Game {
         }
       }
       if (enemiesDead) {
-		Text.wait(1000);
+        Text.wait(1000);
         win();
         break;
       }

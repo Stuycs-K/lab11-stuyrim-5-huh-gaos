@@ -3,6 +3,11 @@ public class Pathfinder extends Adventurer{
     private int heal = 5;
     private int healMax = 10;
 
+    public Pathfinder () {
+        super("Basil", 15);
+    }
+
+
     public Pathfinder (String name) {
         super(name, 15);
     }
