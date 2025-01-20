@@ -7,6 +7,11 @@ public class Pathfinder extends Adventurer{
 		super();
 	}
 
+    public Pathfinder () {
+        super("Basil", 15);
+    }
+
+
     public Pathfinder (String name) {
         super(name, 15);
     }

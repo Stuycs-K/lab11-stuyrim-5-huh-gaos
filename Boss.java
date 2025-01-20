@@ -3,6 +3,10 @@ public class Boss extends Adventurer{
     private int revive = 2;
     private int reviveMax = 2;
 
+    public Boss () {
+        super("Boss", 30);
+    }
+
     public Boss (String name) {
         super(name, 30);
     }
@@ -65,7 +69,7 @@ public class Boss extends Adventurer{
         if (this.getSpecial() > 0) {
             this.setHP(this.getHP() + 5);
             this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " revives themselves by 5hp and restores 1 reviveing.";
+            return this.getName() + " revives themselves by 5hp and restores 1 reviving.";
         }
 
         return "No reviving resources available.";
