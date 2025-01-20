@@ -62,6 +62,9 @@ public class Text{
   public static String colorize(String text,int c1){
     return ("\u001b[" + c1 + "m"+text+"\u001b[0m");
   }
+  public static String colorize(String text, int[] rgb) {
+	return ("\u001b[" + 38 + ";" + 2 + ";" + rgb[0] + ";" + rgb[1] + ";" + rgb[2] + "m" + text + "\u001b[0m");
+  }
   public static String colorize(String text,int c1,int c2){
     return ("\u001b[" + c1 + ";" + c2 + "m"+text+"\u001b[0m");
   }

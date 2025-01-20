@@ -217,15 +217,26 @@ public class Game {
   }
   
   public static void drawInfo(int adv, int startRow) {
-	drawText(party.get(adv).getName(), startRow, MIDBAR + 1);
-	drawText("Adventurer type: " + party.get(adv).getClass().getSimpleName(), startRow + 1, MIDBAR + 1);
+	drawText(party.get(adv).getName() + " (" + party.get(adv).getClass().getSimpleName() + ")", startRow, MIDBAR + 1);
 	
 	if (party.get(adv).getClass().isInstance(new CodeWarrior())) {
-		drawText("Attack: ", startRow + 2, MIDBAR + 1);
-		TextBox(startRow + 3, MIDBAR + 1, 29, 4, "randomly generated integer from 2-7 and restores 2 special points.");
+		drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+		TextBox(startRow + 3, MIDBAR + 3, 27, 4, "applies 2-7HP damage to opponent and restores self 2 special points.");
 		
-		drawText("Special Attack: " + party.get(adv).getSpecialName(), startRow + 8, MIDBAR + 1);
-		TextBox(startRow + 10, MIDBAR + 1, 29, 3, "Support: restores ally 5 special points or restores self 1HP and 6 special points");
+		drawText(Text.colorize("Special Attack: ", new int[] {245, 120, 0}) + party.get(adv).getSpecialName(), startRow + 7, MIDBAR + 1);
+		TextBox(startRow + 8, MIDBAR + 3, 27, 3, "applies 3-27HP damage to opponent and drains self 8 special points.");
+		
+		drawText(Text.colorize("Support: ", new int[] {244, 202, 0}), startRow + 11, MIDBAR + 1);
+		TextBox(startRow + 12, MIDBAR + 3, 27, 3, "restores ally 5 special points or restores self 1HP and 6 special points");
+	} else if (party.get(adv).getClass().isInstance(new Warrior())) {
+		drawText(Text.colorize("Attack: ", Text.CYAN), startRow + 2, MIDBAR + 1);
+		TextBox(startRow + 3, MIDBAR + 3, 27, 3, "applies 2HP damage to opponent and restores self 4 special points.");
+		
+		drawText(Text.colorize("Special Attack: ", new int[] {245, 120, 0}) + party.get(adv).getSpecialName(), startRow + 6, MIDBAR + 1);
+		TextBox(startRow + 7, MIDBAR + 3, 27, 4, "applies 90-10%HP damage to opponent dependent on self special points and drains self one special point.");
+		
+		drawText(Text.colorize("Support: ", new int[] {244, 202, 0}), startRow + 11, MIDBAR + 1);
+		TextBox(startRow + 12, MIDBAR + 3, 27, 2, "restores selected 2 special points and 3HP.");
 	}
   }
   
@@ -498,7 +509,7 @@ public class Game {
 		}
       }
 
-      TextBox(9, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
+      // TextBox(9, MIDBAR + 1, WIDTH - MIDBAR - 1, 2, whoIsUp);
 
       // Read user input
       input = userInput(in).toLowerCase().trim();

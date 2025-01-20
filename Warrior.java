@@ -6,6 +6,13 @@ public class Warrior extends Adventurer {
 	private int shieldMax;
 	
 	// constructors 
+	public Warrior() {
+		super("Basil");
+		shieldMax = 9;
+		shield = shieldMax;
+		attack = 2;
+		support = 3;
+	}
 	public Warrior(String name) {
 		super(name);
 		shieldMax = 9;
