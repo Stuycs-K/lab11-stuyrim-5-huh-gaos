@@ -215,7 +215,22 @@ public class Game {
     }
 
   }
-
+  
+  public static void drawInfo(int adv, int startRow) {
+	drawText(party.get(adv).getName(), startRow, MIDBAR + 1);
+	drawText("Adventurer type: " + party.get(adv).getClass().getSimpleName(), startRow + 1, MIDBAR + 1);
+	
+	if (party.get(adv).getClass().isInstance(new CodeWarrior())) {
+		drawText("Attack: randomly generated", startRow + 2, MIDBAR + 1);
+		drawText("integer from 2-7 and", startRow + 3, MIDBAR + 9);
+		drawText("restores 2 special", startRow + 4, MIDBAR + 9);
+		drawText("points.", startRow + 5, MIDBAR + 9);
+		
+		drawText("Special Attack: " + party.get(adv).getSpecialName(), startRow + 7, MIDBAR + 1);
+		drawText("Support: restores ally 5 special points or restores self 1HP and 6 special points", startRow + 9, MIDBAR + 1);
+	}
+  }
+  
   // Use this to create a colorized number string based on the % compared to the
   // max value.
   public static String colorByPercent(int hp, int maxHP) {
@@ -445,6 +460,7 @@ public class Game {
       if (nextPlayer < party.size()) {
         // currently ally
         whoIsUp = party.get(nextPlayer).getName() + " is up";
+		drawInfo(nextPlayer, 7);
 		partyTurn = true;
       } else {
         // last turn was the last ally. it's now enemy
