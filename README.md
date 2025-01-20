@@ -45,15 +45,15 @@ Make a clear list of features that work/dont work
 
 ### Extras
 
-> :white_check_mark: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
+> :ballot_box_with_check: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
 
-> :white_check_mark: validate attack/support / etc numerical input
+> :ballot_box_with_check: validate attack/support / etc numerical input
 
-> :white_check_mark: add in a list of names + function to randomly select a name
+> :ballot_box_with_check: add in a list of names + function to randomly select a name
 
-> :white_check_mark: add in a list of skulls
+> :ballot_box_with_check: add party summaries
 
-## Changes to Adventure Class
+### Changes to Adventure Class
 
 - boolean status(): returns true if Adventurer is alive and false if Adventurer is dead
 
@@ -61,7 +61,7 @@ Make a clear list of features that work/dont work
 
 - setHP modified to cap at maximumHP
 
-## Changes to Text Class
+### Changes to Text Class
 
 - overload colorize to support rgb (foreground color only)
 
