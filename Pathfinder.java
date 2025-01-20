@@ -2,10 +2,7 @@ public class Pathfinder extends Adventurer{
     // Pathfinders can heal allies
     private int heal = 5;
     private int healMax = 10;
-	
-	public Pathfinder () {
-		super();
-	}
+
 
     public Pathfinder () {
         super("Basil", 15);
