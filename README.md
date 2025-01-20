@@ -43,7 +43,7 @@ Make a clear list of features that work/dont work
 
 
 
-:ballot_box: extras
+### Extras
 
 > :white_check_mark: add function to convert "attack" / "support" etc to lowercase to ignorecase with/ StartsWith
 
@@ -51,7 +51,23 @@ Make a clear list of features that work/dont work
 
 > :white_check_mark: add in a list of names + function to randomly select a name
 
-> :ballot_box: add in a list of skulls
+> :white_check_mark: add in a list of skulls
+
+## Changes to Adventure Class
+
+- boolean status(): returns true if Adventurer is alive and false if Adventurer is dead
+
+- applyDamage modified to floor at 0
+
+- setHP modified to cap at maximumHP
+
+## Changes to Text Class
+
+- overload colorize to support rgb (foreground color only)
+
+- overload clear to erase given box and keep background color
+
+- wait to delay drawing
 
 ## Adventurer Subclasses
 
