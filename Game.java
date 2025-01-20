@@ -221,13 +221,11 @@ public class Game {
 	drawText("Adventurer type: " + party.get(adv).getClass().getSimpleName(), startRow + 1, MIDBAR + 1);
 	
 	if (party.get(adv).getClass().isInstance(new CodeWarrior())) {
-		drawText("Attack: randomly generated", startRow + 2, MIDBAR + 1);
-		drawText("integer from 2-7 and", startRow + 3, MIDBAR + 9);
-		drawText("restores 2 special", startRow + 4, MIDBAR + 9);
-		drawText("points.", startRow + 5, MIDBAR + 9);
+		drawText("Attack: ", startRow + 2, MIDBAR + 1);
+		TextBox(startRow + 3, MIDBAR + 1, 29, 4, "randomly generated integer from 2-7 and restores 2 special points.");
 		
-		drawText("Special Attack: " + party.get(adv).getSpecialName(), startRow + 7, MIDBAR + 1);
-		drawText("Support: restores ally 5 special points or restores self 1HP and 6 special points", startRow + 9, MIDBAR + 1);
+		drawText("Special Attack: " + party.get(adv).getSpecialName(), startRow + 8, MIDBAR + 1);
+		TextBox(startRow + 10, MIDBAR + 1, 29, 3, "Support: restores ally 5 special points or restores self 1HP and 6 special points");
 	}
   }
   
@@ -392,7 +390,7 @@ public class Game {
 	  Text.clear(30, 1, 80, 1);
       drawText("Invalid entry. Enter \"custom\", \"random\", or press enter.", 30, 1);
       Text.clear(27, 2, 78, 1);
-      partySize = userInput(new Scanner(System.in)).toLowerCase().trim();
+      partyType = userInput(new Scanner(System.in)).toLowerCase().trim();
     }
     Text.clear(30, 1, 80, 1);
 	
@@ -459,7 +457,7 @@ public class Game {
       String whoIsUp = "";
       if (nextPlayer < party.size()) {
         // currently ally
-        whoIsUp = party.get(nextPlayer).getName() + " is up";
+        // whoIsUp = party.get(nextPlayer).getName() + " is up";
 		drawInfo(nextPlayer, 7);
 		partyTurn = true;
       } else {
@@ -468,13 +466,13 @@ public class Game {
 		partyTurn = false;
       }
 	  
-      TextBox(7, 51, 20, 1,
+      /* TextBox(7, 51, 20, 1,
           "whichPlayer=" + whichPlayer);
       TextBox(8, 51, 20, 1,
           "nextPlayer=" + nextPlayer);
       TextBox(15, 51, 20, 1, "nextPlayer: " + nextPlayer);
       TextBox(16, 51, 20, 1, "partySize: " + party.size());
-      TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers);
+      TextBox(17, 51, 20, 1, "totalPlayers: " + totalPlayers); */
 
       if (nextPlayer < party.size()) {
         // next one is ally
