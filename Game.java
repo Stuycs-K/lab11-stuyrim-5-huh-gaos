@@ -583,12 +583,17 @@ public class Game {
 
         try {
           // Process user input for the last Adventurer:
-          if (input.startsWith("attack ") || input.startsWith("a ")) {
+          if (input.startsWith("attack") || input.startsWith("a")) {
             if (splitInput.length < 2) { // no target
-              Text.clear(30, 1, 80, 1);
-              drawText("Must specify a target. Try again.", 30, 1);
+			  Text.clear(30, 1, 80, 1);
+			  if (splitInput[0].length() == 2 || splitInput[0].length() == 7) {
+				drawText("Separate move and target with a space. Try again.", 30, 1);
+			  } else {
+                drawText("Must specify a target. Try again.", 30, 1);
+			  }
 			  Text.go(27, 2);
-              Text.wait(1000);
+			  Text.wait(750);
+			  continue;
             } else {
               String target = splitInput[1];
               // TextBox(10, 51, 20, 1, target); // not sure how important this is --sandra
@@ -605,12 +610,17 @@ public class Game {
               COMMANDLIST += ally.attack(enemy) + "\n";
               whichPlayer++;
             }
-          } else if (input.startsWith("special ") || input.startsWith("sp ")) {
+          } else if (input.startsWith("special") || input.startsWith("sp")) {
             if (splitInput.length < 2) { // no target
               Text.clear(30, 1, 80, 1);
-              drawText("Must specify a target. Try again.", 30, 1);
+			  if (splitInput[0].length() == 3 || splitInput[0].length() == 8) {
+				drawText("Separate move and target with a space. Try again.", 30, 1);
+			  } else {
+                drawText("Must specify a target. Try again.", 30, 1);
+			  }
 			  Text.go(27, 2);
-              Text.wait(1000);
+			  Text.wait(750);
+			  continue;
             } else {
               String target = splitInput[1];
               Adventurer ally = party.get(nextPlayer);
@@ -626,7 +636,7 @@ public class Game {
               COMMANDLIST += ally.specialAttack(enemy) + "\n";
               whichPlayer++;
             }
-          } else if (input.startsWith("su ") || input.startsWith("support ")) {
+          } else if (input.startsWith("su") || input.startsWith("support")) {
             // "support 0" or "su 0" or "su 2" etc.
             // assume the value that follows su is an integer.
 
