@@ -53,6 +53,8 @@ Make a clear list of features that work/dont work
 
 > :ballot_box_with_check: add party summaries
 
+> :ballot_box_with_check: boss can generate minions
+
 ### Changes to Adventure Class
 
 - boolean status(): returns true if Adventurer is alive and false if Adventurer is dead
@@ -60,6 +62,10 @@ Make a clear list of features that work/dont work
 - applyDamage modified to floor at 0
 
 - setHP modified to cap at maximumHP
+
+- overload specialAttack to support moves affecting full parties
+
+ - imported ArrayList for all classes
 
 ### Changes to Text Class
 
@@ -75,4 +81,4 @@ Adventurer | Special (initial, max) | Special Attack | Attack | Support | HP
 --- | --- | --- | --- | --- | ---
 Warrior | Shield (9, 9) | 10% damage on remaining HP per shield, costs 1 shield | 2HP damage, restores 4 shield | heals 3HP, restores 2 shield | 10HP
 Pathfinder | Healing (5, 10) | 8 HP damage, costs 2 healing | 2HP damage | heals 5HP, uses 1 healing | 15HP
-Boss | Reviving (2, 2) | no special attack | 5HP damage | heals 30HP, uses 1 revival | 30HP
+Boss | Minions (2, 2) | can generate a minion, costs 1 minions | 5HP damage | heals 10HP if health less than 1/5 max HP | 30HP
