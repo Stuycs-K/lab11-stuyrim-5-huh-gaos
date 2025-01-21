@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Adventurer{
   private String name;
   private int HP,maxHP;
@@ -46,6 +48,7 @@ public abstract class Adventurer{
 
   //hurt or hinder the target adventurer, consume some special resource
   public abstract String specialAttack(Adventurer other);
+  public abstract String specialAttack(ArrayList<Adventurer> party);
 
   /*
   standard methods

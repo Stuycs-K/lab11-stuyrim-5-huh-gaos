@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Pathfinder extends Adventurer{
     // Pathfinders can heal allies
     private int heal = 5;
@@ -80,11 +82,8 @@ public class Pathfinder extends Adventurer{
 
         return this.attack(other);
     }
-
-
-
-
-
-
-
+	
+	public String specialAttack(ArrayList<Adventurer> party){
+		return specialAttack(party.get((int)(Math.random() * party.size())));
+	}
 }

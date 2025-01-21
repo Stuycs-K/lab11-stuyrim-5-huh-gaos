@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class CodeWarrior extends Adventurer{
   int caffeine, caffeineMax;
   String preferredLanguage;
@@ -64,6 +66,9 @@ public class CodeWarrior extends Adventurer{
       return "Not enough caffeine to use the ultimate code. Instead "+attack(other);
     }
 
+  }
+  public String specialAttack(ArrayList<Adventurer> party){
+    return specialAttack(party.get((int)(Math.random() * party.size())));
   }
   /*Restores 5 special to other*/
   public String support(Adventurer other){

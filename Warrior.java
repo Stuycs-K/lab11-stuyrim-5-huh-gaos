@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Warrior extends Adventurer {
 	// field
 	private int attack;
@@ -67,5 +69,8 @@ public class Warrior extends Adventurer {
 			other.applyDamage(attack);
 			return this + " does not have enough special points. Instead " + attack(other);
 		}
+	}
+	public String specialAttack(ArrayList<Adventurer> party){
+		return specialAttack(party.get((int)(Math.random() * party.size())));
 	}
 }

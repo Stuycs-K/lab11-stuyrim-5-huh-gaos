@@ -59,14 +59,13 @@ public class Boss extends Adventurer{
         return support();
     }
 
-    //never used
     @Override
     public String support() {
         this.setHP(this.getHP() + 10);
         return this.getName() + " revives themselves by 10HP.";
     }
 	
-	public String specialAttack(Adventurer other) {
+	public String specialAttack(Adventurer other) { // never used
 		return support();
 	}
     public String specialAttack(ArrayList<Adventurer> enemies) {
@@ -74,11 +73,11 @@ public class Boss extends Adventurer{
 			int rN = (int)(Math.random() * 3);
 			Adventurer c;
 			if (rN == 0) {
-				c = new CodeWarrior("Minion " + (getSpecialMax() - getSpecial() + 1));
+				c = new CodeWarrior("Minion " + (getSpecialMax() - getSpecial() + 1), 5);
 			} else if (rN == 1) {
-				c = new Warrior("Minion " + (getSpecialMax() - getSpecial() + 1));
+				c = new Warrior("Minion " + (getSpecialMax() - getSpecial() + 1), 5);
 			} else {
-				c = new Pathfinder("Minion " + (getSpecialMax() - getSpecial() + 1));
+				c = new Pathfinder("Minion " + (getSpecialMax() - getSpecial() + 1), 5);
 			}
 			
 			if (enemies.size() == 1) {

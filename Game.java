@@ -423,11 +423,7 @@ public class Game {
     // incomplete
     int enemyPartySize = (int) (Math.random() * 3) + 1;
     for (int i = 0; i < enemyPartySize; i++) { // random enemy party
-      if (enemyPartySize == 1) { // boss class
-        enemies.add(createRandomAdventurer(true));
-      } else {
-        enemies.add(createRandomAdventurer(false));
-      }
+      enemies.add(createRandomAdventurer(enemyPartySize == 1));
     }
 
     drawText("Enter a number 2-3 for the size of your party.", 30, 0);
@@ -710,42 +706,36 @@ public class Game {
 
         int whichOpponent = nextPlayer - party.size();
         Adventurer enemy = enemies.get(whichOpponent);
-        /*
-         * if (enemy.getHP() <= 0) {
-         * whichOpponent++;
-         * continue;
-         * }
-         */
+		boolean isBoss = enemy.getClass().isInstance(new Boss());
 
         double rN = Math.random();
         int picked = (int) (Math.random() * party.size());
         Adventurer ally = party.get(picked);
-
-        if (!ally.status()) {
-          COMMANDLIST += enemy.getName() + " attack on " + ally.getName() + " failed; target dead." + "\n";
-          drawScreen();
-          continue;
-        } else {
-          if (rN < .1) {
-            int other = (int) (Math.random() * enemies.size());
-            if (other == whichOpponent) {
-              COMMANDLIST += enemy.support(enemy) + "\n";
-            } else {
-              if (enemies.get(other).status()) {
-                COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
-              } else {
-                COMMANDLIST += enemy.getName() + " support on " + enemies.get(other).getName()
-                    + " failed; adventurer dead." + "\n";
-              }
-            }
-          } else if (rN < .75) {
-            COMMANDLIST += enemy.attack(ally) + "\n";
-          } else {
-            COMMANDLIST += enemy.specialAttack(ally) + "\n";
-          }
-
-          whichPlayer++;
-        }
+		
+		if (rN < .1) {
+		  int other = (int) (Math.random() * enemies.size());
+		  if (enemies.get(other).status()) {
+			COMMANDLIST += enemy.support(enemies.get(other)) + "\n";
+		  } else {
+			COMMANDLIST += enemy.getName() + " support on " + enemies.get(other).getName()
+			   + " failed; adventurer dead. Trying again" + "\n";
+			continue;
+		  }
+	    } else if (rN < .75) {
+		  if (ally.status()) {
+			COMMANDLIST += enemy.attack(ally) + "\n";
+		  } else {
+			COMMANDLIST += enemy.getName() + " attack on " + ally.getName()
+			   + " failed; adventurer dead. Trying again" + "\n";
+		  }
+	    } else {
+	 	  if (isBoss) {
+			COMMANDLIST += enemy.specialAttack(enemies) + "\n";
+		  } else { 
+		    COMMANDLIST += enemy.specialAttack(ally) + "\n";
+		  }
+	    }
+		whichPlayer++;
       } // end of one enemy.
 
       /*
