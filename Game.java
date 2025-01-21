@@ -209,7 +209,7 @@ public class Game {
       drawParty(party.get(0), startRow, 20);
       drawParty(party.get(1), startRow, 50);
     } else if (party.size() == 3) {
-      drawParty(party.get(0), startRow, 6);
+      drawParty(party.get(0), startRow, 7);
       drawParty(party.get(1), startRow, 33);
       drawParty(party.get(2), startRow, 60);
     }
