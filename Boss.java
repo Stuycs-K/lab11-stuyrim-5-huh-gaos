@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Boss extends Adventurer{
-    // Bosss can revive allies
-    private int revive = 2;
-    private int reviveMax = 2;
+    // Bosses can revive allies
+	private int minions = 2;
+	private int minionsMax = 2;
 
     public Boss () {
         super("Boss", 30);
@@ -15,76 +17,80 @@ public class Boss extends Adventurer{
         super(name, hp);
     }
 
-    public Boss (String name, int hp, int revive, int reviveMax) {
+    public Boss (String name, int hp, int minions, int minionsMax) {
         super(name, hp);
-        this.revive = revive;
-        this.reviveMax = reviveMax;
+        this.minions = minions;
+        this.minionsMax = minionsMax;
     }
 
     @Override
     public String getSpecialName() {
-        return "reviving";
+        return "minions";
     }
 
     @Override
     public int getSpecial() {
-        return this.revive;
+        return this.minions;
     }
 
     @Override
     public void setSpecial(int n) {
-        this.revive = n;
+        if (n < 3) this.minions = n;
     }
 
     @Override
     public int getSpecialMax () {
-        return this.reviveMax;
+        return this.minionsMax;
     }
 
     @Override
     public String attack(Adventurer other) {
         // heal themselves , if possible
-        if (this.getHP() < this.getmaxHP() / 3 && this.getSpecial() > 0) {
-            return this.support(other);
+        if (this.getHP() < this.getmaxHP() / 5 && other.getHP() > getHP()) {
+            return this.support();
         } else {
             other.applyDamage(5);
-            return this.getName() + " attacks " + other.getName() + " and inflicts 5hp damage.";
+            return this.getName() + " attacks " + other.getName() + " and inflicts 5HP damage.";
         }
     }
 
     @Override
     public String support(Adventurer other) {
-        if (this.getSpecial() > 0) {
-            this.setHP(this.getmaxHP());
-            this.setSpecial(this.getSpecial() -1);
-            return this.getName() + " revives themselves to 30 HP and uses 1 reviving.";
-        }
-
-        return this.attack(other);
+        return support();
     }
 
     //never used
     @Override
     public String support() {
-        if (this.getSpecial() > 0) {
-            this.setHP(this.getHP() + 5);
-            this.setSpecial(this.getSpecial() + 1);
-            return this.getName() + " revives themselves by 5hp and restores 1 reviving.";
-        }
-
-        return "No reviving resources available.";
+        this.setHP(this.getHP() + 10);
+        return this.getName() + " revives themselves by 10HP.";
     }
-
-    public String specialAttack(Adventurer other) {
-        // if (this.getSpecial() > 0) {
-        //     other.applyDamage(other.getmaxHP() / 2);
-        //     this.setSpecial(this.getSpecial() - 1);
-        //     return this.getName() + " special attacks " + other.getName() + " and inflicts " + other.getmaxHP() / 2 + "hp damage.";
-        // }
-
-        // return this.attack(other);
-
-        return this.attack(other);
+	
+	public String specialAttack(Adventurer other) {
+		return support();
+	}
+    public String specialAttack(ArrayList<Adventurer> enemies) {
+		if (getSpecial() > 0) {
+			int rN = (int)(Math.random() * 3);
+			Adventurer c;
+			if (rN == 0) {
+				c = new CodeWarrior("Minion " + (getSpecialMax() - getSpecial() + 1));
+			} else if (rN == 1) {
+				c = new Warrior("Minion " + (getSpecialMax() - getSpecial() + 1));
+			} else {
+				c = new Pathfinder("Minion " + (getSpecialMax() - getSpecial() + 1));
+			}
+			
+			if (enemies.size() == 1) {
+				enemies.add(0, c);
+			} else {
+				enemies.add(c);
+			}
+			
+			setSpecial(getSpecial() - 1);
+			return this + " has generated a minion.";
+		} else {
+			return support();
+		}
     }
-
 }
